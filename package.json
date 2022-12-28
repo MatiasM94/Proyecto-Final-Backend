@@ -1,0 +1,21 @@
+{
+  "name": "monzon-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "primerDesafio.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatiasM94/Proyecto-Final-Backend.git"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatiasM94/Proyecto-Final-Backend/issues"
+  },
+  "homepage": "https://github.com/MatiasM94/Proyecto-Final-Backend#readme"
+}
