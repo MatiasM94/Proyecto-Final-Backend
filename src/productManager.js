@@ -2,7 +2,7 @@ import fs from "fs";
 
 export default class ProductManager {
     constructor() {
-        this.path = "./Products.json";
+        this.path = "../products.json";
         this.products = [];
     }
     getProducts = async () => {
@@ -95,45 +95,45 @@ export default class ProductManager {
     }
 }
 
-const producto = new ProductManager();
+// const producto = new ProductManager();
 
-const newProduct = {
-    title: "producto prueba",
-    description: "Este es un producto de prueba",
-    price: 200,
-    thumbnail: "sin imagen",
-    code: "abc123",
-    stock: 25,
-};
-const newProduct2 = {
-    title: "producto prueba2",
-    description: "Este es un producto de prueba",
-    price: 200,
-    thumbnail: "sin imagen",
-    code: "abc1234",
-    stock: 25,
-};
-const newProduct3 = {
-    title: "producto prueba3",
-    description: "Este es un producto de prueba",
-    price: 200,
-    thumbnail: "sin imagen",
-    code: "abc1232",
-    stock: 25,
-};
+// const newProduct = {
+//     title: "producto prueba",
+//     description: "Este es un producto de prueba",
+//     price: 200,
+//     thumbnail: "sin imagen",
+//     code: "abc123",
+//     stock: 25,
+// };
+// const newProduct2 = {
+//     title: "producto prueba2",
+//     description: "Este es un producto de prueba",
+//     price: 200,
+//     thumbnail: "sin imagen",
+//     code: "abc1234",
+//     stock: 25,
+// };
+// const newProduct3 = {
+//     title: "producto prueba3",
+//     description: "Este es un producto de prueba",
+//     price: 200,
+//     thumbnail: "sin imagen",
+//     code: "abc1232",
+//     stock: 25,
+// };
 
-await producto.addProduct(newProduct);
-await producto.addProduct(newProduct2);
-await producto.addProduct(newProduct3);
-await producto.addProduct(newProduct);
+// await producto.addProduct(newProduct);
+// await producto.addProduct(newProduct2);
+// await producto.addProduct(newProduct3);
+// await producto.addProduct(newProduct);
 
 
-await producto.getProductById(1)
+// await producto.getProductById(1)
 
-console.log(await producto.getProducts());
+// console.log(await producto.getProducts());
 
-await producto.updateProduct(2, "lo modifique");
+// await producto.updateProduct(2, "lo modifique");
 
-await producto.deleteProduct(1)
+// await producto.deleteProduct(1)
 
-console.log(await producto.getProducts());
+// console.log(await producto.getProducts());
