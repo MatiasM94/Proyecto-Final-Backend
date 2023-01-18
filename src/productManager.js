@@ -2,138 +2,93 @@ import fs from "fs";
 
 export default class ProductManager {
     constructor() {
-        this.path = "../products.json";
+        this.path = '../products.json';
         this.products = [];
     }
     getProducts = async () => {
         try {
-            let productosData;
+            const productsInJson = await fs.promises.readFile(this.path, "utf-8");
+            if(productsInJson){
+                const products = JSON.parse(productsInJson);
 
-            const data = await fs.promises.readFile(this.path, "utf-8");
-            data ? (productosData = JSON.parse(data)) : null;
-
-            return data ? productosData : this.products;
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-    addProduct = async ({
-        title,
-        description,
-        price,
-        thumbnail,
-        stock,
-        code,
-    }) => {
-        try {
-            let productoRepetido;
-            const productos = await this.getProducts();
-            productos.length === 0
-                ? (productoRepetido = false)
-                : (productoRepetido = productos.some((producto) =>producto.title === title || producto.code === code));
-
-            if (productoRepetido) {
-                console.log("Producto repetido");
-            } else {
-                const id = productos ? productos.length + 1 : this.products.length + 1;
-                productos.push({
-                    id,
-                    title,
-                    description,
-                    price,
-                    thumbnail,
-                    stock,
-                    code,
-                });
-                await fs.promises.writeFile(this.path, JSON.stringify(productos));
+                return products
             }
+            return this.products;
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+    addProduct = async (newProduct) => {
+        try {
+            const products = await this.getProducts();
+
+            const repeatedProduct = products.some((product) =>product.title === newProduct.title || product.code === newProduct.code);
+            if (repeatedProduct) return !repeatedProduct;
+
+            const id = products ? products.length + 1 : this.products.length + 1;
+            products.push({ id, ...newProduct })
+            await fs.promises.writeFile(this.path, JSON.stringify(products));
+
+            return true;
+
         } catch (error) {
             console.log(error.message);
         }
     };
 
-    getProductById = async (id) => {
+    getProductById = async (pid) => {
         try{
-            let productId;
-            const data = await this.getProducts();
-            data.length === 0 ? console.log("no hay productos") :
-            productId = data.find((producto) => producto.id === id);
+            const products = await this.getProducts();
 
-            return (productId
-                ? console.log(`se encontro el producto: ${productId.title}`)
-                : console.log("no se encontraron coincidencias"));
+            if (products.length > 0){
+                const findProduct = products.find((product) => +product.id === +pid)
+
+                return findProduct ? findProduct : false
+            }
         }catch(error) {
             console.log(error.message)
         }
         
     };
-    updateProduct = async (id, title) => {
+    updateProduct = async (pid, updatedProducto) => {
         try {
-            let modificarProducto
-            const productos = await this.getProducts();
-            productos === 0 ? null :
-            modificarProducto = productos.find(product => product.id === id );
-            modificarProducto.title = title;
-            await fs.promises.writeFile(this.path, JSON.stringify(productos) )
+            const products = await this.getProducts();
+            const productToUpdate = await this.getProductById(pid)
+
+            const positionInArray = products.findIndex( product => +product.id === +pid)
+            
+            if(productToUpdate) {
+                products[positionInArray] = {...productToUpdate, ...updatedProducto}
+                
+                await fs.promises.writeFile(this.path, JSON.stringify(products))
+                return true;
+            }
+            console.log("producto no encontrado")
+            return false;
+            
         } catch (error) {
             console.log(error.message)
         }
     }
-    deleteProduct = async (id) => {
+    deleteProduct = async (pid) => {
         try {
-            const productos = await this.getProducts();
+            const products = await this.getProducts();
+            const productToDelete = await this.getProductById(pid);
 
-            const eliminarProducto = productos.find(product => product.id === id );
-            if (eliminarProducto === undefined) return console.log("El id que quiere eliminar, no existe");
-            const indice = productos.indexOf(eliminarProducto);
-            productos.splice(indice, 1);
+            if (productToDelete) {
+                const positionInArray = products.findIndex( product => +product.id === +pid)
+                products.splice(positionInArray, 1)
 
-            await fs.promises.writeFile(this.path, JSON.stringify(productos))
+                await fs.promises.writeFile(this.path, JSON.stringify(products))
+
+                return true;
+            }
+            console.log(`Producto con pid ${pid} no encontrado`)
+            return false;
+
         } catch (error) {
             console.log(error.message)
         }
     }
 }
-
-// const producto = new ProductManager();
-
-// const newProduct = {
-//     title: "producto prueba",
-//     description: "Este es un producto de prueba",
-//     price: 200,
-//     thumbnail: "sin imagen",
-//     code: "abc123",
-//     stock: 25,
-// };
-// const newProduct2 = {
-//     title: "producto prueba2",
-//     description: "Este es un producto de prueba",
-//     price: 200,
-//     thumbnail: "sin imagen",
-//     code: "abc1234",
-//     stock: 25,
-// };
-// const newProduct3 = {
-//     title: "producto prueba3",
-//     description: "Este es un producto de prueba",
-//     price: 200,
-//     thumbnail: "sin imagen",
-//     code: "abc1232",
-//     stock: 25,
-// };
-
-// await producto.addProduct(newProduct);
-// await producto.addProduct(newProduct2);
-// await producto.addProduct(newProduct3);
-// await producto.addProduct(newProduct);
-
-
-// await producto.getProductById(1)
-
-// console.log(await producto.getProducts());
-
-// await producto.updateProduct(2, "lo modifique");
-
-// await producto.deleteProduct(1)
-
-// console.log(await producto.getProducts());
