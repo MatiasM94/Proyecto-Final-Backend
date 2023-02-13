@@ -1,7 +1,9 @@
 import { Server } from "socket.io";
-import ProductManager from "../../productManager.js";
+import ChatManager from "../dao/managerMongo/chat.managerMongo.js";
+import ProductManager from "../dao/managerFileSystem/productManager.js";
 
 const productClass = new ProductManager();
+const chatClass = new ChatManager();
 let io;
 
 export function connectionSocket(httpServer) {
@@ -9,10 +11,12 @@ export function connectionSocket(httpServer) {
   io.on("connection", async (socket) => {
     console.log("nuevo cliente conectado");
     const productsInJson = await productClass.getProducts();
+    const chatInDb = await chatClass.find();
     socket.emit("realTimeProducts", {
       productsInJson,
       style: "home.css",
     });
+    socket.emit("init-chat", chatInDb);
   });
 }
 
@@ -29,4 +33,8 @@ export const emitDeleteProduct = (productDelete) => {
     productDelete,
     styles: "home.css",
   });
+};
+
+export const emitSendMessage = (newMessage) => {
+  io.emit("new-message", newMessage);
 };

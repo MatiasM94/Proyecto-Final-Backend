@@ -1,9 +1,6 @@
 import { Router } from "express";
-import ProductManager from "../productManager.js";
-import {
-  emitAddProduct,
-  emitDeleteProduct,
-} from "../routes/utils/socket.io.js";
+import ProductManager from "../dao/managerFileSystem/productManager.js";
+import { emitAddProduct, emitDeleteProduct } from "../socketio/socket.io.js";
 
 const productsClass = new ProductManager();
 
