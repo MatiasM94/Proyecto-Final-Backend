@@ -1,0 +1,15 @@
+<h1>Cart</h1>
+<button class="buttons" onclick="back()">Seguir comprando</button>
+<div class="cartContainer">
+  {{#each productos}}
+      <div class="cards">
+        <h3>Title: {{this.title}}</h3>
+        <h3>Description: {{this.description}}</h3>
+        <h3>Price: {{this.price}}</h3>        
+        <h3>Quantity: {{this.quantity}}</h3>        
+      </div>
+  {{/each}}
+</div>
+<h3>Total: ${{totalPrice}}</h3>
+
+<script src="/js/carts.js"></script>

@@ -9,6 +9,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     const productsInJson = await productsClass.getProducts();
+    console.log(productsInJson);
     const { limit } = req.query;
 
     const limitAmount = limit > 0 && limit < productsInJson.length;

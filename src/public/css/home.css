@@ -1,11 +1,37 @@
+body {
+  /* display: flex;
+  flex-direction: column; */
+  text-align: center;
+}
 .cards-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   gap: 1rem;
 }
 .cards {
   width: 300px;
+  padding-bottom: 1rem;
   border: 1px solid gray;
   text-align: center;
+}
+.buttons {
+  border: none;
+  border-radius: 5px;
+  background-color: #008cba;
+  color: white;
+  padding: 8px 1rem;
+  /* width: 5rem; */
+}
+.buttons:hover {
+  background-color: #0481aa;
+}
+.cartContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem;
 }

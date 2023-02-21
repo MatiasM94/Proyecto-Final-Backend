@@ -2,41 +2,26 @@ import Cart from "../models/carts.models.js";
 
 class CartManager {
   async find() {
-    try {
-      const carts = Cart.find();
-      return carts;
-    } catch (error) {
-      console.log(error);
-    }
+    const carts = Cart.find();
+    return carts;
   }
 
   async findById(cid) {
-    try {
-      const carts = await Cart.findById(cid).exec();
-      return carts;
-    } catch (error) {
-      console.log(error);
-    }
+    const carts = await Cart.findById({ _id: cid }).populate(
+      "products.product"
+    );
+    return carts;
   }
 
   async create(newCart) {
-    try {
-      await Cart.create(newCart);
-
-      return true;
-    } catch (error) {
-      console.log(error);
-    }
+    return await Cart.create(newCart);
   }
 
   async updateOne(cid, newCart) {
-    try {
-      await Cart.updateOne({ _id: cid }, newCart);
-
-      return;
-    } catch (error) {
-      console.log(error);
-    }
+    return await Cart.updateOne({ _id: cid }, newCart);
+  }
+  async deleteOne(cid) {
+    return await Cart.deleteOne({ _id: cid });
   }
 }
 

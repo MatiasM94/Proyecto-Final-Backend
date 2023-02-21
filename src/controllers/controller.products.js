@@ -8,17 +8,18 @@ const productsClass = new ProductManager();
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const productsInDb = await productsClass.find();
+  try {
+    const { limit, page, sort, ...rest } = req.query;
+    const productsInDb = await productsClass.find(limit, page, sort, rest);
 
-  const { limit } = req.query;
-  const limitAmount = limit > 0 && limit < productsInDb.length;
-  if (limitAmount) {
-    productsInDb.splice(limit, productsInDb.length);
-
-    return res.json(productsInDb);
+    if (productsInDb.docs.length > 0) {
+      res.json({ status: "Sucess", payload: productsInDb });
+      return;
+    }
+    res.status(400).json({ error: `peticion include an incorrect parm`, rest });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  res.json(productsInDb);
 });
 
 router.get("/:pid", async (req, res) => {
@@ -29,9 +30,9 @@ router.get("/:pid", async (req, res) => {
 
     if (filteredProduct) return res.send({ filteredProduct });
 
-    res.send({ Error: `El producto con id ${pid} no existe` });
+    res.send({ Error: `The product with id ${pid} does not exist` });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -42,116 +43,134 @@ router.post("/allproducts", async (req, res) => {
 
     await Product.insertMany(products);
 
-    res.status(201).json({ message: "productos agregados correctamente" });
+    res.status(201).json({ message: "products added successfully" });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
 router.post("/", async (req, res) => {
-  const {
-    title,
-    description,
-    price,
-    status,
-    thumbnails,
-    code,
-    stock,
-    category,
-  } = req.body;
-  const newProduct = {
-    title,
-    description,
-    price,
-    status,
-    thumbnails,
-    code,
-    stock,
-    category,
-  };
-  if (
-    title &&
-    description &&
-    price &&
-    status &&
-    thumbnails &&
-    code &&
-    stock &&
-    category
-  ) {
-    return (await productsClass.create(newProduct))
-      ? res.status(201).json({ message: "producto agregado" })
-      : res.status(400).json({ message: "Producto Repetido" });
-  }
+  try {
+    const {
+      title,
+      description,
+      price,
+      status,
+      thumbnails,
+      code,
+      stock,
+      category,
+    } = req.body;
+    const newProduct = {
+      title,
+      description,
+      price,
+      status,
+      thumbnails,
+      code,
+      stock,
+      category,
+    };
+    if (
+      title &&
+      description &&
+      price &&
+      status &&
+      thumbnails &&
+      code &&
+      stock &&
+      category
+    ) {
+      return (await productsClass.create(newProduct))
+        ? res.status(201).json({ message: "Added product" })
+        : res.status(400).json({ message: "Repeat product" });
+    }
 
-  res
-    .status(400)
-    .json({ message: "Formato no válido, faltan campos por completar" });
+    res
+      .status(400)
+      .json({ message: "Invalid format, missing fields to complete" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 router.put("/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const {
-    title,
-    description,
-    price,
-    status,
-    thumbnails,
-    code,
-    stock,
-    category,
-  } = req.body;
-  const updatedProduct = {
-    title,
-    description,
-    price,
-    status,
-    thumbnails,
-    code,
-    stock,
-    category,
-  };
+  try {
+    const { pid } = req.params;
+    const {
+      title,
+      description,
+      price,
+      status,
+      thumbnails,
+      code,
+      stock,
+      category,
+    } = req.body;
+    const updatedProduct = {
+      title,
+      description,
+      price,
+      status,
+      thumbnails,
+      code,
+      stock,
+      category,
+    };
 
-  if (
-    title &&
-    description &&
-    price &&
-    status &&
-    thumbnails &&
-    code &&
-    stock &&
-    category
-  ) {
-    const updateProduct = await productsClass.updateOne(pid, updatedProduct);
-    console.log(updateProduct);
+    if (
+      title &&
+      description &&
+      price &&
+      status &&
+      thumbnails &&
+      code &&
+      stock &&
+      category
+    ) {
+      const updateProduct = await productsClass.updateOne(pid, updatedProduct);
+      console.log(updateProduct);
 
-    return updateProduct
-      ? res.json({ message: "Producto modificado con exito" })
-      : res
-          .status(400)
-          .json({ message: `El producto con id ${pid} no existe` });
+      return updateProduct
+        ? res.json({ message: "successfully modified product" })
+        : res
+            .status(400)
+            .json({ message: `The product with id ${pid} does not exist` });
+    }
+
+    res
+      .status(400)
+      .json({ message: "Invalid format, missing fields to complete" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  res
-    .status(400)
-    .json({ message: "Formato no válido, faltan campos por completar" });
 });
 
 router.delete("/delete/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const deleteProduct = await productsClass.deleteOne(pid);
+  try {
+    const { pid } = req.params;
+    const deleteProduct = await productsClass.deleteOne(pid);
 
-  if (deleteProduct) {
-    return res.json({ message: "Producto eliminado correctamente" });
+    if (deleteProduct) {
+      return res.json({ message: "Product successfully removed" });
+    }
+
+    res
+      .status(400)
+      .json({ message: `The product with id ${pid} does not exist` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  res.status(400).json({ message: `El producto con el pid: ${pid} no existe` });
 });
 
 router.delete("/allproducts", async (req, res) => {
-  await productsClass.deleteMany();
+  try {
+    await productsClass.deleteMany();
 
-  res.json({ message: "Se eliminaron todos los productos" });
+    res.json({ message: "all products have been removed" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 export default router;

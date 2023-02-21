@@ -1,0 +1,21 @@
+<h1>Productos</h1>
+<button class="buttons" onclick="goToCart()">Go Cart</button>
+<div class="cards-container">
+  {{#each products}}
+      <div class="cards">
+        <h3>Title: {{this.title}}</h3>
+        <h3>Description: {{this.description}}</h3>
+        <h3>Price: $ {{this.price}}</h3>
+        <h3>Status: {{this.status}}</h3>
+        <h3>stock: {{this.stock}}</h3>
+        <h3>code: {{this.code}}</h3>
+        <h3>category: {{this.category}}</h3>
+        <button type="submit" class="buttons" onclick="addToCart('{{this._id}}')">Add</button>
+      </div>
+  {{/each}}
+</div>
+<button class="buttons" onclick="pageController({{prevPage}})"> < </button>
+<span>Paginas</span>
+<button class="buttons" onclick="pageController({{nextPage}})">></button>
+
+<script src="/js/products.js"></script>
