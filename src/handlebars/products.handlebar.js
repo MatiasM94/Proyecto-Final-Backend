@@ -8,6 +8,7 @@ const router = Router();
 router.get("/products", async (req, res) => {
   try {
     const { limit, page, sort, ...rest } = req.query;
+    const { user } = req.session;
 
     const productsInMongo = await productClass.find(limit, page, sort, rest);
 
@@ -29,6 +30,7 @@ router.get("/products", async (req, res) => {
 
     res.render("products", {
       products: productos,
+      user: user,
       prevPage,
       nextPage,
       style: "home.css",

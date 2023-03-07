@@ -41,3 +41,7 @@ function goToCart() {
   if (!cart) return;
   window.location.href = `http://localhost:3000/carts/${cart}`;
 }
+
+function logout() {
+  window.location.href = "http://localhost:3000/auth/logout";
+}

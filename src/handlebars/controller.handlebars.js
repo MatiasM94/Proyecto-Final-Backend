@@ -6,29 +6,29 @@ const productsClass = new ProductManager();
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const productsInJson = await productsClass.getProducts();
-    console.log(productsInJson);
-    const { limit } = req.query;
+// router.get("/", async (req, res) => {
+//   try {
+//     const productsInJson = await productsClass.getProducts();
+//     console.log(productsInJson);
+//     const { limit } = req.query;
 
-    const limitAmount = limit > 0 && limit < productsInJson.length;
-    if (limitAmount) {
-      productsInJson.splice(limit, productsInJson.length);
+//     const limitAmount = limit > 0 && limit < productsInJson.length;
+//     if (limitAmount) {
+//       productsInJson.splice(limit, productsInJson.length);
 
-      return res.render("home", {
-        productsInJson,
-        style: "home.css",
-      });
-    }
-    res.render("home", {
-      productsInJson,
-      style: "home.css",
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-});
+//       return res.render("home", {
+//         productsInJson,
+//         style: "home.css",
+//       });
+//     }
+//     res.render("home", {
+//       productsInJson,
+//       style: "home.css",
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// });
 
 router.get("/realtimeproducts", async (req, res) => {
   res.render("realtimeproducts", { style: "home.css" });

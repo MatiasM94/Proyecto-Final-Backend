@@ -1,6 +1,8 @@
 import express from "express";
+import session from "express-session";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars";
+import MongoStore from "connect-mongo";
 import { handlebarsRoutes } from "./routes/handlebars.routes.js";
 import { routes } from "./routes/index.js";
 import { mongoPassword, port } from "./config/app/index.js";
@@ -12,6 +14,17 @@ const app = express();
 // Express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: `mongodb+srv://admin:${mongoPassword}@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+    }),
+    secret: "askjdi32423kmdsd",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // Handlebars
 app.engine("handlebars", handlebars.engine());

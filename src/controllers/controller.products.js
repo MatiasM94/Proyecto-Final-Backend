@@ -129,7 +129,6 @@ router.put("/:pid", async (req, res) => {
       category
     ) {
       const updateProduct = await productsClass.updateOne(pid, updatedProduct);
-      console.log(updateProduct);
 
       return updateProduct
         ? res.json({ message: "successfully modified product" })
