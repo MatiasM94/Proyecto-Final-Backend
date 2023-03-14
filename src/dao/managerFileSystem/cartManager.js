@@ -30,7 +30,7 @@ export default class CartManager {
 
       await fs.promises.writeFile(this.path, JSON.stringify(cartsInJson));
     } catch (error) {
-      console.log(message.error);
+      console.log(error.message);
     }
   };
 

@@ -1,4 +1,4 @@
-const form = document.getElementById("loginForm");
+const form = document.getElementById("forgotPasswordForm");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -8,11 +8,11 @@ form.addEventListener("submit", async (e) => {
 
   dataForm.forEach((value, key) => (obj[key] = value));
 
-  const url = "/auth";
+  const url = "/auth/forgotpassword";
   const headers = {
     "Content-Type": "application/json",
   };
-  const method = "POST";
+  const method = "PATCH";
   const body = JSON.stringify(obj);
 
   try {
@@ -22,16 +22,8 @@ form.addEventListener("submit", async (e) => {
       body,
     });
     const data = await response.json();
-
-    if (data.message.role === "user" || data.message.role === "admin") {
-      return (window.location.href = "http://localhost:3000/products");
-    }
     console.log(data);
   } catch (error) {
     console.log(error);
   }
 });
-
-function signup() {
-  return (window.location.href = "http://localhost:3000/signup");
-}

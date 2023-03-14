@@ -1,45 +1,37 @@
 import { Router } from "express";
+import passport from "passport";
 import User from "../dao/models/users.models.js";
+import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+router.post(
+  "/",
+  passport.authenticate("login", { failureRedirect: "/faillogin" }),
+  async (req, res) => {
+    try {
+      if (!req.user)
+        return res.status(400).json({ error: "Credenciales invalidas" });
 
-    const user = await User.findOne({ email });
+      const { first_name, last_name, age, email, role } = req.user;
 
-    if (!user)
-      return res
-        .status(400)
-        .json({ error: "El usuario y la contraseña no coincide" });
-
-    if (user.password !== password) {
-      return res
-        .status(400)
-        .json({ error: "El usuario y la contraseña no coincide" });
-    }
-
-    if (email === "adminCoder@coder.com") {
       req.session.user = {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        role: "admin",
+        first_name,
+        last_name,
+        age,
+        email,
+        role,
       };
-    } else {
-      req.session.user = {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        role: "user",
-      };
+
+      res.json({ message: req.user });
+    } catch (error) {
+      res.status(500).json({ error: "Error del servidor" });
     }
-    const { role } = req.session.user;
-    res.json({ message: "sesion iniciada", role: role });
-  } catch (error) {
-    res.status(500).json({ error: "Error del servidor" });
   }
+);
+
+router.get("/faillogin", (req, res) => {
+  res.json({ error: "No se pudo iniciar session" });
 });
 
 router.get("/logout", (req, res) => {
@@ -48,5 +40,35 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
+
+router.patch("/forgotpassword", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const passwordEncrypted = createHash(password);
+
+    await User.updateOne({ email }, { password: passwordEncrypted });
+
+    res.json({ message: "Contraseña actualizada" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile"] }),
+  async (req, res) => {}
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  async (req, res) => {
+    req.session.user = req.user;
+
+    res.redirect("/");
+  }
+);
 
 export default router;

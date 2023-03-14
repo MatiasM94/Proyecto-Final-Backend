@@ -17,4 +17,8 @@ router.get("/signup", publicAccess, (req, res) => {
   res.render("signup.handlebars");
 });
 
+router.get("/forgotpassword", (req, res) => {
+  res.render("forgotpassword");
+});
+
 export default router;

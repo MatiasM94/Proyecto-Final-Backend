@@ -1,5 +1,5 @@
 import express from "express";
-import __dirname from "../utils.js";
+import __dirname from "../util.js";
 import chat from "../handlebars/chat.handlebar.js";
 import realTimeProducts from "../handlebars/controller.handlebars.js";
 import products from "../handlebars/products.handlebar.js";

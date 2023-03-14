@@ -9,7 +9,7 @@ form.addEventListener("submit", async (e) => {
   dataForm.forEach((value, key) => (obj[key] = value));
 
   const { first_name, last_name, age, email, password } = obj;
-  if (first_name && last_name && age && email && password) return;
+  if (!first_name || !last_name || !age || !email || !password) return;
 
   const url = "/users";
   const headers = {
