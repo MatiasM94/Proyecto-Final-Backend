@@ -11,7 +11,7 @@ form.addEventListener("submit", async (e) => {
   const { first_name, last_name, age, email, password } = obj;
   if (!first_name || !last_name || !age || !email || !password) return;
 
-  const url = "/users";
+  const url = "/api/users/register";
   const headers = {
     "Content-Type": "application/json",
   };
@@ -26,7 +26,8 @@ form.addEventListener("submit", async (e) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    const { exist } = data;
+    if (exist) return console.log(data.message);
 
     const { first_name, last_name, age, email, password } = obj;
     if (first_name && last_name && age && email && password) {

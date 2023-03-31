@@ -12,7 +12,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   password: String,
-  role: String,
+  role: {
+    type: String,
+    require: true,
+  },
 });
 
 const User = mongoose.model(userCollection, userSchema);
