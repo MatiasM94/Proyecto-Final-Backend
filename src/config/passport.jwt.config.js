@@ -1,6 +1,12 @@
 import passport from "passport";
+import local from "passport-local";
 import jwt from "passport-jwt";
+import UserManager from "../dao/managerMongo/user.managerMongo.js";
+import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
 
+const User = new UserManager();
+
+const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
@@ -10,23 +16,6 @@ const cookieExtractor = (req) => {
     token = req.cookies.authToken;
   }
   return token;
-};
-
-export const passportCall = (strategy) => {
-  return async (req, res, next) => {
-    passport.authenticate(strategy, (err, user, info) => {
-      if (err) return next(err);
-      if (!user) {
-        return res
-          .status(401)
-          .json({ error: info.messages ? info.messages : info.toString() });
-      }
-
-      req.user = user;
-
-      next();
-    })(req, res, next);
-  };
 };
 
 const initializePassport = () => {
@@ -46,6 +35,69 @@ const initializePassport = () => {
       }
     )
   );
+
+  passport.use(
+    "register",
+    new LocalStrategy(
+      { passReqToCallback: true, usernameField: "email" },
+      async (req, username, password, done) => {
+        const { first_name, last_name, age } = req.body;
+        try {
+          const user = await User.findOne({ email: username });
+          if (user) {
+            console.log("El usuario ya existe");
+            return done(null, true);
+          }
+
+          const newUserInfo = {
+            first_name,
+            last_name,
+            email: username,
+            age,
+            password: createHash(password),
+          };
+
+          if (username === "adminCoder@coder.com") {
+            newUserInfo.role = "admin";
+          } else {
+            newUserInfo.role = "user";
+          }
+
+          const newUser = await User.create(newUserInfo);
+
+          return done(null, newUser);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    "login",
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (username, password, done) => {
+        try {
+          const user = await User.findOne({ email: username });
+
+          if (!user) {
+            console.log("El usuario no existe");
+            return done(null, true);
+          }
+          if (!isValidPassword(user, password)) {
+            console.log("contraseña invalida");
+            return done(null, true);
+          }
+
+          return done(null, user);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    )
+  );
+
   passport.use(
     "current",
     new JWTStrategy(

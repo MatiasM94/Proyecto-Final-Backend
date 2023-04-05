@@ -7,7 +7,7 @@ class UserManager {
   }
 
   async findOne(email) {
-    const user = await User.findOne({ email });
+    const user = await User.findOne(email);
     return user;
   }
 }

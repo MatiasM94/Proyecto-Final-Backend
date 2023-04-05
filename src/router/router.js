@@ -74,7 +74,7 @@ class Route {
       };
     }
     return async (req, res, next) => {
-      passport.authenticate("jwt", function (err, user, info) {
+      passport.authenticate("current", function (err, user, info) {
         if (err) return next(err);
         if (!user) {
           return res.status(401).json({
