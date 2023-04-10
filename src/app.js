@@ -11,7 +11,6 @@ import { mongoPassword, port } from "./config/app/index.js";
 import __dirname from "./util.js";
 import { connectionSocket } from "./socketio/socket.io.js";
 import initializePassport from "./config/passport.jwt.config.js";
-import { routers } from "./router/index.js";
 
 const app = express();
 
@@ -33,7 +32,6 @@ app.use(cookieParser());
 // Passport
 initializePassport();
 app.use(passport.initialize());
-// app.use(passport.session());
 
 // Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -41,9 +39,8 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 // Routes
+routes(app);
 handlebarsRoutes(app);
-routers(app);
-// routes(app);
 
 // SocketIo
 const httpServer = app.listen(port, () => {

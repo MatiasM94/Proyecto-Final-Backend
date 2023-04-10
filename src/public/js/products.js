@@ -6,7 +6,7 @@ function pageController(page) {
 let cart;
 async function addToCart(pid) {
   try {
-    const productToAdd = { product: pid };
+    const productToAdd = { pid };
 
     if (cart) {
       const response = await fetch(`http://localhost:3000/api/carts/${cart}`, {
@@ -43,5 +43,5 @@ function goToCart() {
 }
 
 function logout() {
-  window.location.href = "http://localhost:3000/auth/logout";
+  window.location.href = "http://localhost:3000/api/auth/logout";
 }

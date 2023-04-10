@@ -2,31 +2,45 @@ import { Router } from "express";
 import passport from "passport";
 import User from "../dao/models/users.models.js";
 import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
+import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 
 router.post(
-  "/",
-  passport.authenticate("login", { failureRedirect: "/faillogin" }),
-  async (req, res) => {
-    try {
-      if (!req.user)
-        return res.status(400).json({ error: "Credenciales invalidas" });
-
-      const { first_name, last_name, age, email, role } = req.user;
-
-      req.session.user = {
-        first_name,
-        last_name,
-        age,
-        email,
-        role,
-      };
-
-      res.json({ message: req.user });
-    } catch (error) {
-      res.status(500).json({ error: "Error del servidor" });
+  "/login",
+  passport.authenticate("login", { session: false }),
+  (req, res) => {
+    const { first_name, last_name, email, role, password } = req.user;
+    if (!email) {
+      return res
+        .status(400)
+        .json({ message: "El usuario o contraseña no es valido" });
     }
+
+    if (!password) {
+      return res
+        .status(400)
+        .json({ message: "El usuario o contraseña no es valido" });
+    }
+    const token = generateToken({
+      nombre: first_name,
+      apellido: last_name,
+      email,
+      role: role,
+    });
+    console.log("session iniciada");
+    res
+      .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
+      .status(200)
+      .json(req.user);
+  }
+);
+
+router.get(
+  "/current",
+  passport.authenticate("current", { session: false }),
+  (req, res) => {
+    res.json(req.user);
   }
 );
 
@@ -35,10 +49,7 @@ router.get("/faillogin", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.session.destroy((error) => {
-    if (error) return res.json({ error });
-    res.redirect("/");
-  });
+  res.redirect("/");
 });
 
 router.patch("/forgotpassword", async (req, res) => {
@@ -63,11 +74,22 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    req.session.user = req.user;
+    console.log("entra?");
+    const { first_name, last_name, email, role } = req.user;
 
-    res.redirect("/");
+    const token = generateToken({
+      nombre: first_name,
+      apellido: last_name,
+      email,
+      role: role,
+    });
+    console.log("session iniciada");
+    res
+      .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
+      .status(200)
+      .redirect("/");
   }
 );
 

@@ -1,5 +1,6 @@
 import ProductManager from "../dao/managerMongo/product.managerMongo.js";
 import CartManager from "../dao/managerMongo/cart.managerMongo.js";
+import { updatePersistCart } from "../persists/cart.persist.js";
 
 const productClass = new ProductManager();
 const cartClass = new CartManager();
@@ -34,10 +35,9 @@ export function indexPosition(products, product) {
 }
 
 export async function addQuantity({
-  res,
   products,
   productPosition,
-  quantity,
+  quantity = 0,
   cid,
   cart,
   product,
@@ -45,13 +45,13 @@ export async function addQuantity({
 }) {
   products[productPosition].quantity += quantity ? quantity : 1;
 
-  await cartClass.updateOne(cid, cart);
+  await updatePersistCart({ _id: cid }, cart);
 
-  res.json({
+  return {
     message: `increase by ${quantity || 1} the quantity of the product ${
       product || pid
     }`,
-  });
+  };
 }
 
 export function productInCart(products, pid) {

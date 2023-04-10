@@ -1,175 +1,181 @@
 import { Router } from "express";
+import passport from "passport";
 import FilesManager from "../dao/files.manager.js";
 import Product from "../dao/models/products.models.js";
 import ProductManager from "../dao/managerMongo/product.managerMongo.js";
-
-const productsClass = new ProductManager();
+import {
+  createProduct,
+  deleteOne,
+  findById,
+  findProducts,
+  updateOne,
+} from "../services/products.service.js";
+import { autorization } from "../middlewares/autorization.middleware.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const { limit, page, sort, ...rest } = req.query;
-    const productsInDb = await productsClass.find(limit, page, sort, rest);
+router.get(
+  "/",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { limit, page, sort, ...rest } = req.query;
+      const productsInDb = await findProducts(limit, page, sort, rest);
 
-    if (productsInDb.docs.length > 0) {
-      res.json({ status: "Sucess", payload: productsInDb });
-      return;
+      if (productsInDb.error) return res.status(400).json(productsInDb);
+
+      res.json(productsInDb);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    res.status(400).json({ error: `peticion include an incorrect parm`, rest });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.get("/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
+router.get(
+  "/:pid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { pid } = req.params;
 
-    const filteredProduct = await productsClass.findById(pid);
+      const filteredProduct = await findById(pid);
 
-    if (filteredProduct) return res.send({ filteredProduct });
+      if (filteredProduct.error)
+        return res.status(400).json({ filteredProduct });
 
-    res.send({ Error: `The product with id ${pid} does not exist` });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post("/allproducts", async (req, res) => {
-  try {
-    const productsFileManager = new FilesManager("Products.json");
-    const products = await productsFileManager.loadItems();
-
-    await Product.insertMany(products);
-
-    res.status(201).json({ message: "products added successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post("/", async (req, res) => {
-  try {
-    const {
-      title,
-      description,
-      price,
-      status,
-      thumbnails,
-      code,
-      stock,
-      category,
-    } = req.body;
-    const newProduct = {
-      title,
-      description,
-      price,
-      status,
-      thumbnails,
-      code,
-      stock,
-      category,
-    };
-    if (
-      title &&
-      description &&
-      price &&
-      status &&
-      thumbnails &&
-      code &&
-      stock &&
-      category
-    ) {
-      return (await productsClass.create(newProduct))
-        ? res.status(201).json({ message: "Added product" })
-        : res.status(400).json({ message: "Repeat product" });
+      res.status(200).json(filteredProduct);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    res
-      .status(400)
-      .json({ message: "Invalid format, missing fields to complete" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.put("/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const {
-      title,
-      description,
-      price,
-      status,
-      thumbnails,
-      code,
-      stock,
-      category,
-    } = req.body;
-    const updatedProduct = {
-      title,
-      description,
-      price,
-      status,
-      thumbnails,
-      code,
-      stock,
-      category,
-    };
+router.post(
+  "/",
+  passport.authenticate("current", { session: false }),
+  autorization(["admin"]),
+  async (req, res) => {
+    try {
+      const {
+        title,
+        description,
+        price,
+        status,
+        thumbnails,
+        code,
+        stock,
+        category,
+      } = req.body;
+      const newProductInfo = {
+        title,
+        description,
+        price,
+        status,
+        thumbnails,
+        code,
+        stock,
+        category,
+      };
 
-    if (
-      title &&
-      description &&
-      price &&
-      status &&
-      thumbnails &&
-      code &&
-      stock &&
-      category
-    ) {
-      const updateProduct = await productsClass.updateOne(pid, updatedProduct);
+      const newProduct = await createProduct(newProductInfo);
+      if (newProduct.error) return res.status(400).json(newProduct);
 
-      return updateProduct
-        ? res.json({ message: "successfully modified product" })
-        : res
-            .status(400)
-            .json({ message: `The product with id ${pid} does not exist` });
+      res.json(newProduct);
+    } catch (error) {
+      if (error.code === 11000)
+        return res.status(400).json({ error: "El producto ya existe" });
+
+      res.status(500).json({ error: error });
     }
-
-    res
-      .status(400)
-      .json({ message: "Invalid format, missing fields to complete" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.delete("/delete/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const deleteProduct = await productsClass.deleteOne(pid);
+router.put(
+  "/:pid",
+  passport.authenticate("current", { session: false }),
+  autorization(["admin"]),
+  async (req, res) => {
+    try {
+      const { pid } = req.params;
+      const {
+        title,
+        description,
+        price,
+        status,
+        thumbnails,
+        code,
+        stock,
+        category,
+      } = req.body;
+      const updatedProduct = {
+        title,
+        description,
+        price,
+        status,
+        thumbnails,
+        code,
+        stock,
+        category,
+      };
 
-    if (deleteProduct) {
-      return res.json({ message: "Product successfully removed" });
+      const updateProduct = await updateOne(pid, updatedProduct);
+      const { productsUpdateCounter, message, error } = updateProduct;
+
+      if (updateProduct.error) return res.status(400).json(error);
+
+      return productsUpdateCounter
+        ? res.status(200).json(message)
+        : res.status(400).json(error);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    res
-      .status(400)
-      .json({ message: `The product with id ${pid} does not exist` });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.delete("/allproducts", async (req, res) => {
-  try {
-    await productsClass.deleteMany();
+router.delete(
+  "/delete/:pid",
+  passport.authenticate("current", { session: false }),
+  autorization(["admin"]),
+  async (req, res) => {
+    try {
+      const { pid } = req.params;
+      const deleteProduct = await deleteOne(pid);
+      const { deletedCount, message, error } = deleteProduct;
 
-    res.json({ message: "all products have been removed" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+      if (deletedCount) {
+        return res.status(200).json(message);
+      }
+
+      res.status(400).json(error);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 export default router;
+
+// router.post("/allproducts", async (req, res) => {
+//   try {
+//     const productsFileManager = new FilesManager("Products.json");
+//     const products = await productsFileManager.loadItems();
+
+//     await Product.insertMany(products);
+
+//     res.status(201).json({ message: "products added successfully" });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// router.delete("/allproducts", async (req, res) => {
+//   try {
+//     await productsClass.deleteMany();
+
+//     res.json({ message: "all products have been removed" });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });

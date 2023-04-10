@@ -1,10 +1,10 @@
 import passport from "passport";
 import local from "passport-local";
 import jwt from "passport-jwt";
-import UserManager from "../dao/managerMongo/user.managerMongo.js";
+import GoogleStrategy from "passport-google-oauth20";
+import { createUser, findOneUser } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
-
-const User = new UserManager();
+import { jwtSecretKey } from "./app/index.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -19,12 +19,21 @@ const cookieExtractor = (req) => {
 };
 
 const initializePassport = () => {
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    const user = await findOneUser(id);
+    done(null, user);
+  });
+
   passport.use(
     "jwt",
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: "kjsadfniw4213",
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: jwtSecretKey,
       },
       async (jwt_payload, done) => {
         try {
@@ -43,27 +52,23 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         const { first_name, last_name, age } = req.body;
         try {
-          const user = await User.findOne({ email: username });
-          if (user) {
-            console.log("El usuario ya existe");
-            return done(null, true);
+          if (!first_name || !last_name || !age || !password || !username) {
+            return done(null, "faltan campos por completar");
+          }
+
+          const verifyExistUser = await findOneUser({ email: username });
+          if (verifyExistUser) {
+            return done(null, "El usuario ya existe!");
           }
 
           const newUserInfo = {
             first_name,
             last_name,
-            email: username,
             age,
+            email: username,
             password: createHash(password),
           };
-
-          if (username === "adminCoder@coder.com") {
-            newUserInfo.role = "admin";
-          } else {
-            newUserInfo.role = "user";
-          }
-
-          const newUser = await User.create(newUserInfo);
+          const newUser = await createUser(newUserInfo);
 
           return done(null, newUser);
         } catch (error) {
@@ -79,7 +84,7 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await User.findOne({ email: username });
+          const user = await findOneUser({ email: username });
 
           if (!user) {
             console.log("El usuario no existe");
@@ -103,13 +108,50 @@ const initializePassport = () => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: "kjsadfniw4213",
+        secretOrKey: jwtSecretKey,
       },
       async (jwt_payload, done) => {
         try {
           return done(null, jwt_payload);
         } catch (error) {
           return done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    "google",
+    new GoogleStrategy(
+      {
+        clientID:
+          "108529311724-ahp60riig4vm92qi9iiaqvsmi97k78eh.apps.googleusercontent.com",
+        clientSecret: "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",
+        callbackURL: "http://localhost:3000/api/auth/google/callback",
+      },
+      async (accesToken, refreshToken, profile, done) => {
+        try {
+          const user = await findOneUser({ googleId: profile._json.sub });
+
+          if (!user) {
+            const newUserInfo = {
+              googleId: profile._json.sub,
+              first_name: profile._json.given_name,
+              last_name: profile._json.family_name,
+              age: 29,
+              email: profile._json.email,
+              password: "",
+              role: "google-user",
+            };
+
+            const newUser = await createUser(newUserInfo);
+            console.log(newUser);
+            return done(null, newUser);
+          }
+
+          done(null, user);
+        } catch (error) {
+          done(error);
         }
       }
     )

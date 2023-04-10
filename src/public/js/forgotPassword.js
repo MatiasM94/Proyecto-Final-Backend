@@ -8,7 +8,7 @@ form.addEventListener("submit", async (e) => {
 
   dataForm.forEach((value, key) => (obj[key] = value));
 
-  const url = "/auth/forgotpassword";
+  const url = "/api/auth/forgotpassword";
   const headers = {
     "Content-Type": "application/json",
   };

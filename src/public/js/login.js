@@ -8,7 +8,7 @@ form.addEventListener("submit", async (e) => {
 
   dataForm.forEach((value, key) => (obj[key] = value));
 
-  const url = "/api/user/login";
+  const url = "/api/auth/login";
   const headers = {
     "Content-Type": "application/json",
   };
@@ -23,10 +23,9 @@ form.addEventListener("submit", async (e) => {
     });
     const data = await response.json();
 
-    if (data.message.role === "user" || data.message.role === "admin") {
+    if (data.role === "user" || data.role === "admin") {
       return (window.location.href = "http://localhost:3000/products");
     }
-    console.log(data);
   } catch (error) {
     console.log(error);
   }

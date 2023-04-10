@@ -1,19 +1,23 @@
 import { Router } from "express";
-import { privateAccess, publicAccess } from "../middlewares/index.js";
+import passport from "passport";
 
 const router = Router();
 
-router.get("/profile", privateAccess, (req, res) => {
-  const { user } = req.session;
+router.get(
+  "/profile",
+  passport.authenticate("current", { session: false }),
+  (req, res) => {
+    const { payload } = req.user;
+    res.render("profile.handlebars", { payload });
+  }
+);
 
-  res.render("profile.handlebars", { user });
-});
-
-router.get("/", publicAccess, (req, res) => {
+router.get("/", (req, res) => {
+  if (req.cookies.authToken) return res.redirect("/profile");
   res.render("login.handlebars");
 });
 
-router.get("/signup", publicAccess, (req, res) => {
+router.get("/signup", (req, res) => {
   res.render("signup.handlebars");
 });
 

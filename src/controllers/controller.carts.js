@@ -4,12 +4,16 @@ import ProductManager from "../dao/managerMongo/product.managerMongo.js";
 import FilesManager from "../dao/files.manager.js";
 import Cart from "../dao/models/carts.models.js";
 import {
-  addQuantity,
-  cartInDb,
-  indexPosition,
-  productInCart,
-  productInDb,
-} from "../utils/controllers.utils.js";
+  createCart,
+  deleteOneCart,
+  deleteProductInCart,
+  findByIdCart,
+  findCarts,
+  updateOne,
+} from "../services/carts.service.js";
+import { findById } from "../services/products.service.js";
+import passport from "passport";
+import { autorization } from "../middlewares/autorization.middleware.js";
 
 const cartClass = new CartManager();
 const productClass = new ProductManager();
@@ -18,234 +22,185 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    const cartsInMongo = await cartClass.find();
+    const cartsInMongo = await findCarts();
 
-    res.json({ message: `carts available:`, cartsInMongo });
+    res.json(cartsInMongo);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/:cid", async (req, res) => {
-  try {
-    const { cid } = req.params;
-    const cartsInMongo = await cartClass.findById(cid);
+router.get(
+  "/:cid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { cid } = req.params;
+      const cartsInMongo = await findByIdCart(cid);
 
-    if (cartsInMongo) return res.send({ cartsInMongo });
+      if (cartsInMongo) return res.status(200).json(cartsInMongo);
 
-    res.send({ Error: `the cart with id ${cid} does not exist` });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post("/allcarts", async (req, res) => {
-  try {
-    const cartsFileManager = new FilesManager("carts.json");
-    const carts = await cartsFileManager.loadItems();
-
-    await Cart.insertMany(carts);
-
-    res.status(201).json({ message: "carts added successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post("/", async (req, res) => {
-  try {
-    const { product } = req.body;
-
-    const productInMongo = await productClass.findById(product);
-
-    if (!productInMongo) {
-      return res
-        .status(400)
-        .json({ message: `the product with id ${pid} does not exist` });
+      res.status(400).json(cartsInMongo);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    const newCart = { products: [{ product, quantity: 1 }] };
-    const cartAdded = await cartClass.create(newCart);
-
-    res.json({ message: "cart created successfully", cartAdded });
-    return;
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.patch("/:cid", async (req, res) => {
-  try {
-    const { cid } = req.params;
-    const { product } = req.body;
+router.post(
+  "/",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { pid } = req.body;
 
-    const productExist = await productInDb(res, product);
-    if (!productExist) return;
-    // const productInMongo = await productClass.findById(product);
+      const productInMongo = await findById(pid);
 
-    // if (!productInMongo) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: `the product with id ${product} does not exist` });
-    // }
+      if (productInMongo.error) {
+        return res.status(400).json(productInMongo);
+      }
 
-    const cartExist = await cartInDb(res, cid);
-    if (!cartExist) return;
-    const { products, cart } = cartExist;
-    // const cart = await cartClass.findById(cid);
-    // if (!cart)
-    //   return res.json({ message: `the cart with id ${cid} does not exist` });
-    // const { products } = cart;
-    const productPosition = await indexPosition(products, product);
-    // const indexPosition = products.findIndex(
-    //   (product) => product.product._id.toString() === req.body.product
-    // );
+      const cartAdded = await createCart(pid);
 
-    if (productPosition !== -1) {
-      addQuantity({ res, products, productPosition, cid, cart, product });
-      // products[productPosition].quantity += 1;
-
-      // await cartClass.updateOne(cid, cart);
-
-      // res.json({
-      //   message: `increase by 1 the quantity of the product ${product}`,
-      // });
-      return;
+      res.status(201).json(cartAdded);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    products.push({ product: product, quantity: 1 });
-    await cartClass.updateOne(cid, cart);
-
-    return res.json({ message: "product added successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.patch("/:cid/product/:pid", async (req, res) => {
-  try {
-    const { cid, pid } = req.params;
-    const { quantity = 0 } = req.body;
+router.patch(
+  "/:cid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { cid } = req.params;
+      const { product } = req.body;
 
-    const cartExist = await cartInDb(res, cid);
-    if (!cartExist) return;
-    const { products, cart } = cartExist;
-    // const cart = await cartClass.findById(cid);
-    // if (!cart)
-    //   return res.json({ message: `the cart with id ${cid} does not exist` });
-    // const { products } = cart;
+      const productExist = await findById(product);
+      if (productExist.error) {
+        return res.status(400).json(productExist);
+      }
 
-    const productExist = await productInDb(res, pid);
-    if (!productExist) return;
+      const cartExist = await findByIdCart(cid);
+      if (cartExist.error) return res.status(400).json(cartExist);
 
-    // const productInMongo = await productClass.findById(pid);
-    // if (!productInMongo) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: `the product with id ${pid} does not exist` });
-    // }
-    const productPosition = await indexPosition(products, pid);
+      const { products } = cartExist;
+      const updateCart = await updateOne(products, product, cid, cartExist);
 
-    if (productPosition !== -1) {
-      addQuantity({ res, products, productPosition, cid, cart, quantity, pid });
-      return;
+      return res.status(200).json({ updateCart });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-
-    // const indexPosition = products.findIndex(
-    //   (product) => product.product._id.toString() === pid
-    // );
-
-    // if (indexPosition !== -1) {
-    //   products[indexPosition].quantity += quantity;
-
-    //   await cartClass.updateOne(cid, cart);
-    //   res.json({
-    //     message: `increase by ${quantity} the quantity of the product ${pid}`,
-    //   });
-    //   return;
-    // }
-    return res.json({
-      message: `the product with id ${pid} does not exist in the cart`,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.delete("/:cid/product/:pid", async (req, res) => {
-  try {
-    const { cid, pid } = req.params;
+router.patch(
+  "/:cid/product/:pid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { cid, pid } = req.params;
+      const { quantity = 0 } = req.body;
 
-    const productExist = await productInDb(res, pid);
-    if (!productExist) return;
+      const cartExist = await findByIdCart(cid);
+      if (cartExist.error) return res.status(400).json(cartExist);
 
-    // const productInMongo = await productClass.findById(pid);
-    // if (!productInMongo) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: `the product with id ${pid} does not exist` });
-    // }
+      const { products } = cartExist;
 
-    const cartExist = await cartInDb(res, cid);
-    if (!cartExist) return;
-    const { products, cart } = cartExist;
+      const productExist = await findById(pid);
+      if (productExist.error) {
+        return res.status(400).json(productExist);
+      }
 
-    // const cart = await cartClass.findById(cid);
-    // if (!cart)
-    //   return res.json({ message: `the cart with id ${cid} does not exist` });
+      const updateCart = await updateOne(
+        products,
+        pid,
+        cid,
+        cartExist,
+        quantity
+      );
 
-    const productInCartExist = productInCart(products, pid);
-
-    if (!productInCartExist) {
-      return res.status(400).json({
-        message: `the product with id ${pid} does not exist in the cart`,
-      });
+      res.status(200).json(updateCart);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
-    // const productInCart = cart.products.some(
-    //   (product) => product.product._id.toString() === pid
-    // );
-
-    // if (!productInCart) {
-    //   return res.status(400).json({
-    //     message: `the product with id ${pid} does not exist in the cart`,
-    //   });
-    // }
-
-    cart.products = products.filter(
-      (product) => product.product._id.toString() != pid
-    );
-
-    await cartClass.updateOne(cid, cart);
-
-    return res.json({
-      message: `The product with id ${pid} was deleted `,
-      cart,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
-});
+);
 
-router.delete("/:cid", async (req, res) => {
-  try {
-    const { cid } = req.params;
+router.delete(
+  "/:cid/product/:pid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { cid, pid } = req.params;
 
-    const cartExist = await cartInDb(res, cid);
-    if (!cartExist) return;
-    // const cartsInMongo = await cartClass.findById(cid);
+      const productExist = await findById(pid);
+      if (productExist.error) {
+        return res.status(400).json(productExist);
+      }
 
-    // if (!cartsInMongo) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: `the cart with id ${cid} does not exist` });
-    // }
+      const cartExist = await findByIdCart(cid);
+      if (cartExist.error) return res.status(400).json(cartExist);
 
-    const deletedCart = await cartClass.deleteOne(cid);
+      const { products } = cartExist;
 
-    res.json({ message: `the cart with id ${cid} was deleted`, deletedCart });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+      const productInCartExist = await deleteProductInCart(
+        products,
+        pid,
+        cartExist,
+        cid
+      );
+
+      if (productInCartExist.error) {
+        return res.status(400).json({
+          productInCartExist,
+        });
+      }
+
+      res.json({ productInCartExist });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
+
+router.delete(
+  "/:cid",
+  passport.authenticate("current", { session: false }),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    try {
+      const { cid } = req.params;
+
+      const cartExist = await findByIdCart(cid);
+      if (cartExist.error) return res.status(400).json(cartExist);
+
+      const deletedCart = await deleteOneCart(cid);
+
+      res.status(200).json(deletedCart);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+);
 
 export default router;
+
+// router.post("/allcarts", async (req, res) => {
+//   try {
+//     const cartsFileManager = new FilesManager("carts.json");
+//     const carts = await cartsFileManager.loadItems();
+
+//     await Cart.insertMany(carts);
+
+//     res.status(201).json({ message: "carts added successfully" });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
