@@ -48,19 +48,3 @@ const httpServer = app.listen(port, () => {
 });
 
 connectionSocket(httpServer);
-
-// Mongoose
-mongoose.set("strictQuery", false);
-mongoose.connect(
-  `mongodb+srv://admin:${mongoPassword}@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
-  (error) => {
-    if (error) {
-      console.log(
-        `mongodb+srv://admin:*********@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`
-      );
-      console.log("Connection error", error);
-    } else {
-      console.log("The connection to the database has been successful");
-    }
-  }
-);

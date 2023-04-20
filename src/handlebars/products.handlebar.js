@@ -1,12 +1,13 @@
 import { Router } from "express";
-import passport from "passport";
-import { findProducts } from "../services/products.service.js";
+import { passportCall } from "../config/passportCall.js";
+import { autorization } from "../middlewares/autorization.middleware.js";
 
 const router = Router();
 
 router.get(
   "/products",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
+  autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;

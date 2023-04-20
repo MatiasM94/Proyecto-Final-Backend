@@ -1,43 +1,34 @@
 import { Router } from "express";
-import CartManager from "../dao/managerMongo/cart.managerMongo.js";
-import ProductManager from "../dao/managerMongo/product.managerMongo.js";
-import FilesManager from "../dao/files.manager.js";
-import Cart from "../dao/models/carts.models.js";
-import {
-  createCart,
-  deleteOneCart,
-  deleteProductInCart,
-  findByIdCart,
-  findCarts,
-  updateOne,
-} from "../services/carts.service.js";
-import { findById } from "../services/products.service.js";
-import passport from "passport";
 import { autorization } from "../middlewares/autorization.middleware.js";
-
-const cartClass = new CartManager();
-const productClass = new ProductManager();
+import { cartService, ticketService } from "../repositories/index.js";
+import { passportCall } from "../config/passportCall.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const cartsInMongo = await findCarts();
+router.get(
+  "/",
+  passportCall("current"),
+  autorization(["admin"]),
+  async (req, res) => {
+    try {
+      const cartsInMongo = await cartService.find();
 
-    res.json(cartsInMongo);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+      res.json(cartsInMongo);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
-});
+);
 
 router.get(
   "/:cid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { cid } = req.params;
-      const cartsInMongo = await findByIdCart(cid);
+
+      const cartsInMongo = await cartService.findById(cid);
 
       if (cartsInMongo) return res.status(200).json(cartsInMongo);
 
@@ -50,21 +41,19 @@ router.get(
 
 router.post(
   "/",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { pid } = req.body;
 
-      const productInMongo = await findById(pid);
+      const addProductInCart = await cartService.create(pid);
 
-      if (productInMongo.error) {
-        return res.status(400).json(productInMongo);
+      if (addProductInCart.error) {
+        return res.status(400).json(addProductInCart);
       }
 
-      const cartAdded = await createCart(pid);
-
-      res.status(201).json(cartAdded);
+      res.status(201).json(addProductInCart);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -73,25 +62,22 @@ router.post(
 
 router.patch(
   "/:cid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { cid } = req.params;
-      const { product } = req.body;
+      const { pid } = req.body;
 
-      const productExist = await findById(product);
-      if (productExist.error) {
-        return res.status(400).json(productExist);
+      const updateCart = await cartService.updateOne(pid, cid);
+
+      if (updateCart.error) {
+        return res.status(400).json(updateCart);
       }
 
-      const cartExist = await findByIdCart(cid);
-      if (cartExist.error) return res.status(400).json(cartExist);
-
-      const { products } = cartExist;
-      const updateCart = await updateOne(products, product, cid, cartExist);
-
-      return res.status(200).json({ updateCart });
+      res.status(200).json({
+        message: updateCart.message,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -100,30 +86,20 @@ router.patch(
 
 router.patch(
   "/:cid/product/:pid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { cid, pid } = req.params;
       const { quantity = 0 } = req.body;
 
-      const cartExist = await findByIdCart(cid);
-      if (cartExist.error) return res.status(400).json(cartExist);
-
-      const { products } = cartExist;
-
-      const productExist = await findById(pid);
-      if (productExist.error) {
-        return res.status(400).json(productExist);
-      }
-
-      const updateCart = await updateOne(
-        products,
-        pid,
+      const updateCart = await cartService.updateProductInCart(
         cid,
-        cartExist,
+        pid,
         quantity
       );
+
+      if (updateCart.error) return res.status(400).json(updateCart);
 
       res.status(200).json(updateCart);
     } catch (error) {
@@ -134,36 +110,22 @@ router.patch(
 
 router.delete(
   "/:cid/product/:pid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { cid, pid } = req.params;
 
-      const productExist = await findById(pid);
-      if (productExist.error) {
-        return res.status(400).json(productExist);
-      }
-
-      const cartExist = await findByIdCart(cid);
-      if (cartExist.error) return res.status(400).json(cartExist);
-
-      const { products } = cartExist;
-
-      const productInCartExist = await deleteProductInCart(
-        products,
-        pid,
-        cartExist,
-        cid
+      const deleteProductInCart = await cartService.deleteProductInCart(
+        cid,
+        pid
       );
 
-      if (productInCartExist.error) {
-        return res.status(400).json({
-          productInCartExist,
-        });
+      if (deleteProductInCart.error) {
+        return res.status(400).json(deleteProductInCart);
       }
 
-      res.json({ productInCartExist });
+      res.json({ deleteProductInCart });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -172,18 +134,40 @@ router.delete(
 
 router.delete(
   "/:cid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { cid } = req.params;
 
-      const cartExist = await findByIdCart(cid);
-      if (cartExist.error) return res.status(400).json(cartExist);
+      const deleteCart = await cartService.deleteOne(cid);
 
-      const deletedCart = await deleteOneCart(cid);
+      if (deleteCart.error) return res.status(400).json(deleteCart);
 
-      res.status(200).json(deletedCart);
+      res.status(200).json(deleteCart);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+);
+
+router.post(
+  "/:cid/purchase",
+  passportCall("current"),
+  autorization(["user", "admin"]),
+  async (req, res) => {
+    const { email } = req.user.payload;
+    console.log(req.body);
+    const { priceFinally } = req.body;
+    try {
+      const ticketInfo = {
+        code: "asdkan2334",
+        purchase_datetime: new Date(),
+        amount: priceFinally,
+        purchaser: email,
+      };
+      const ticket = await ticketService.create(ticketInfo);
+      res.json({ ticket });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

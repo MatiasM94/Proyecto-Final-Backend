@@ -22,7 +22,7 @@ form.addEventListener("submit", async (e) => {
       body,
     });
     const data = await response.json();
-
+    console.log(data);
     if (data.role === "user" || data.role === "admin") {
       return (window.location.href = "http://localhost:3000/products");
     }

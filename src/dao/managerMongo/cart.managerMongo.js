@@ -7,9 +7,7 @@ class CartManager {
   }
 
   async findById(cid) {
-    const carts = await Cart.findById({ _id: cid }).populate(
-      "products.product"
-    );
+    const carts = await Cart.findById(cid).populate("products.product");
     return carts;
   }
 
@@ -18,10 +16,10 @@ class CartManager {
   }
 
   async updateOne(cid, newCart) {
-    return await Cart.updateOne({ _id: cid }, newCart);
+    return await Cart.updateOne(cid, newCart);
   }
   async deleteOne(cid) {
-    return await Cart.deleteOne({ _id: cid });
+    return await Cart.deleteOne(cid);
   }
 }
 

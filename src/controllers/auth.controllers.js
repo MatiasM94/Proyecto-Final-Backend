@@ -3,46 +3,40 @@ import passport from "passport";
 import User from "../dao/models/users.models.js";
 import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
 import { generateToken } from "../utils/jwt.js";
+import { passportCall } from "../config/passportCall.js";
+import { userService } from "../repositories/index.js";
 
 const router = Router();
 
-router.post(
-  "/login",
-  passport.authenticate("login", { session: false }),
-  (req, res) => {
-    const { first_name, last_name, email, role, password } = req.user;
-    if (!email) {
-      return res
-        .status(400)
-        .json({ message: "El usuario o contraseña no es valido" });
-    }
-
-    if (!password) {
-      return res
-        .status(400)
-        .json({ message: "El usuario o contraseña no es valido" });
-    }
-    const token = generateToken({
-      nombre: first_name,
-      apellido: last_name,
-      email,
-      role: role,
-    });
-    console.log("session iniciada");
-    res
-      .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
-      .status(200)
-      .json(req.user);
+router.post("/login", passportCall("login"), (req, res) => {
+  const { first_name, last_name, email, role, password } = req.user;
+  if (!email) {
+    return res
+      .status(400)
+      .json({ message: "El usuario o contraseña no es valido" });
   }
-);
 
-router.get(
-  "/current",
-  passport.authenticate("current", { session: false }),
-  (req, res) => {
-    res.json(req.user);
+  if (!password) {
+    return res
+      .status(400)
+      .json({ message: "El usuario o contraseña no es valido" });
   }
-);
+  const token = generateToken({
+    nombre: first_name,
+    apellido: last_name,
+    email,
+    role: role,
+  });
+  console.log("session iniciada");
+  res
+    .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
+    .status(200)
+    .json({ role, token });
+});
+
+router.get("/current", passportCall("current"), (req, res) => {
+  res.json(req.user);
+});
 
 router.get("/faillogin", (req, res) => {
   res.json({ error: "No se pudo iniciar session" });
@@ -54,11 +48,9 @@ router.get("/logout", (req, res) => {
 
 router.patch("/forgotpassword", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const user = req.body;
 
-    const passwordEncrypted = createHash(password);
-
-    await User.updateOne({ email }, { password: passwordEncrypted });
+    await userService.updateOne(user);
 
     res.json({ message: "Contraseña actualizada" });
   } catch (error) {

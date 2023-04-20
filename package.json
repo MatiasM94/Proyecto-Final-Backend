@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node -r dotenv/config ./src/app.js",
-    "start:dev": "nodemon -r dotenv/config ./src/app.js"
+    "start:dev": "set NODE_ENV=development&& nodemon -r dotenv/config ./src/app.js",
+    "start:local": "set NODE_ENV=local&& nodemon -r dotenv/config ./src/app.js"
   },
   "repository": {
     "type": "git",

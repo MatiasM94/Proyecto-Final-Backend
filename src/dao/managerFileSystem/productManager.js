@@ -11,7 +11,7 @@ export default class ProductManager {
       if (productsInJson) {
         const products = JSON.parse(productsInJson);
 
-        return products;
+        return { docs: products };
       }
       return this.products;
     } catch (error) {

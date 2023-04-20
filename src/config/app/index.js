@@ -1,6 +1,10 @@
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
+dotenv.config({
+  path: `./.env.${process.env.NODE_ENV}`,
+});
+
+export const persistence = process.env.PERSISTENCE;
 
 export const port = process.env.PORT;
 

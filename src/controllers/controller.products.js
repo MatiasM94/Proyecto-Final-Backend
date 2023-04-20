@@ -1,27 +1,18 @@
 import { Router } from "express";
-import passport from "passport";
-import FilesManager from "../dao/files.manager.js";
-import Product from "../dao/models/products.models.js";
-import ProductManager from "../dao/managerMongo/product.managerMongo.js";
-import {
-  createProduct,
-  deleteOne,
-  findById,
-  findProducts,
-  updateOne,
-} from "../services/products.service.js";
 import { autorization } from "../middlewares/autorization.middleware.js";
+import { productService } from "../repositories/index.js";
+import { passportCall } from "../config/passportCall.js";
 
 const router = Router();
 
 router.get(
   "/",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;
-      const productsInDb = await findProducts(limit, page, sort, rest);
+      const productsInDb = await productService.find(limit, page, sort, rest);
 
       if (productsInDb.error) return res.status(400).json(productsInDb);
 
@@ -34,13 +25,13 @@ router.get(
 
 router.get(
   "/:pid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["user", "admin"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
 
-      const filteredProduct = await findById(pid);
+      const filteredProduct = await productService.findById(pid);
 
       if (filteredProduct.error)
         return res.status(400).json({ filteredProduct });
@@ -54,73 +45,35 @@ router.get(
 
 router.post(
   "/",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["admin"]),
   async (req, res) => {
     try {
-      const {
-        title,
-        description,
-        price,
-        status,
-        thumbnails,
-        code,
-        stock,
-        category,
-      } = req.body;
-      const newProductInfo = {
-        title,
-        description,
-        price,
-        status,
-        thumbnails,
-        code,
-        stock,
-        category,
-      };
+      const product = req.body;
 
-      const newProduct = await createProduct(newProductInfo);
-      if (newProduct.error) return res.status(400).json(newProduct);
+      const newProduct = await productService.create(product);
+      if (newProduct.error) return res.status(400).json(newProduct.error);
 
       res.json(newProduct);
     } catch (error) {
-      if (error.code === 11000)
-        return res.status(400).json({ error: "El producto ya existe" });
-
-      res.status(500).json({ error: error });
+      res.status(500).json({ error });
     }
   }
 );
 
 router.put(
   "/:pid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["admin"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
-      const {
-        title,
-        description,
-        price,
-        status,
-        thumbnails,
-        code,
-        stock,
-        category,
-      } = req.body;
-      const updatedProduct = {
-        title,
-        description,
-        price,
-        status,
-        thumbnails,
-        code,
-        stock,
-        category,
-      };
+      const updatedProductInfo = req.body;
 
-      const updateProduct = await updateOne(pid, updatedProduct);
+      const updateProduct = await productService.updateOne(
+        pid,
+        updatedProductInfo
+      );
       const { productsUpdateCounter, message, error } = updateProduct;
 
       if (updateProduct.error) return res.status(400).json(error);
@@ -136,12 +89,12 @@ router.put(
 
 router.delete(
   "/delete/:pid",
-  passport.authenticate("current", { session: false }),
+  passportCall("current"),
   autorization(["admin"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
-      const deleteProduct = await deleteOne(pid);
+      const deleteProduct = await productService.deleteOne(pid);
       const { deletedCount, message, error } = deleteProduct;
 
       if (deletedCount) {

@@ -1,34 +1,28 @@
 import Product from "../models/products.models.js";
 
 class ProductManager {
-  async find(limit = 5, page = 1, sort = "", rest = {}) {
-    const products = await Product.paginate(rest, {
-      page,
-      limit,
-      sort: { price: `${sort}` },
-    });
+  async find(props, rest) {
+    const products = await Product.paginate(rest, props);
     return products;
   }
 
   async findById(pid) {
-    const product = await Product.findById(pid).exec();
+    const product = await Product.findById(pid);
     return product;
   }
 
   async create(newProduct) {
-    await Product.create(newProduct);
-    return true;
+    return await Product.create(newProduct);
   }
 
   async updateOne(pid, updatedProduct) {
-    const updateProduct = await Product.updateOne({ _id: pid }, updatedProduct);
-    const productsUpdateCounter = updateProduct.modifiedCount;
-    return productsUpdateCounter;
+    const updateProduct = await Product.updateOne(pid, updatedProduct);
+    return updateProduct;
   }
 
   async deleteOne(pid) {
-    await Product.deleteOne({ _id: pid });
-    return true;
+    const deleteProduct = await Product.deleteOne(pid);
+    return deleteProduct;
   }
 
   async deleteMany() {

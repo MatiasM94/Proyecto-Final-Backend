@@ -1,6 +1,5 @@
 import ProductManager from "../dao/managerMongo/product.managerMongo.js";
 import CartManager from "../dao/managerMongo/cart.managerMongo.js";
-import { updatePersistCart } from "../persists/cart.persist.js";
 
 const productClass = new ProductManager();
 const cartClass = new CartManager();
@@ -29,9 +28,9 @@ export async function cartInDb(res, cid) {
 }
 
 export function indexPosition(products, product) {
-  return products.findIndex(
-    (producto) => producto.product._id.toString() === product
-  );
+  return products.findIndex((producto) => {
+    producto._id.toString() === product;
+  });
 }
 
 export async function addQuantity({

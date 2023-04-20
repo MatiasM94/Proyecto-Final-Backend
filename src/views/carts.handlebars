@@ -6,10 +6,12 @@
         <h3>Title: {{this.title}}</h3>
         <h3>Description: {{this.description}}</h3>
         <h3>Price: {{this.price}}</h3>        
-        <h3>Quantity: {{this.quantity}}</h3>        
+        <h3>Quantity: {{this.quantity}}</h3>
+        <h3>{{this._id}}</h3>      
       </div>
   {{/each}}
 </div>
 <h3>Total: ${{totalPrice}}</h3>
+<button class="buttons" onclick="comprar('{{cid}},{{totalPrice}}')">Finalizar compra</button>
 
 <script src="/js/carts.js"></script>

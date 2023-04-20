@@ -2,9 +2,10 @@ import passport from "passport";
 import local from "passport-local";
 import jwt from "passport-jwt";
 import GoogleStrategy from "passport-google-oauth20";
-import { createUser, findOneUser } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
 import { jwtSecretKey } from "./app/index.js";
+import { userService } from "../repositories/index.js";
+import CurrentDTO from "../DTOs/Current.dto.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -50,25 +51,9 @@ const initializePassport = () => {
     new LocalStrategy(
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
-        const { first_name, last_name, age } = req.body;
+        const newUserInfo = { username, password, body: req.body, done };
         try {
-          if (!first_name || !last_name || !age || !password || !username) {
-            return done(null, "faltan campos por completar");
-          }
-
-          const verifyExistUser = await findOneUser({ email: username });
-          if (verifyExistUser) {
-            return done(null, "El usuario ya existe!");
-          }
-
-          const newUserInfo = {
-            first_name,
-            last_name,
-            age,
-            email: username,
-            password: createHash(password),
-          };
-          const newUser = await createUser(newUserInfo);
+          const newUser = await userService.create(newUserInfo);
 
           return done(null, newUser);
         } catch (error) {
@@ -112,7 +97,9 @@ const initializePassport = () => {
       },
       async (jwt_payload, done) => {
         try {
-          return done(null, jwt_payload);
+          const { payload } = jwt_payload;
+          const currentInfo = new CurrentDTO(payload);
+          return done(null, { payload: currentInfo });
         } catch (error) {
           return done(error);
         }
