@@ -3,7 +3,7 @@ import {
   indexPosition,
   productInCart,
 } from "../utils/controllers.utils.js";
-import { productService } from "./index.js";
+import { cartService, productService } from "./index.js";
 
 class CartRepository {
   constructor(dao) {
@@ -33,19 +33,63 @@ class CartRepository {
 
   async create(pid) {
     try {
-      const productInDb = productService.find(pid);
+      const productInDb = await productService.findById(pid);
 
       if (!productInDb)
         return { error: `The product with id ${pid} does not exist` };
-
-      const newCart = { products: [{ product: pid, quantity: 1 }] };
+      const quantity = 1;
+      const active = true;
+      const newCart = { products: [{ product: pid, quantity, active }] };
 
       const cartAdded = await this.dao.create(newCart);
+      if (productInDb.stock === 0) return { error: "no hay stock disponible" };
+      productInDb.stock -= quantity;
+
+      const newStock = await productService.updateOne(pid, productInDb);
+
+      // Despues de 5 minutos si el producto sigue en el cart, se elimina del mismo
+      setTimeout(async () => {
+        const cartId = cartAdded._id.toString();
+
+        const cart = await this.findById(cartId);
+        const { products } = cart;
+
+        const productPosition = indexPosition(products, pid);
+
+        if (products[productPosition].active) {
+          productInDb.stock += quantity;
+          const newStock = await productService.updateOne(pid, productInDb);
+
+          products[productPosition].quantity -= quantity;
+          const updateCart = await this.dao.updateOne({ _id: cartId }, cart);
+
+          if (products[productPosition].quantity === 0) {
+            const deleteProductInCart = await this.deleteProductInCart(
+              cid,
+              pid
+            );
+            console.log(
+              products[productPosition].quantity,
+              deleteProductInCart
+            );
+          }
+          console.log(
+            `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
+          );
+        }
+        console.log("paso el tiempo y se compro el cart");
+      }, 10000);
 
       return { message: "cart created successfully", cartAdded };
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async update(cid, cart) {
+    const updateCart = await this.dao.update({ _id: cid }, cart);
+    console.log("actual", updateCart);
+    return updateCart;
   }
 
   async updateOne(product, cid) {
@@ -78,11 +122,13 @@ class CartRepository {
     }
   }
 
-  async updateProductInCart(cid, pid, quantity) {
+  async updateProductInCart(cid, pid, quantity = 1) {
     try {
-      const productInDb = await productService.find(pid);
+      const productInDb = await productService.findById(pid);
       if (!productInDb)
         return { error: `The product with id ${pid} does not exist` };
+
+      if (productInDb.stock === 0) return { error: "no hay stock disponible" };
 
       const cart = await this.findById(cid);
       if (cart.error) return cart;
@@ -90,16 +136,90 @@ class CartRepository {
       const { products } = cart;
 
       const productPosition = indexPosition(products, pid);
+
       if (productPosition !== -1) {
-        products[productPosition].quantity += quantity ? quantity : 1;
+        products[productPosition].quantity += quantity;
         const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+
+        productInDb.stock -= quantity;
+
+        const newStock = await productService.updateOne(pid, productInDb);
+
+        setTimeout(async () => {
+          const cart = await this.findById(cid);
+          if (cart.error) return cart;
+
+          const { products } = cart;
+          const productPosition = indexPosition(products, pid);
+          console.log(products[productPosition].quantity);
+          if (products[productPosition].active) {
+            productInDb.stock += quantity;
+            const newStock = await productService.updateOne(pid, productInDb);
+
+            products[productPosition].quantity -= quantity;
+            const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+
+            if (products[productPosition].quantity === 0) {
+              const deleteProductInCart = await this.deleteProductInCart(
+                cid,
+                pid
+              );
+              console.log(
+                products[productPosition].quantity,
+                deleteProductInCart
+              );
+            }
+            console.log(
+              `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
+            );
+          }
+          console.log("paso el tiempo y se compro el cart");
+        }, 10000);
+
         return {
           message: `the product with id ${pid} was modified successfully`,
           cart,
         };
       }
 
-      return { error: "the product does not exist in the cart" };
+      const active = true;
+      products.push({ product: pid, quantity: 1, active });
+      const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+
+      productInDb.stock -= quantity;
+      const newStock = await productService.updateOne(pid, productInDb);
+
+      setTimeout(async () => {
+        const cart = await this.findById(cid);
+        if (cart.error) return cart;
+        const { products } = cart;
+
+        const productPosition = indexPosition(products, pid);
+        if (products[productPosition].active) {
+          productInDb.stock += quantity;
+          const newStock = await productService.updateOne(pid, productInDb);
+
+          products[productPosition].quantity -= quantity;
+          const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+          console.log(products[productPosition].quantity);
+          if (products[productPosition].quantity === 0) {
+            const deleteProductInCart = await this.deleteProductInCart(
+              cid,
+              pid
+            );
+            console.log(deleteProductInCart);
+          }
+          console.log(
+            `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
+          );
+          return;
+        }
+        console.log("paso el tiempo y se compro el cart");
+      }, 10000);
+
+      return {
+        message: `the product with id ${pid} was added successfully`,
+      };
     } catch (error) {
       throw new Error(error);
     }

@@ -68,7 +68,6 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    console.log("entra?");
     const { first_name, last_name, email, role } = req.user;
 
     const token = generateToken({

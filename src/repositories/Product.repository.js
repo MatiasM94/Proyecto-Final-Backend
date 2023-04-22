@@ -9,7 +9,6 @@ class ProductRepository {
     const props = { limit, page, sort };
     try {
       const productsInDb = await this.dao.find(props, rest);
-
       if (productsInDb.docs.length > 0) {
         return { status: "Sucess", payload: productsInDb };
       }
@@ -22,7 +21,7 @@ class ProductRepository {
   async findById(pid) {
     try {
       const product = await this.dao.findById(pid);
-      if (product) return { product };
+      if (product) return product;
 
       return { error: `The product with id ${pid} does not exist` };
     } catch (error) {
@@ -54,12 +53,14 @@ class ProductRepository {
         category
       ) {
         const newProduct = await this.dao.create(newProductInfo);
+
         if (newProduct.code === 11000) throw new Error({ code: 11000 });
         return { message: "Added product", newProduct };
       }
       return { error: "Invalid format, missing fields to complete" };
     } catch (error) {
       if (error.code === 11000) return { error: "El producto ya existe" };
+      return error;
     }
   }
 
@@ -82,7 +83,7 @@ class ProductRepository {
       !status ||
       !thumbnails ||
       !code ||
-      !stock ||
+      (!stock && stock != 0) ||
       !category
     )
       return { error: "Invalid format, missing fields to complete" };

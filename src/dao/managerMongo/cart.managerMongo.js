@@ -2,7 +2,7 @@ import Cart from "../models/carts.models.js";
 
 class CartManager {
   async find() {
-    const carts = Cart.find();
+    const carts = await Cart.find();
     return carts;
   }
 
@@ -13,6 +13,10 @@ class CartManager {
 
   async create(newCart) {
     return await Cart.create(newCart);
+  }
+
+  async update(cid, cart) {
+    return await Cart.updateOne(cid, cart);
   }
 
   async updateOne(cid, newCart) {

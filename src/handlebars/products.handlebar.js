@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { passportCall } from "../config/passportCall.js";
 import { autorization } from "../middlewares/autorization.middleware.js";
+import { productService } from "../repositories/index.js";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get(
       const { limit, page, sort, ...rest } = req.query;
       const { payload } = req.user;
 
-      const productsInDb = await findProducts(limit, page, sort, rest);
+      const productsInDb = await productService.find(limit, page, sort, rest);
 
       if (productsInDb.error) return res.status(400).json(productsInDb);
 

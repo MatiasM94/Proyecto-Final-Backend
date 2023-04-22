@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { v4 as uuidv4 } from "uuid";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { cartService, ticketService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
@@ -69,7 +70,7 @@ router.patch(
       const { cid } = req.params;
       const { pid } = req.body;
 
-      const updateCart = await cartService.updateOne(pid, cid);
+      const updateCart = await cartService.updateProductInCart(cid, pid);
 
       if (updateCart.error) {
         return res.status(400).json(updateCart);
@@ -157,16 +158,18 @@ router.post(
   autorization(["user", "admin"]),
   async (req, res) => {
     const { email } = req.user.payload;
+    const { priceFinally, id } = req.body;
     console.log(req.body);
-    const { priceFinally } = req.body;
     try {
       const ticketInfo = {
-        code: "asdkan2334",
+        code: uuidv4(),
         purchase_datetime: new Date(),
         amount: priceFinally,
         purchaser: email,
       };
-      const ticket = await ticketService.create(ticketInfo);
+      const ticket = await ticketService.create(ticketInfo, id);
+      console.log(ticket);
+
       res.json({ ticket });
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -8,9 +8,12 @@ class UserRepository {
     try {
       const user = await this.dao.findOne(email);
       if (user) return { user };
-      return { error: `The user with email ${email} does not exist` };
+      return {
+        error: `The user with email ${email} does not exist`,
+        user: false,
+      };
     } catch (error) {
-      return { error };
+      throw new Error(error);
     }
   }
   async create(newUserInfo) {
@@ -18,21 +21,20 @@ class UserRepository {
       const { username, password, body, done } = newUserInfo;
       const { first_name, last_name, age } = body;
 
-      if (!first_name || !last_name || !age || !password || !username) {
+      if (!first_name || !last_name || !age || !username) {
         return done(null, "faltan campos por completar");
       }
-
       const verifyExistUser = await this.dao.findOne({ email: username });
       if (verifyExistUser) {
         return done({ error: "No se pudo registrar su usuario" });
       }
-      const userInfo = new UserDTO({ body, email: username, password });
+
+      const userInfo = new UserDTO(newUserInfo);
       if (username === "adminCoder@coder.com") {
         userInfo.role = "admin";
       } else {
-        userInfo.role = "user";
+        userInfo.role = userInfo.googleId ? "google-user" : "user";
       }
-
       const newUser = await this.dao.create(userInfo);
       return newUser;
     } catch (error) {

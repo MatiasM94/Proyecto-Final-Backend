@@ -21,11 +21,12 @@ const cookieExtractor = (req) => {
 
 const initializePassport = () => {
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user);
   });
 
   passport.deserializeUser(async (id, done) => {
-    const user = await findOneUser(id);
+    const user = await userService.findOne(id);
+
     done(null, user);
   });
 
@@ -69,8 +70,8 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await findOneUser({ email: username });
-
+          const userInfo = await userService.findOne({ email: username });
+          const { user } = userInfo;
           if (!user) {
             console.log("El usuario no existe");
             return done(null, true);
@@ -118,21 +119,24 @@ const initializePassport = () => {
       },
       async (accesToken, refreshToken, profile, done) => {
         try {
-          const user = await findOneUser({ googleId: profile._json.sub });
-
-          if (!user) {
+          const user = await userService.findOne({
+            googleId: profile._json.sub,
+          });
+          if (!user.user) {
             const newUserInfo = {
               googleId: profile._json.sub,
-              first_name: profile._json.given_name,
-              last_name: profile._json.family_name,
-              age: 29,
-              email: profile._json.email,
+              username: profile._json.name,
               password: "",
               role: "google-user",
+              done,
+              body: {
+                first_name: profile._json.given_name,
+                last_name: profile._json.family_name,
+                age: 29,
+              },
             };
+            const newUser = await userService.create(newUserInfo);
 
-            const newUser = await createUser(newUserInfo);
-            console.log(newUser);
             return done(null, newUser);
           }
 

@@ -28,9 +28,9 @@ export async function cartInDb(res, cid) {
 }
 
 export function indexPosition(products, product) {
-  return products.findIndex((producto) => {
-    producto._id.toString() === product;
-  });
+  return products.findIndex(
+    (producto) => producto.product._id.toString() === product
+  );
 }
 
 export async function addQuantity({
