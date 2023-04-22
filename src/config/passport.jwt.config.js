@@ -55,6 +55,7 @@ const initializePassport = () => {
         const newUserInfo = { username, password, body: req.body, done };
         try {
           const newUser = await userService.create(newUserInfo);
+          if (newUser.error) return done(newUser.error);
 
           return done(null, newUser);
         } catch (error) {

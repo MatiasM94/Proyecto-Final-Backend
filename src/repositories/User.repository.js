@@ -26,7 +26,7 @@ class UserRepository {
       }
       const verifyExistUser = await this.dao.findOne({ email: username });
       if (verifyExistUser) {
-        return done({ error: "No se pudo registrar su usuario" });
+        return { error: "No se pudo registrar su usuario" };
       }
 
       const userInfo = new UserDTO(newUserInfo);
