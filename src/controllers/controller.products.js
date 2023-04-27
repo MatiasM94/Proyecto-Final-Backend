@@ -2,6 +2,7 @@ import { Router } from "express";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { productService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
+import { generateProduct } from "../utils/mock.util.js";
 
 const router = Router();
 
@@ -105,6 +106,15 @@ router.delete(
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
+  }
+);
+router.get(
+  "/mock/mockingproducts",
+  passportCall("current"),
+  autorization(["admin"]),
+  (req, res) => {
+    const product = generateProduct();
+    res.json({ message: product });
   }
 );
 

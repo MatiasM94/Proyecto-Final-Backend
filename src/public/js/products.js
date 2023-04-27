@@ -7,7 +7,7 @@ let cart;
 async function addToCart(pid) {
   try {
     const product = { pid };
-    console.log(cart, pid);
+
     if (cart) {
       const response = await fetch(`http://localhost:3000/api/carts/${cart}`, {
         method: "PATCH",
@@ -31,7 +31,6 @@ async function addToCart(pid) {
     const data = await response.json();
     console.log(data);
     cart = data.cartAdded._id;
-    console.log(cart);
     return;
   } catch (error) {
     console.log(error);

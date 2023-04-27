@@ -29,7 +29,7 @@ router.post("/login", passportCall("login"), (req, res) => {
   });
   console.log("session iniciada");
   res
-    .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
+    .cookie("authToken", token, { maxAge: 60000 * 6, httpOnly: true })
     .status(200)
     .json({ role, token });
 });

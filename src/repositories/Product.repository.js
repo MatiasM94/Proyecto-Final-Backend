@@ -1,4 +1,7 @@
 import ProductDTO from "../DTOs/Product.dto.js";
+import CustomError from "../utils/errors/Custom.error.js";
+import EnumError from "../utils/errors/enum.error.js";
+import { generateProductErrorInfo } from "../utils/errors/info.error.js";
 
 class ProductRepository {
   constructor(dao) {
@@ -42,6 +45,7 @@ class ProductRepository {
         stock,
         category,
       } = newProductInfo;
+
       if (
         title &&
         description &&
@@ -57,7 +61,21 @@ class ProductRepository {
         if (newProduct.code === 11000) throw new Error({ code: 11000 });
         return { message: "Added product", newProduct };
       }
-      return { error: "Invalid format, missing fields to complete" };
+      CustomError.createError({
+        name: "Product creation error",
+        cause: generateProductErrorInfo({
+          title,
+          description,
+          price,
+          status,
+          thumbnails,
+          code,
+          stock,
+          category,
+        }),
+        message: "Error trying to create an product",
+        code: EnumError.INVALID_TYPES_ERROR,
+      });
     } catch (error) {
       if (error.code === 11000) return { error: "El producto ya existe" };
       return error;

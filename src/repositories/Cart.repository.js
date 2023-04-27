@@ -1,9 +1,5 @@
-import {
-  addQuantity,
-  indexPosition,
-  productInCart,
-} from "../utils/controllers.utils.js";
-import { cartService, productService } from "./index.js";
+import { indexPosition, productInCart } from "../utils/controllers.utils.js";
+import { productService } from "./index.js";
 
 class CartRepository {
   constructor(dao) {
@@ -41,8 +37,8 @@ class CartRepository {
       const active = true;
       const newCart = { products: [{ product: pid, quantity, active }] };
 
-      const cartAdded = await this.dao.create(newCart);
       if (productInDb.stock === 0) return { error: "no hay stock disponible" };
+      const cartAdded = await this.dao.create(newCart);
       productInDb.stock -= quantity;
 
       const newStock = await productService.updateOne(pid, productInDb);
@@ -65,20 +61,15 @@ class CartRepository {
 
           if (products[productPosition].quantity === 0) {
             const deleteProductInCart = await this.deleteProductInCart(
-              cid,
+              cartId,
               pid
-            );
-            console.log(
-              products[productPosition].quantity,
-              deleteProductInCart
             );
           }
           console.log(
             `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
           );
         }
-        console.log("paso el tiempo y se compro el cart");
-      }, 10000);
+      }, 5 * 60000);
 
       return { message: "cart created successfully", cartAdded };
     } catch (error) {
@@ -125,7 +116,7 @@ class CartRepository {
   async updateProductInCart(cid, pid, quantity = 1) {
     try {
       const productInDb = await productService.findById(pid);
-      if (!productInDb)
+      if (productInDb.error)
         return { error: `The product with id ${pid} does not exist` };
 
       if (productInDb.stock === 0) return { error: "no hay stock disponible" };
@@ -151,7 +142,7 @@ class CartRepository {
 
           const { products } = cart;
           const productPosition = indexPosition(products, pid);
-          console.log(products[productPosition].quantity);
+
           if (products[productPosition].active) {
             productInDb.stock += quantity;
             const newStock = await productService.updateOne(pid, productInDb);
@@ -164,17 +155,12 @@ class CartRepository {
                 cid,
                 pid
               );
-              console.log(
-                products[productPosition].quantity,
-                deleteProductInCart
-              );
             }
             console.log(
               `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
             );
           }
-          console.log("paso el tiempo y se compro el cart");
-        }, 10000);
+        }, 5 * 60000);
 
         return {
           message: `the product with id ${pid} was modified successfully`,
@@ -201,21 +187,19 @@ class CartRepository {
 
           products[productPosition].quantity -= quantity;
           const updateCart = await this.dao.updateOne({ _id: cid }, cart);
-          console.log(products[productPosition].quantity);
+
           if (products[productPosition].quantity === 0) {
             const deleteProductInCart = await this.deleteProductInCart(
               cid,
               pid
             );
-            console.log(deleteProductInCart);
           }
           console.log(
             `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
           );
           return;
         }
-        console.log("paso el tiempo y se compro el cart");
-      }, 10000);
+      }, 5 * 60000);
 
       return {
         message: `the product with id ${pid} was added successfully`,

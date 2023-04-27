@@ -1,7 +1,6 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
@@ -11,6 +10,7 @@ import { mongoPassword, port } from "./config/app/index.js";
 import __dirname from "./util.js";
 import { connectionSocket } from "./socketio/socket.io.js";
 import initializePassport from "./config/passport.jwt.config.js";
+import errorHandler from "./middlewares/errors/handler.errors.js";
 
 const app = express();
 
@@ -41,10 +41,11 @@ app.set("view engine", "handlebars");
 // Routes
 routes(app);
 handlebarsRoutes(app);
+app.use(errorHandler);
 
-// SocketIo
 const httpServer = app.listen(port, () => {
   console.log(`running from express, PORT: ${port}`);
 });
 
+// SocketIo
 connectionSocket(httpServer);
