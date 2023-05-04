@@ -11,8 +11,10 @@ import __dirname from "./util.js";
 import { connectionSocket } from "./socketio/socket.io.js";
 import initializePassport from "./config/passport.jwt.config.js";
 import errorHandler from "./middlewares/errors/handler.errors.js";
+import addLogger from "./middlewares/logger.middleware.js";
 
 const app = express();
+app.use(addLogger);
 
 // Express
 app.use(express.json());

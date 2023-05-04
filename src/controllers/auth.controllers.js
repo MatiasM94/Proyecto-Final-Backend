@@ -11,12 +11,14 @@ const router = Router();
 router.post("/login", passportCall("login"), (req, res) => {
   const { first_name, last_name, email, role, password } = req.user;
   if (!email) {
+    req.logger.error("El usuario o contraseña no es valido");
     return res
       .status(400)
       .json({ message: "El usuario o contraseña no es valido" });
   }
 
   if (!password) {
+    req.logger.error("El usuario o contraseña no es valido");
     return res
       .status(400)
       .json({ message: "El usuario o contraseña no es valido" });
@@ -27,7 +29,7 @@ router.post("/login", passportCall("login"), (req, res) => {
     email,
     role: role,
   });
-  console.log("session iniciada");
+  req.logger.info("session iniciada");
   res
     .cookie("authToken", token, { maxAge: 60000 * 6, httpOnly: true })
     .status(200)
@@ -76,7 +78,7 @@ router.get(
       email,
       role: role,
     });
-    console.log("session iniciada");
+    req.logger.info("session iniciada");
     res
       .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
       .status(200)

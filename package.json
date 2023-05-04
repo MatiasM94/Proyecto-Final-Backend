@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node -r dotenv/config ./src/app.js",
+    "start": "set NODE_ENV=production&& node -r dotenv/config ./src/app.js",
     "start:dev": "set NODE_ENV=development&& nodemon -r dotenv/config ./src/app.js",
     "start:local": "set NODE_ENV=local&& nodemon -r dotenv/config ./src/app.js"
   },
@@ -38,6 +38,7 @@
     "passport-local": "^1.0.0",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
   }
 }

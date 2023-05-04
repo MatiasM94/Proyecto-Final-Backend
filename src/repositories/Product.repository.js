@@ -17,6 +17,7 @@ class ProductRepository {
       }
       return { error: `peticion include an incorrect parm`, rest };
     } catch (error) {
+      req.logger.fatal(error);
       return { error };
     }
   }

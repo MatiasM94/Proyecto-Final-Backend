@@ -1,0 +1,39 @@
+fatal: req is not defined
+fatal: req is not defined
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+warning: peticion include an incorrect parm
+warning: [object Object]
+warning: peticion include an incorrect parm
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+fatal: colors[Colorizer.allColors[lookup]] is not a function
+error: The product with id 63e913a1bd9707fce84a4247 does not exist
+error: 
+  One or More Properties were incomplete or not valid.
+  List of required properties:
+  title: needs to be String, received: Monitor PC,
+  description: needs to be String, received: monitor,
+  price: needs to be Number, received: 33000,
+  status: needs to be Boolean, received: true,
+  thumbnails: need to be Array of Objects, received: [object Object],
+  code: needs to be String, received: ADHIKSJ4524saa,
+  stock: needs to be Number, received: 30,
+  category: needs to be String, received: undefined
+  
+error: 
+  One or More Properties were incomplete or not valid.
+  List of required properties:
+  title: needs to be String, received: Monitor PC,
+  description: needs to be String, received: monitor,
+  price: needs to be Number, received: 33000,
+  status: needs to be Boolean, received: true,
+  thumbnails: need to be Array of Objects, received: [object Object],
+  code: needs to be String, received: ADHIKSJ4524saa,
+  stock: needs to be Number, received: 30,
+  category: needs to be String, received: undefined
+  
+warning: peticion include an incorrect parm
+warning: peticion include an incorrect parm

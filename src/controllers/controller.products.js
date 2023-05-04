@@ -15,10 +15,14 @@ router.get(
       const { limit, page, sort, ...rest } = req.query;
       const productsInDb = await productService.find(limit, page, sort, rest);
 
-      if (productsInDb.error) return res.status(400).json(productsInDb);
-
+      if (productsInDb.error) {
+        req.logger.warning(productsInDb.error);
+        return res.status(400).json(productsInDb);
+      }
+      req.logger.debug(productsInDb.payload.docs);
       res.json(productsInDb);
     } catch (error) {
+      req.logger.fatal(error.message);
       res.status(500).json({ error: error.message });
     }
   }
@@ -34,11 +38,14 @@ router.get(
 
       const filteredProduct = await productService.findById(pid);
 
-      if (filteredProduct.error)
+      if (filteredProduct.error) {
+        req.logger.error(filteredProduct.error);
         return res.status(400).json({ filteredProduct });
+      }
 
       res.status(200).json(filteredProduct);
     } catch (error) {
+      req.logger.fatal(error.message);
       res.status(500).json({ error: error.message });
     }
   }
@@ -53,10 +60,14 @@ router.post(
       const product = req.body;
 
       const newProduct = await productService.create(product);
-      if (newProduct.error) return res.status(400).json(newProduct.error);
+      if (newProduct.cause) {
+        req.logger.error(newProduct.cause);
+        return res.status(400).json(newProduct);
+      }
 
       res.json(newProduct);
     } catch (error) {
+      req.logger.fatal(error.message);
       res.status(500).json({ error });
     }
   }
@@ -77,12 +88,16 @@ router.put(
       );
       const { productsUpdateCounter, message, error } = updateProduct;
 
-      if (updateProduct.error) return res.status(400).json(error);
+      if (updateProduct.error) {
+        req.logger.error(error);
+        return res.status(400).json(error);
+      }
 
       return productsUpdateCounter
         ? res.status(200).json(message)
         : res.status(400).json(error);
     } catch (error) {
+      req.logger.fatal(error.message);
       res.status(500).json({ error: error.message });
     }
   }
@@ -101,9 +116,10 @@ router.delete(
       if (deletedCount) {
         return res.status(200).json(message);
       }
-
+      req.logger.error(error);
       res.status(400).json(error);
     } catch (error) {
+      req.logger.fatal(error.message);
       res.status(500).json({ error: error.message });
     }
   }
