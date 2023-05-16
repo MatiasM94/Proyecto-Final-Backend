@@ -11,7 +11,7 @@ class UserManager {
     return newUser;
   }
 
-  async update(email, password) {
+  async updateOne(email, password) {
     const updateUser = await User.updateOne(email, password);
     return updateUser;
   }

@@ -1,4 +1,6 @@
 import UserDTO from "../DTOs/User.dto.js";
+import { isValidPassword } from "../utils/cryptPassword.utils.js";
+import { createHash } from "../utils/cryptPassword.utils.js";
 
 class UserRepository {
   constructor(dao) {
@@ -19,7 +21,7 @@ class UserRepository {
   async create(newUserInfo) {
     try {
       const { username, password, body, done } = newUserInfo;
-      const { first_name, last_name, age } = body;
+      const { first_name, last_name, age, premium } = body;
 
       if (!first_name || !last_name || !age || !username) {
         return done(null, "faltan campos por completar");
@@ -33,7 +35,8 @@ class UserRepository {
       if (username === "adminCoder@coder.com") {
         userInfo.role = "admin";
       } else {
-        userInfo.role = userInfo.googleId ? "google-user" : "user";
+        userInfo.role = premium ? "premium" : "user";
+        userInfo.premium = premium;
       }
       const newUser = await this.dao.create(userInfo);
       return newUser;
@@ -42,13 +45,39 @@ class UserRepository {
     }
   }
 
+  async update(uid) {
+    try {
+      const user = await this.findOne({ _id: uid });
+      const { email, role } = user.user;
+      if (user.error) return user;
+
+      role === "premium"
+        ? (user.user.role = "user")
+        : (user.user.role = "premium");
+      const updateUser = await this.dao.updateOne({ _id: uid }, user.user);
+      return { message: "se modifico el role con exito" };
+    } catch (error) {
+      return { error };
+    }
+  }
+
   async updateOne(email, password) {
     try {
-      const user = await this.findOne(email);
-      if (user.error) return user;
-      const passwordEncrypted = createHash(password);
-      const updateUser = await this.dao.updateOne(email, passwordEncrypted);
+      const user = await this.findOne({ email: email });
 
+      if (user.error) return user;
+
+      const verifyPassword = isValidPassword(user.user, password);
+      if (verifyPassword) {
+        return {
+          error:
+            "Su nueva contraseña no debe coincidir con su actual contraseña",
+        };
+      }
+
+      const passwordEncrypted = createHash(password);
+      user.user.password = passwordEncrypted;
+      const updateUser = await this.dao.updateOne({ email: email }, user.user);
       return updateUser;
     } catch (error) {
       throw new Error(error);

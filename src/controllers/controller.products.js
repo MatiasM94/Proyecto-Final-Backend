@@ -9,7 +9,7 @@ const router = Router();
 router.get(
   "/",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;
@@ -31,7 +31,7 @@ router.get(
 router.get(
   "/:pid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
@@ -54,12 +54,16 @@ router.get(
 router.post(
   "/",
   passportCall("current"),
-  autorization(["admin"]),
+  autorization(["admin", "premium"]),
   async (req, res) => {
     try {
       const product = req.body;
+      const isPremium = {
+        role: req.user.payload.role,
+        _id: req.user.payload._id,
+      };
 
-      const newProduct = await productService.create(product);
+      const newProduct = await productService.create(product, isPremium);
       if (newProduct.cause) {
         req.logger.error(newProduct.cause);
         return res.status(400).json(newProduct);
@@ -76,7 +80,7 @@ router.post(
 router.put(
   "/:pid",
   passportCall("current"),
-  autorization(["admin"]),
+  autorization(["admin", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
@@ -97,7 +101,6 @@ router.put(
         ? res.status(200).json(message)
         : res.status(400).json(error);
     } catch (error) {
-      req.logger.fatal(error.message);
       res.status(500).json({ error: error.message });
     }
   }
@@ -106,14 +109,17 @@ router.put(
 router.delete(
   "/delete/:pid",
   passportCall("current"),
-  autorization(["admin"]),
+  autorization(["admin", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
-      const deleteProduct = await productService.deleteOne(pid);
-      const { deletedCount, message, error } = deleteProduct;
+      const { _id, role } = req.user.payload;
+      const userInfo = { _id, role };
 
-      if (deletedCount) {
+      const deleteProduct = await productService.deleteOne(pid, userInfo);
+      const { message, error } = deleteProduct;
+
+      if (message) {
         return res.status(200).json(message);
       }
       req.logger.error(error);

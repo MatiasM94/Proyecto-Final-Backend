@@ -9,7 +9,7 @@ import { userService } from "../repositories/index.js";
 const router = Router();
 
 router.post("/login", passportCall("login"), (req, res) => {
-  const { first_name, last_name, email, role, password } = req.user;
+  const { first_name, last_name, email, role, password, _id } = req.user;
   if (!email) {
     req.logger.error("El usuario o contraseña no es valido");
     return res
@@ -24,6 +24,7 @@ router.post("/login", passportCall("login"), (req, res) => {
       .json({ message: "El usuario o contraseña no es valido" });
   }
   const token = generateToken({
+    _id,
     nombre: first_name,
     apellido: last_name,
     email,
@@ -50,9 +51,9 @@ router.get("/logout", (req, res) => {
 
 router.patch("/forgotpassword", async (req, res) => {
   try {
-    const user = req.body;
-
-    await userService.updateOne(user);
+    const { email, password } = req.body;
+    const newPassword = await userService.updateOne(email, password);
+    if (newPassword.error) return res.json({ newPassword });
 
     res.json({ message: "Contraseña actualizada" });
   } catch (error) {

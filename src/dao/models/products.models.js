@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import paginate from "mongoose-paginate-v2";
+import { adminId } from "../../config/app/index.js";
 
 const productCollection = "product";
-
 const productSchema = mongoose.Schema({
   id: Number,
   title: String,
@@ -16,6 +16,11 @@ const productSchema = mongoose.Schema({
     unique: true,
   },
   category: String,
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    default: adminId,
+  },
 });
 
 productSchema.plugin(paginate);

@@ -7,7 +7,10 @@ class ProductManager {
   }
 
   async findById(pid) {
-    const product = await Product.findById(pid);
+    const product = await Product.findById(pid).populate({
+      path: "owner",
+      select: "email role first_name last_name",
+    });
     return product;
   }
 

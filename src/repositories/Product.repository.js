@@ -33,9 +33,12 @@ class ProductRepository {
     }
   }
 
-  async create(product) {
+  async create(product, isPremium) {
     try {
       const newProductInfo = new ProductDTO(product);
+      const { role, _id } = isPremium;
+      const user = "premium";
+      if (role === user) newProductInfo.owner = _id;
       const {
         title,
         description,
@@ -121,14 +124,19 @@ class ProductRepository {
     return { productsUpdateCounter, message: "successfully modified product" };
   }
 
-  async deleteOne(pid) {
-    const deleteProduct = await this.dao.deleteOne({ _id: pid });
+  async deleteOne(pid, userInfo) {
+    const { _id, role } = userInfo;
+    const isPremium = "premium";
 
-    const deletedCount = deleteProduct.deletedCount;
-    if (deletedCount)
-      return { deletedCount, message: "Product successfully removed" };
+    const product = await this.findById(pid);
+    if (product.error) return product;
 
-    return { deletedCount, error: `The product with id ${pid} does not exist` };
+    const productOwner = product.owner._id.toString();
+    if ((isPremium === role && productOwner === _id) || role === "admin") {
+      const deleteProduct = await this.dao.deleteOne({ _id: pid });
+      return { message: "Product successfully removed" };
+    }
+    return { error: "No tienes permisos para eliminar este producto" };
   }
 }
 

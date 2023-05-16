@@ -27,7 +27,9 @@ class CartRepository {
     }
   }
 
-  async create(pid) {
+  async create(pid, userInfo) {
+    const { _id, role } = userInfo;
+    const isPremium = "premium";
     try {
       const productInDb = await productService.findById(pid);
 
@@ -38,6 +40,11 @@ class CartRepository {
       const newCart = { products: [{ product: pid, quantity, active }] };
 
       if (productInDb.stock === 0) return { error: "no hay stock disponible" };
+
+      const productOwner = productInDb.owner._id.toString();
+      if (isPremium === role && productOwner === _id) {
+        return { message: "no puedes agregar tus productos al carrito" };
+      }
       const cartAdded = await this.dao.create(newCart);
       productInDb.stock -= quantity;
 
@@ -79,7 +86,6 @@ class CartRepository {
 
   async update(cid, cart) {
     const updateCart = await this.dao.update({ _id: cid }, cart);
-    console.log("actual", updateCart);
     return updateCart;
   }
 

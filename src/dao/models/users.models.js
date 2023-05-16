@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  premium: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model(userCollection, userSchema);

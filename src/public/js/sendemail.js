@@ -1,4 +1,4 @@
-const form = document.getElementById("forgotPasswordForm");
+const form = document.getElementById("restablecerPassword");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -8,11 +8,11 @@ form.addEventListener("submit", async (e) => {
 
   dataForm.forEach((value, key) => (obj[key] = value));
 
-  const url = "/api/auth/forgotpassword";
+  const url = "/api/mail";
   const headers = {
     "Content-Type": "application/json",
   };
-  const method = "PATCH";
+  const method = "POST";
   const body = JSON.stringify(obj);
 
   try {
@@ -23,8 +23,8 @@ form.addEventListener("submit", async (e) => {
     });
     const data = await response.json();
     console.log(data);
-    if (data.newPassword?.error) return;
-    window.location.href = "http://localhost:3000/";
+
+    window.location.href = "http://localhost:3000/verificacion";
   } catch (error) {
     console.log(error);
   }

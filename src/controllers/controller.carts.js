@@ -43,12 +43,13 @@ router.get(
 router.post(
   "/",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.body;
-
-      const addProductInCart = await cartService.create(pid);
+      const { _id, role } = req.user.payload;
+      const userInfo = { _id, role };
+      const addProductInCart = await cartService.create(pid, userInfo);
 
       if (addProductInCart.error) {
         return res.status(400).json(addProductInCart);
@@ -159,7 +160,7 @@ router.post(
   async (req, res) => {
     const { email } = req.user.payload;
     const { priceFinally, id } = req.body;
-    console.log(req.body);
+
     try {
       const ticketInfo = {
         code: uuidv4(),
@@ -168,7 +169,6 @@ router.post(
         purchaser: email,
       };
       const ticket = await ticketService.create(ticketInfo, id);
-      console.log(ticket);
 
       res.json({ ticket });
     } catch (error) {

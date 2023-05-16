@@ -19,6 +19,14 @@ const cookieExtractor = (req) => {
   return token;
 };
 
+const cookieMailExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies.emailToken;
+  }
+  return token;
+};
+
 const initializePassport = () => {
   passport.serializeUser((user, done) => {
     done(null, user);
@@ -34,11 +42,12 @@ const initializePassport = () => {
     "jwt",
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieMailExtractor]),
         secretOrKey: jwtSecretKey,
       },
       async (jwt_payload, done) => {
         try {
+          console.log(jwt_payload);
           return done(null, jwt_payload);
         } catch (error) {
           return done(error);
