@@ -1,0 +1,328 @@
+openapi: "3.0.1"
+info:
+  title: API ecommerce
+  version: "1.0"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Product:
+      type: object
+      properties:
+        owner:
+          type: object
+          description: contiene la informacion del propietario del producto
+        _id:
+          type: string
+          description: id de mongo
+        title:
+          type: string
+          description: nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        status:
+          type: boolean
+          description: valor en true o false dependiendo de la disponibilidad
+        thumbnails:
+          type: array
+          description: contiene las imagenes del producto
+        stock:
+          type: number
+          description: muestra la cantidad disponible del producto
+        code:
+          type: string
+          description: codigo único del producto
+        category:
+          type: string
+          description: categoria a la cual pertenece el producto
+      example:
+        owner:
+          {
+            _id: 6425d419ac4101f46887a178,
+            first_name: coder,
+            last_name: house,
+            email: adminCoder@coder.com,
+            role: admin,
+          }
+        _id: 63e913a1bd9707fce84a4240
+        title: Monitor LG LED 19'' 19M38A-B VGA
+        description: Monitor LG
+        price: 40700
+        status: true
+        thumbnails: [{ image: url }]
+        stock: 20
+        code: 19M38A-B VGA
+        category: Monitores
+    Products:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: id de mongo del usuario creador del producto
+        _id:
+          type: string
+          description: id de mongo
+        title:
+          type: string
+          description: nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        status:
+          type: boolean
+          description: valor en true o false dependiendo de la disponibilidad
+        thumbnails:
+          type: array
+          description: contiene las imagenes del producto
+        stock:
+          type: number
+          description: muestra la cantidad disponible del producto
+        code:
+          type: string
+          description: codigo único del producto
+        category:
+          type: string
+          description: categoria a la cual pertenece el producto
+      example:
+        status: Sucess
+        payload:
+          docs:
+            [
+              {
+                owner: 32u432yug432u423rf34,
+                _id: 1j3hb543589hddsad43,
+                title: Monitor LG LED 19'' 19M38A-B VGA,
+                description: Monitor LG,
+                price: 40700,
+                status: true,
+                thumbnails: [{ image: url }],
+                stock: 20,
+                code: 19M38A-B VGA,
+                category: Monitores,
+              },
+            ]
+          totalDocs: 999
+          limit: 20
+          totalPages: 50
+          page: 1
+          pagingCounter: 1
+          hasPrevPage: false
+          hasNextPage: true
+          prevPage: null
+          nextPage: 2
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        status:
+          type: boolean
+          description: valor en true o false dependiendo de la disponibilidad
+        thumbnails:
+          type: array
+          description: contiene las imagenes del producto
+        stock:
+          type: number
+          description: muestra la cantidad disponible del producto
+        code:
+          type: string
+          description: codigo único del producto
+        category:
+          type: string
+          description: categoria a la cual pertenece el producto
+      example:
+        message: Added product
+        newProduct:
+          {
+            title: Monitor PC,
+            description: Monitor,
+            price: 33000,
+            status: true,
+            thumbnails: [{ "image2": "url" }],
+            stock: 30,
+            code: ADHIKSJ4524S4S,
+            category: monitores pc escritorio,
+            owner: 6425d419ac4101f46887a178,
+            _id: 646cfff7decad334e5ef7b2f,
+          }
+  requestBodies:
+    login:
+      description: body con la info del usuario para login
+      properties:
+        email:
+          type: string
+          description: email del usuario
+        password:
+          type: string
+          description: contraseña del usuario
+      example:
+        email: "adminCoder@coder.com"
+        password: "adminCod3r123"
+    addProduct:
+      description: body con la info del producto a agregar
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        price:
+          type: number
+          description: precio del producto
+        status:
+          type: boolean
+          description: disponibilidad del producto
+        thumbnails:
+          type: array
+          description: contiene las imagenes del producto
+        code:
+          type: string
+          description: codigo único del producto
+        stock:
+          type: number
+          description: cantidad disponible del producto
+        category:
+          type: string
+          description: categoria a la que pertenece el producto
+      example:
+        title: Monitor PC
+        description: monitor
+        price: 33000
+        status: true
+        thumbnails: [{ image2: url }]
+        code: ADHIKSJ4524S4SaswsdSS22
+        stock: 30
+        category: monitores pc escritorio
+
+paths:
+  /api/auth/login:
+    post:
+      summary: Obtiene el bearer token
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/login"
+      responses:
+        "200":
+          description: Has iniciado session correctamente
+          content:
+            application/json:
+              example:
+                role: admin
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Il9pZCI6IjY0NjExMGNlYjczMWY2M2NkOWFmMmY3OCIsIm5vbWJyZSI6Im1hdCIsImFwZWxsaWRvIjoibW9uIiwiZW1haWwiOiJtb256b25AbW9uem9uMTIzNDU3Mzc4LmNvbSIsInJvbGUiOiJwcmVtaXVtIn0sImlhdCI6MTY4NDg1NDc4NSwiZXhwIjoxNjg0ODU4Mzg1fQ.sDvJCdq77pgz-Kc4gEsdauuBFKMK02QNQ_IyoSH-I9o
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              example:
+                error: El usuario o contraseña no es valido
+  /api/products:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Obtiene todos los productos
+      responses:
+        "200":
+          description: Todos los productos fueron obtenidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Products"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                error: No auth token
+      tags:
+        - Products
+    post:
+      security:
+        - bearerAuth: []
+      summary: Agrega un producto a la db
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProduct"
+      responses:
+        "201":
+          description: producto agregado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/addProduct"
+        "400":
+          description: No se pudo crear el producto
+          content:
+            application/json:
+              example:
+                error: el producto ya existe
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                error: No auth token
+      tags:
+        - Products
+  /api/products/{pid}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Obtiene un solo producto
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: pid del producto que buscas
+          schema:
+            type: string
+      responses:
+        "200":
+          description: obtienes un producto por pid
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+        "400":
+          description: Producto no encontrado
+          content:
+            application/json:
+              example:
+                error: The product with id 1j3hb543ddsad43 does not exist
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                error: No auth token
+      tags:
+        - Products

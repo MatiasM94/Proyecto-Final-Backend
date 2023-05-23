@@ -83,10 +83,14 @@ const initializePassport = () => {
           const userInfo = await userService.findOne({ email: username });
           const { user } = userInfo;
           if (!user) {
-            return done(null, true);
+            return done(null, {
+              error: "El usuario o contraseña no es valido",
+            });
           }
           if (!isValidPassword(user, password)) {
-            return done(null, true);
+            return done(null, {
+              error: "El usuario o contraseña no es valido",
+            });
           }
 
           return done(null, user);

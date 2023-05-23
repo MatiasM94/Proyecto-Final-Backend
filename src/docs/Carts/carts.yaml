@@ -1,0 +1,83 @@
+openapi: "3.0.1"
+info:
+  title: API ecommerce
+  version: "1.0"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Carts:
+      type: object
+      properties:
+        products:
+          type: array
+          description: Contiene todos los productos del cart
+          product:
+            type: string
+            description: contiene el objectId del producto que esta en el carrito
+          quantity:
+            type: number
+            description: cantidad que contiene de un producto
+          active:
+            type: boolean
+            description: valor booleano que indica si el cart esta activo
+      example:
+        message: carts available
+        cartsInDb:
+          [
+            {
+              _id: 644ac85edaaed19edcb9c515,
+              products:
+                [
+                  {
+                    product:
+                      {
+                        _id: 646112c11c662a89d2da48e9,
+                        title: Monitor pc,
+                        description: "monitor",
+                        price: 33000,
+                        status: true,
+                        thumbnails: [{ image2: url }],
+                        stock: 25,
+                        category: monitores pc escritorio,
+                        owner: 645e4959c90b3bdad8919387,
+                      },
+                    quantity: 1,
+                    active: true,
+                  },
+                ],
+            },
+          ]
+
+paths:
+  /api/carts/{cid}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Obtiene un solo cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid del producto que buscas
+          schema:
+            type: string
+      responses:
+        "200":
+          description: obtienes un producto por cid
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Carts"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                error: No auth token

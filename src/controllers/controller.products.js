@@ -40,7 +40,7 @@ router.get(
 
       if (filteredProduct.error) {
         req.logger.error(filteredProduct.error);
-        return res.status(400).json({ filteredProduct });
+        return res.status(400).json(filteredProduct);
       }
 
       res.status(200).json(filteredProduct);
@@ -68,7 +68,7 @@ router.post(
         req.logger.error(newProduct.cause);
         return res.status(400).json(newProduct);
       }
-
+      if (newProduct.error) return res.status(400).json(newProduct);
       res.json(newProduct);
     } catch (error) {
       req.logger.fatal(error.message);

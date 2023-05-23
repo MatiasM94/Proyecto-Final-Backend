@@ -9,19 +9,19 @@ import { userService } from "../repositories/index.js";
 const router = Router();
 
 router.post("/login", passportCall("login"), (req, res) => {
-  const { first_name, last_name, email, role, password, _id } = req.user;
-  if (!email) {
-    req.logger.error("El usuario o contraseña no es valido");
-    return res
-      .status(400)
-      .json({ message: "El usuario o contraseña no es valido" });
+  const { first_name, last_name, email, role, password, _id, error } = req.user;
+  if (error) {
+    req.logger.error(error);
+    return res.status(400).json({ error });
+  }
+  if (!req.body.email) {
+    req.logger.error("faltan campos por completar");
+    return res.status(400).json({ error: "falta completar el campo email" });
   }
 
-  if (!password) {
-    req.logger.error("El usuario o contraseña no es valido");
-    return res
-      .status(400)
-      .json({ message: "El usuario o contraseña no es valido" });
+  if (!req.body.password) {
+    req.logger.error("faltan campos por completar");
+    return res.status(400).json({ error: "falta completar el campo password" });
   }
   const token = generateToken({
     _id,
