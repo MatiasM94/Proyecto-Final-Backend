@@ -7,7 +7,8 @@
   "scripts": {
     "start": "set NODE_ENV=production&& node -r dotenv/config ./src/app.js",
     "start:dev": "set NODE_ENV=development&& nodemon -r dotenv/config ./src/app.js",
-    "start:local": "set NODE_ENV=local&& nodemon -r dotenv/config ./src/app.js"
+    "start:local": "set NODE_ENV=local&& nodemon -r dotenv/config ./src/app.js",
+    "test": "mocha ./test/supertest.test.js"
   },
   "repository": {
     "type": "git",
@@ -43,5 +44,10 @@
     "swagger-ui-express": "^4.6.3",
     "uuid": "^9.0.0",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
