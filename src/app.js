@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from "cors";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import handlebars from "express-handlebars";
@@ -17,6 +18,7 @@ import addLogger from "./middlewares/logger.middleware.js";
 
 const app = express();
 app.use(addLogger);
+app.use(cors({ origin: ["http://localhost:8000"] }));
 
 // Express
 app.use(express.json());

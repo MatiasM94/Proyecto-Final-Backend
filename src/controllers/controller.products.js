@@ -3,13 +3,15 @@ import { autorization } from "../middlewares/autorization.middleware.js";
 import { productService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
 import { generateProduct } from "../utils/mock.util.js";
+import FilesManager from "../dao/files.manager.js";
+import Product from "../dao/models/products.models.js";
 
 const router = Router();
 
 router.get(
   "/",
   passportCall("current"),
-  autorization(["user", "admin", "premium"]),
+  autorization(["user", "admin", "premium", "google-user"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;
@@ -31,7 +33,7 @@ router.get(
 router.get(
   "/:pid",
   passportCall("current"),
-  autorization(["user", "admin", "premium"]),
+  autorization(["user", "admin", "premium", "google-user"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
@@ -140,20 +142,19 @@ router.get(
   }
 );
 
+router.post("/allproducts", async (req, res) => {
+  try {
+    const productsFileManager = new FilesManager("Products.json");
+    const products = await productsFileManager.loadItems();
+
+    await Product.insertMany(products);
+
+    res.status(201).json({ message: "products added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
 export default router;
-
-// router.post("/allproducts", async (req, res) => {
-//   try {
-//     const productsFileManager = new FilesManager("Products.json");
-//     const products = await productsFileManager.loadItems();
-
-//     await Product.insertMany(products);
-
-//     res.status(201).json({ message: "products added successfully" });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
 
 // router.delete("/allproducts", async (req, res) => {
 //   try {

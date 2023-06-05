@@ -1,0 +1,556 @@
+[
+  {
+    "id": "MLA1418708862",
+    "title": "Disco Sólido Interno Kingston Sa400s37/240g 240gb Negro",
+    "category_id": "MLA1672",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_825890-MLA54124091906_032023-I.jpg",
+    "price": 13349,
+    "available_quantity": 50
+  },
+  {
+    "id": "MLA1418828462",
+    "title": "Memoria Ram Fury Beast Ddr4 Gamer Color Negro  8gb 1 Kingston Kf432c16bb/8",
+    "category_id": "MLA1694",
+    "domain_id": "MLA-RAM_MEMORY_MODULES",
+    "thumbnail": "http://http2.mlstatic.com/D_612752-MLA48636149729_122021-I.jpg",
+    "price": 14999,
+    "available_quantity": 50
+  },
+  {
+    "id": "MLA1414745178",
+    "title": "Disco Sólido Interno Pny Ssd7cs900-250-rb 250gb",
+    "category_id": "MLA1672",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_603287-MLA49435144981_032022-I.jpg",
+    "price": 13499,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1344932233",
+    "title": "Placa De Video Amd  Radeon Rx 500 Series Rx 580 8gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_660379-MLA54503703627_032023-I.jpg",
+    "price": 165999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA836879214",
+    "title": "Placa De Video Nvidia Asus  Geforce 10 Series Gt 1030 Gt1030-2g-csm 2gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_833860-MLA54241718687_032023-I.jpg",
+    "price": 69999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1408589680",
+    "title": "Disco Sólido Interno Western Digital Wd Green Sn350 Wds240g2g0c 240gb Verde",
+    "category_id": "MLA430802",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_762683-MLA54975976082_042023-I.jpg",
+    "price": 18999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1153513545",
+    "title": "Placa De Video Nvidia Gigabyte  Geforce 10 Series Gt 1030 Gv-n1030d4-2gl 2gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_745280-MLA46302409347_062021-I.jpg",
+    "price": 68999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1190760261",
+    "title": "Placa De Video Nvidia Asus  Geforce 700 Series Gt 730 Gt730-sl-2gd5-brk 2gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_838922-MLA51739095701_092022-I.jpg",
+    "price": 46999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1267769845",
+    "title": "Placa De Video Nvidia Evga  Geforce 700 Series Gt 730  2gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_895332-MLA51558738242_092022-I.jpg",
+    "price": 54999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1425635070",
+    "title": "Memoria Gamer Xpg Spectrix D45g 8gb 3600mhz Rgb Intel Amd",
+    "category_id": "MLA1694",
+    "domain_id": "MLA-RAM_MEMORY_MODULES",
+    "thumbnail": "http://http2.mlstatic.com/D_895558-MLU69516383397_052023-I.jpg",
+    "price": 20999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1393823070",
+    "title": "Disco Sólido Interno Dahua C800a Series Dhi-ssd-c800as240g 240gb",
+    "category_id": "MLA1672",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_835630-MLA52003695807_102022-I.jpg",
+    "price": 13499,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1100119757",
+    "title": "Proyector Viewsonic M1+ 300lm Plateado 100v/240v",
+    "category_id": "MLA92665",
+    "domain_id": "MLA-PROJECTORS",
+    "thumbnail": "http://http2.mlstatic.com/D_976462-MLA43426337989_092020-I.jpg",
+    "price": 204999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1277654932",
+    "title": "Placa De Video Nvidia Colorful  Geforce 10 Series Gt 1030 Gt1030 2g V6 2gb",
+    "category_id": "MLA1658",
+    "domain_id": "MLA-GRAPHICS_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_780781-MLA52683789518_122022-I.jpg",
+    "price": 69999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1100807811",
+    "title": "Proyector Viewsonic Px700hd 3500lm Blanco 100v/240v",
+    "category_id": "MLA92665",
+    "domain_id": "MLA-PROJECTORS",
+    "thumbnail": "http://http2.mlstatic.com/D_977215-MLA42359825196_062020-I.jpg",
+    "price": 399999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA630139989",
+    "title": "Ups Estabilizador Hunnox 650va 390w Conexion Usb Led Gtia",
+    "category_id": "MLA1720",
+    "domain_id": "MLA-STABILIZERS_AND_UPS",
+    "thumbnail": "http://http2.mlstatic.com/D_774441-MLA31351322990_072019-I.jpg",
+    "price": 26999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA748901356",
+    "title": "Ups Estabilizador Hunnox 1200va 720w Conexionusb Display Lcd",
+    "category_id": "MLA1720",
+    "domain_id": "MLA-STABILIZERS_AND_UPS",
+    "thumbnail": "http://http2.mlstatic.com/D_714449-MLA31036137086_062019-I.jpg",
+    "price": 59999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA748900383",
+    "title": "Ups Estabilizador Hunnox 850va 510w Conexion Usb Display Lcd",
+    "category_id": "MLA1720",
+    "domain_id": "MLA-STABILIZERS_AND_UPS",
+    "thumbnail": "http://http2.mlstatic.com/D_669935-MLA31352636940_072019-I.jpg",
+    "price": 38999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA862760638",
+    "title": "Pc Edicion Render Core I5 8gb Ssd 480gb Gt710 2gb 4k 600w 54",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_681567-MLA43532186142_092020-I.jpg",
+    "price": 288999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA630140652",
+    "title": "Ups Estabilizador Hunnox 1200va 720w Conexion Usb Led Gtia",
+    "category_id": "MLA1720",
+    "domain_id": "MLA-STABILIZERS_AND_UPS",
+    "thumbnail": "http://http2.mlstatic.com/D_681835-MLA31351327433_072019-I.jpg",
+    "price": 54999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1146030026",
+    "title": "Gigabyte Placa Controladora Thunderbolt 4 Maple Ridge Dp 4k",
+    "category_id": "MLA1697",
+    "domain_id": "MLA-DESKTOP_COMPUTER_EXPANSION_CARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_773874-MLA50624431214_072022-I.jpg",
+    "price": 75999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA935198281",
+    "title": "Pc Edicion Render Core I5 8gb Ssd 480gb Gt710 2gb 4k 600w 54",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_667167-MLA43532184246_092020-I.jpg",
+    "price": 440999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA935200133",
+    "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Gt1030 2gb 600w 48",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_695537-MLA43532086179_092020-I.jpg",
+    "price": 611999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1111647895",
+    "title": "Asrock B365 Phantom Gaming 4 8° 9° Gen M2 Crossfire Rgb U3.1",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_936716-MLA48170781914_112021-I.jpg",
+    "price": 54999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA862758371",
+    "title": "Pc Edicion Render Core I5 16gb Ssd 480gb Gt1030 2gb 600w 53",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_796401-MLA43532139906_092020-I.jpg",
+    "price": 384999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1148319345",
+    "title": "Gigabyte X570s Gaming X Nvme Hdmi U3.2 Crossfire Rgb Pcie4",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_686999-MLA50864937685_072022-I.jpg",
+    "price": 149999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA748901890",
+    "title": "Ups Estabilizador Hunnox 650va 390w Conexion Usb Display Lcd",
+    "category_id": "MLA1720",
+    "domain_id": "MLA-STABILIZERS_AND_UPS",
+    "thumbnail": "http://http2.mlstatic.com/D_975887-MLA31598828948_072019-I.jpg",
+    "price": 32999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA610824903",
+    "title": "Pc Edicion Render Core I7 8gb Ssd 480gb Gt710 2gb 4k 600w 47",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_808353-MLA43532132257_092020-I.jpg",
+    "price": 467999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA680895126",
+    "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Rx550 2gb 600w 50",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_609567-MLA43532112179_092020-I.jpg",
+    "price": 611999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1157728851",
+    "title": "Asrock B450 Steel Legend Dual Nvme U3.2 Hdmi Dp Pcie4 Rgb",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_728835-MLA51277642737_082022-I.jpg",
+    "price": 99999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1147491676",
+    "title": "Msi B450m Pro Vdh Max Nvme U3.2 Hdmi Dvi Vga Sata3 B450",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_679404-MLA50787447910_072022-I.jpg",
+    "price": 67999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA605445303",
+    "title": "Pc Edicion Render Core I7 8gb Ssd 480gb Gt710 2gb 4k 600w 47",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_728429-MLA43532128365_092020-I.jpg",
+    "price": 391999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1168312889",
+    "title": "Pc Gamer Ryzen 5 4600g 16gb Radeon 500gb Nvme Rgb 500w Real",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "price": 376999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1157947562",
+    "title": "Asrock A520 Phantom Gaming 4 Dual Nvme U3.2 Hdmi Dp Pcie4 ",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_982141-MLA51277561747_082022-I.jpg",
+    "price": 60999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1123502487",
+    "title": "Servicio De Actualizacion De Bios En Motherboard Comprado",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_689435-MLA49107093903_022022-I.jpg",
+    "price": 999,
+    "available_quantity": 50000
+  },
+  {
+    "id": "MLA870609822",
+    "title": "Asus Tuf Gaming B550 M Plus Am4 M2 Rgb U3.2 Hdmidp Crossfire",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_972724-MLA51091700152_082022-I.jpg",
+    "price": 115999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1168312845",
+    "title": "Pc Gamer Ryzen 5 4600g 16gb Radeon 500gb Nvme Rgb 500w Real",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "price": 305999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA680894871",
+    "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Gtx1650 4gb 600w 49",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_738898-MLA43372748130_092020-I.jpg",
+    "price": 632999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1420652452",
+    "title": "Markvision Memoria Sodimm Ddr4 4gb 2400mhz ",
+    "category_id": "MLA1694",
+    "domain_id": "MLA-RAM_MEMORY_MODULES",
+    "thumbnail": "http://http2.mlstatic.com/D_866549-MLA69498869444_052023-I.jpg",
+    "price": 10999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1168301493",
+    "title": "Pc Gamer Intel Pentium Gold 8gb Uhd 250gb Nvme Rgb 500w Real",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_907286-MLA51541204029_092022-I.jpg",
+    "price": 213999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1111622099",
+    "title": "Asrock Z590 Extreme Wifi 6e 10°11° Gen Oc M2 Nvme Rgb U3.2 ",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_909104-MLA48171153197_112021-I.jpg",
+    "price": 117999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1377096376",
+    "title": "Biostar B560mx-e Pro 10/11° Gen U3.2 Nvme Hdmi Dvi Vga B560",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_680809-MLA54515353560_032023-I.jpg",
+    "price": 63999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1100884004",
+    "title": "Pc Gamer Ryzen5 5600g 16gb Radeon 500gb Nvme Rgb 550w 80plus",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "price": 363999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1412762252",
+    "title": "Asus Tuf Gaming A520m Plus Wifi M2 Bt Rgb U3.2 Hdmi Vga A520",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_775029-MLA69311765440_052023-I.jpg",
+    "price": 74999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1372020764",
+    "title": "Western Digital Wd Green Wds240g3g0a 240 Gb - Verde",
+    "category_id": "MLA1672",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_817269-MLA54382937868_032023-I.jpg",
+    "price": 16999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1249116789",
+    "title": "Asrock Qc6000m Amd Quad Integrado Hdmi Vga Com Usb3.2 Sata3",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_862935-MLA52483740009_112022-I.jpg",
+    "price": 70999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1111641898",
+    "title": "Asrock Z590 Steel Legend 10°11° Gen Pcie4 M2 Oc Rgb U3.2 ",
+    "category_id": "MLA1692",
+    "domain_id": "MLA-COMPUTER_MOTHERBOARDS",
+    "thumbnail": "http://http2.mlstatic.com/D_644102-MLA48171276587_112021-I.jpg",
+    "price": 98999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1410156452",
+    "title": "Disco Nvme M2 Teamgroup Mp33 256gb Pcie Ssd Tm8fp6256g0c101",
+    "category_id": "MLA1672",
+    "domain_id": "MLA-HARD_DRIVES_AND_SSDS",
+    "thumbnail": "http://http2.mlstatic.com/D_674273-MLA69222385830_052023-I.jpg",
+    "price": 14999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1216651566",
+    "title": "Server Pc Intel Core I7 16gb Ssd 480gb Rack Raid Usb3.2 600w",
+    "category_id": "MLA1649",
+    "domain_id": "MLA-DESKTOP_COMPUTERS",
+    "thumbnail": "http://http2.mlstatic.com/D_717345-MLA52181668535_102022-I.jpg",
+    "price": 392999,
+    "available_quantity": 1
+  },
+  {
+    "id": "MLA1199779726",
+    "title": "Memoria Ddr3 Patriot Signature Psd38g16002 1x8gb Dimm Cl11",
+    "category_id": "MLA1694",
+    "domain_id": "MLA-RAM_MEMORY_MODULES",
+    "thumbnail": "http://http2.mlstatic.com/D_688987-MLA52004671189_102022-I.jpg",
+    "price": 18999,
+    "available_quantity": 1
+  }
+]
+
+// [
+//   {
+//     "id": 1,
+//     "title": "Monitor LG LED 19'' 19M38A-B VGA",
+//     "description": "Monitor LG",
+//     "price": 40700,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "19M38A-B VGA",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 2,
+//     "title": "Monitor LG 20\" 20MK400H-B VGA HDMI",
+//     "description": "Monitor LG",
+//     "price": 45400,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "20MK400H-B",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 3,
+//     "title": "Monitor Samsung 19\" A330N HDMI",
+//     "description": "Monitor Samsung",
+//     "price": 45400,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "LS19A330NHLXZB",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 4,
+//     "title": "Monitor Hikvision 22'' DS-D5022QE-E VGA HDMI",
+//     "description": "Monitor Hikvision",
+//     "price": 47000,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "DS-D5022QE-E",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 5,
+//     "title": "Monitor ASUS 21.5\" Full HD 1ms HDMI VGA VP228HE-J",
+//     "description": "Monitor ASUS",
+//     "price": 52300,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "VP228HE-J",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 6,
+//     "title": "Monitor Samsung 22\" T350H FHD IPS 75Hz",
+//     "description": "Monitor Samsung",
+//     "price": 52400,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "LF22T350FHLCZB",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 7,
+//     "title": "Monitor LG 22'' 22MP410-B HDMI",
+//     "description": "Monitor LG",
+//     "price": 57000,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "22MP410-B",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 8,
+//     "title": "Monitor Samsung 24\" T350 75Hz IPS FHD FreeSync",
+//     "description": "Monitor Samsung",
+//     "price": 58000,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "LF24T350FHLCZB",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 9,
+//     "title": "Monitor LG LED 24'' 24MP400-B HDMI5",
+//     "description": "Monitor LG",
+//     "price": 59150,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "stock": 25,
+//     "code": "24MP400-B",
+//     "category": "Monitores"
+//   },
+//   {
+//     "id": 10,
+//     "title": "Monitor Gamer Samsung 24'' G50 Curvo 144Hz Full HD",
+//     "description": "Monitor Samsung",
+//     "price": 77.999,
+//     "status": true,
+//     "thumbnails": [{ "image1": "url", "image2": "url", "image3": "url" }],
+//     "code": "LC24RG50FZLCZB",
+//     "stock": 20,
+//     "category": "Monitores"
+//   }
+// ]

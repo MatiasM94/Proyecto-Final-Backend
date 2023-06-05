@@ -34,10 +34,18 @@ class UserRepository {
       const userInfo = new UserDTO(newUserInfo);
       if (username === "adminCoder@coder.com") {
         userInfo.role = "admin";
-      } else {
-        userInfo.role = premium ? "premium" : "user";
-        userInfo.premium = premium;
+        const newUser = await this.dao.create(userInfo);
+        return newUser;
       }
+      if (userInfo.googleId) {
+        userInfo.role = "google-user";
+        userInfo.premium = premium;
+        const newUser = await this.dao.create(userInfo);
+        return newUser;
+      }
+      userInfo.role = premium ? "premium" : "user";
+      userInfo.premium = premium;
+
       const newUser = await this.dao.create(userInfo);
       return newUser;
     } catch (error) {

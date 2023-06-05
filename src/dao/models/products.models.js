@@ -4,12 +4,12 @@ import { adminId } from "../../config/app/index.js";
 
 const productCollection = "product";
 const productSchema = mongoose.Schema({
-  id: Number,
+  id: String,
   title: String,
   description: String,
   price: Number,
   status: Boolean,
-  thumbnails: [{ image2: String }],
+  thumbnails: String,
   stock: Number,
   code: {
     type: String,

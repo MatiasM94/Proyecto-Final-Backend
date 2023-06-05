@@ -114,6 +114,7 @@ const initializePassport = () => {
           const currentInfo = new CurrentDTO(payload);
           return done(null, { payload: currentInfo });
         } catch (error) {
+          console.log(error);
           return done(error);
         }
       }
@@ -134,6 +135,7 @@ const initializePassport = () => {
           const user = await userService.findOne({
             googleId: profile._json.sub,
           });
+
           if (!user.user) {
             const newUserInfo = {
               googleId: profile._json.sub,

@@ -8,7 +8,7 @@ class ProductRepository {
     this.dao = dao;
   }
 
-  async find(limit = 5, page = 1, sort = "", rest) {
+  async find(limit = 10, page = 1, sort = "", rest) {
     const props = { limit, page, sort };
     try {
       const productsInDb = await this.dao.find(props, rest);

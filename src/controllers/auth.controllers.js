@@ -71,8 +71,8 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    const { first_name, last_name, email, role } = req.user;
-
+    const { first_name, last_name, email, role } = req.user?.user || req.user;
+    console.log(req.user);
     const token = generateToken({
       nombre: first_name,
       apellido: last_name,
@@ -83,8 +83,15 @@ router.get(
     res
       .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
       .status(200)
-      .redirect("/");
+      .redirect("http://localhost:8000/products");
   }
 );
+
+router.get("/", (req, res) => {
+  res
+    .clearCookie("authToken")
+    .clearCookie("connect.sid")
+    .redirect("http://localhost:8000");
+});
 
 export default router;
