@@ -2,7 +2,8 @@ import getCookies from "@/app/utils/getCookies";
 import ProfileInfo from "../../components/profile";
 
 export async function getProfile() {
-  const { cookie, error } = getCookies();
+  const tokenName = "authToken";
+  const { cookie, error } = getCookies(tokenName);
 
   if (error) return error;
 

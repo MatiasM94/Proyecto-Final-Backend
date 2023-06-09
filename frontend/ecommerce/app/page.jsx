@@ -3,7 +3,8 @@ import getToken from "./utils/currentFetch";
 import Login from "./components/login";
 
 export default async function Ecommerce() {
-  const token = await getToken();
+  const tokenName = "authToken";
+  const token = await getToken(tokenName);
 
   if (token.payload) redirect("/products");
   return (

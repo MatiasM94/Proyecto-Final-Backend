@@ -33,6 +33,7 @@ router.get("/sendemail", (req, res) => {
 });
 router.get("/verificacion", (req, res) => {
   const email = req.email;
+
   const token = generateToken({
     email,
   });

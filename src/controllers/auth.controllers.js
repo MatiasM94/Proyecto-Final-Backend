@@ -87,7 +87,7 @@ router.get(
   }
 );
 
-router.get("/", (req, res) => {
+router.get("/", passportCall("current"), (req, res) => {
   res
     .clearCookie("authToken")
     .clearCookie("connect.sid")

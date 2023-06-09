@@ -10,7 +10,7 @@ switch (persistence) {
   case "MONGO":
     mongoose.set("strictQuery", false);
     mongoose.connect(
-      `mongodb+srv://admin:${mongoPassword}@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
+      `mongodb+srv://admin:${mongoPassword}@_mongodb._tcp.proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
       (error) => {
         if (error) {
           console.log(

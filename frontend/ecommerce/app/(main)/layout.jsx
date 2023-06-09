@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import getToken from "../utils/currentFetch";
 
 export default async function MainLayout({ children }) {
-  const token = await getToken();
+  const tokenName = "authToken";
+  const token = await getToken(tokenName);
   if (token.error) {
     return (
       <h1>

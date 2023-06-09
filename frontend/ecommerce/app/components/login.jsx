@@ -122,6 +122,9 @@ export default function Login() {
             >
               Ingresar
             </button>
+            <Link className="pt-1" href="/forgotpassword">
+              <p className="underline">¿Olvidaste tu contraseña?</p>
+            </Link>
             <GoogleSession />
             <p className="pb-3">
               ¿No tenes una cuenta?{" "}
