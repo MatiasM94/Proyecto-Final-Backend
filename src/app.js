@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: `mongodb+srv://admin:${mongoPassword}@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
+      mongoUrl: `mongodb://admin:${mongoPassword}@localhost:27017/proyectoFinalCoder`,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
     }),
     secret: "askjdi32423kmdsd",
