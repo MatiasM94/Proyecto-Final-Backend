@@ -1,7 +1,5 @@
 import { Router } from "express";
 import passport from "passport";
-import User from "../dao/models/users.models.js";
-import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
 import { generateToken } from "../utils/jwt.js";
 import { passportCall } from "../config/passportCall.js";
 import { userService } from "../repositories/index.js";
@@ -52,7 +50,7 @@ router.get("/logout", (req, res) => {
 router.patch("/forgotpassword", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const newPassword = await userService.updateOne(email, password);
+    const newPassword = await userService.updatePassword(email, password);
     if (newPassword.error) return res.json({ newPassword });
 
     res.json({ message: "Contraseña actualizada" });
@@ -71,9 +69,11 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    const { first_name, last_name, email, role } = req.user?.user || req.user;
-    console.log(req.user);
+    const { first_name, last_name, email, role, _id } =
+      req.user?.user || req.user;
+
     const token = generateToken({
+      _id: _id,
       nombre: first_name,
       apellido: last_name,
       email,
@@ -87,11 +87,14 @@ router.get(
   }
 );
 
-router.get("/", passportCall("current"), (req, res) => {
+router.get("/", passportCall("current"), async (req, res) => {
+  const { _id } = req.user.payload;
+  const updateConnection = await userService.updateLastConnection(_id);
+
   res
     .clearCookie("authToken")
     .clearCookie("connect.sid")
-    .redirect("http://localhost:8000");
+    .redirect("http://localhost:8000/");
 });
 
 export default router;

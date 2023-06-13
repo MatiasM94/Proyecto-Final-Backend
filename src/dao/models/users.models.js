@@ -20,6 +20,19 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  documents: [
+    {
+      name: {
+        type: String,
+        require: true,
+      },
+      reference: {
+        type: String,
+        require: true,
+      },
+    },
+  ],
+  last_connection: String,
 });
 
 const User = mongoose.model(userCollection, userSchema);

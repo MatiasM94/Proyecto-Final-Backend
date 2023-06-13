@@ -2,7 +2,7 @@ import { Router } from "express";
 import { passportCall } from "../config/passportCall.js";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { userService } from "../repositories/index.js";
-// import { uploader } from "../utils/multer.js";
+import { uploader } from "../utils/multer.js";
 
 const router = Router();
 
@@ -22,14 +22,14 @@ router.patch(
   autorization(["user", "premium"]),
   async (req, res) => {
     const { uid } = req.params;
-    const updateUser = await userService.update(uid);
+    const updateUser = await userService.updateRole(uid);
     res.json({ updateUser });
   }
 );
 
 router.get("/verificacion", (req, res) => {
   const email = req.email;
-  console.log(email);
+
   const token = generateToken({
     email,
   });
@@ -38,10 +38,20 @@ router.get("/verificacion", (req, res) => {
     .json({ token });
 });
 
-// router.post("/documentos", uploader.single("file"), (req, res) => {
-//   const { file } = req;
-//   console.log(file);
-//   res.json({ message: "se recibio la imagen" });
-// });
+router.post("/:uid/documents", uploader.any(), async (req, res) => {
+  const { files } = req;
+  const { uid } = req.params;
+  if (!files) return res.json({ error: "wrong files" });
+
+  const { fileErrorName, totalErrorFiles, uploadedFile } = req;
+
+  const updateUser = await userService.updateDocumentation(uid, files);
+
+  res.json({
+    message: `documentos cargados correctamente: ${uploadedFile}`,
+    totalWrongFiles: totalErrorFiles,
+    wrongFiles: fileErrorName,
+  });
+});
 
 export default router;
