@@ -223,16 +223,3 @@ router.post(
 );
 
 export default router;
-
-// router.post("/allcarts", async (req, res) => {
-//   try {
-//     const cartsFileManager = new FilesManager("carts.json");
-//     const carts = await cartsFileManager.loadItems();
-
-//     await Cart.insertMany(carts);
-
-//     res.status(201).json({ message: "carts added successfully" });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });

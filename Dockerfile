@@ -6,8 +6,8 @@ COPY . .
 
 RUN npm install
 
-COPY .env.development .env
+COPY .env.production .env
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:dev" ]
+CMD ["npm", "run", "start" ]

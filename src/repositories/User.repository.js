@@ -27,7 +27,7 @@ class UserRepository {
         user: false,
       };
     } catch (error) {
-      throw new Error(error);
+      return error;
     }
   }
 
@@ -170,7 +170,7 @@ class UserRepository {
       const updateUser = await this.updateOne({ email: email }, user.user);
       return updateUser;
     } catch (error) {
-      throw new Error(error);
+      return error;
     }
   }
 
