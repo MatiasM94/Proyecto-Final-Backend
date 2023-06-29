@@ -11,7 +11,7 @@ const router = Router();
 router.get(
   "/carts/:cid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { cid } = req.params;

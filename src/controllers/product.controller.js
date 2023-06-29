@@ -1,31 +1,35 @@
 import { Router } from "express";
+import { v4 as uuidv4 } from "uuid";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { productService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
 import { generateProduct } from "../utils/mock.util.js";
 import FilesManager from "../dao/files.manager.js";
 import Product from "../dao/models/products.models.js";
+import ProductManager from "../dao/managerMongo/product.managerMongo.js";
 
 const router = Router();
 
 router.get(
   "/",
   passportCall("current"),
-  autorization(["user", "admin", "premium", "google-user"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;
       const productsInDb = await productService.find(limit, page, sort, rest);
 
       if (productsInDb.error) {
-        req.logger.warning(productsInDb.error);
+        req.logger.warn(productsInDb.error);
         return res.status(400).json(productsInDb);
       }
       req.logger.debug(productsInDb.payload.docs);
       res.json(productsInDb);
     } catch (error) {
-      req.logger.fatal(error.message);
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -33,7 +37,7 @@ router.get(
 router.get(
   "/:pid",
   passportCall("current"),
-  autorization(["user", "admin", "premium", "google-user"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.params;
@@ -47,8 +51,10 @@ router.get(
 
       res.status(200).json(filteredProduct);
     } catch (error) {
-      req.logger.fatal(error.message);
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -73,8 +79,10 @@ router.post(
       if (newProduct.error) return res.status(400).json(newProduct);
       res.json(newProduct);
     } catch (error) {
-      req.logger.fatal(error.message);
-      res.status(500).json({ error });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -103,7 +111,10 @@ router.put(
         ? res.status(200).json(message)
         : res.status(400).json(error);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -115,10 +126,9 @@ router.delete(
   async (req, res) => {
     try {
       const { pid } = req.params;
-      const { _id, role } = req.user.payload;
-      const userInfo = { _id, role };
+      const { payload } = req.user;
 
-      const deleteProduct = await productService.deleteOne(pid, userInfo);
+      const deleteProduct = await productService.deleteOne(pid, payload);
       const { message, error } = deleteProduct;
 
       if (message) {
@@ -127,8 +137,10 @@ router.delete(
       req.logger.error(error);
       res.status(400).json(error);
     } catch (error) {
-      req.logger.fatal(error.message);
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -146,8 +158,12 @@ router.post("/allproducts", async (req, res) => {
   try {
     const productsFileManager = new FilesManager("Products.json");
     const products = await productsFileManager.loadItems();
-
-    await Product.insertMany(products);
+    const dtoProducts = products.map((product) => ({
+      ...product,
+      stock: 50,
+      code: uuidv4(),
+    }));
+    await Product.insertMany(dtoProducts);
 
     res.status(201).json({ message: "products added successfully" });
   } catch (error) {
@@ -156,12 +172,13 @@ router.post("/allproducts", async (req, res) => {
 });
 export default router;
 
-// router.delete("/allproducts", async (req, res) => {
-//   try {
-//     await productsClass.deleteMany();
+router.delete("/allproducts", async (req, res) => {
+  try {
+    const productMan = new ProductManager();
+    await productMan.deleteMany();
 
-//     res.json({ message: "all products have been removed" });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+    res.json({ message: "all products have been removed" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});

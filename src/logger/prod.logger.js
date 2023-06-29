@@ -13,7 +13,7 @@ const prodLogger = winston.createLogger({
     }),
     new winston.transports.File({
       filename: "./logs/errors.log",
-      level: "warning",
+      level: "warn",
       format: winston.format.simple(),
     }),
   ],

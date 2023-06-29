@@ -20,7 +20,7 @@ async function addToCart(pid) {
       console.log(data);
       return;
     }
-    console.log(product);
+
     const response = await fetch("http://localhost:3000/api/carts/", {
       method: "POST",
       headers: {

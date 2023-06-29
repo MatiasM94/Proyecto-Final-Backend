@@ -37,3 +37,8 @@ error:
   
 warning: peticion include an incorrect parm
 warning: peticion include an incorrect parm
+error: faltan campos por completar
+error: faltan campos por completar
+error: faltan campos por completar
+info: session iniciada
+warn: peticion include an incorrect parm

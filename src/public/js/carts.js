@@ -3,7 +3,6 @@ function back() {
 }
 
 async function comprar(info) {
-  console.log("finalizaste la compra");
   const arrayInfo = info.split(",", 2);
   const id = arrayInfo[0];
   const ticketInfo = {

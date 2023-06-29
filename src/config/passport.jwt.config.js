@@ -3,7 +3,7 @@ import local from "passport-local";
 import jwt from "passport-jwt";
 import GoogleStrategy from "passport-google-oauth20";
 import { createHash, isValidPassword } from "../utils/cryptPassword.utils.js";
-import { jwtSecretKey } from "./app/index.js";
+import { googleAuth, jwtSecretKey } from "./app/index.js";
 import { userService } from "../repositories/index.js";
 import CurrentDTO from "../DTOs/Current.dto.js";
 
@@ -14,7 +14,8 @@ const ExtractJWT = jwt.ExtractJwt;
 const cookieExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
-    token = req.cookies.authToken || req.cookies.emailToken;
+    token =
+      req.cookies.authToken || req.cookies.emailToken || req.cookies.cartId;
   }
   return token;
 };
@@ -125,9 +126,8 @@ const initializePassport = () => {
     "google",
     new GoogleStrategy(
       {
-        clientID:
-          "108529311724-ahp60riig4vm92qi9iiaqvsmi97k78eh.apps.googleusercontent.com",
-        clientSecret: "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",
+        clientID: googleAuth.clientId,
+        clientSecret: googleAuth.clientSecret,
         callbackURL: "http://localhost:3000/api/auth/google/callback",
       },
       async (accesToken, refreshToken, profile, done) => {
@@ -141,12 +141,12 @@ const initializePassport = () => {
               googleId: profile._json.sub,
               username: profile._json.name,
               password: "",
-              role: "google-user",
+              role: "user",
               done,
               body: {
                 first_name: profile._json.given_name,
                 last_name: profile._json.family_name,
-                age: 29,
+                age: "-",
               },
             };
             const newUser = await userService.create(newUserInfo);

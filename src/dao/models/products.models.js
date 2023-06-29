@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import paginate from "mongoose-paginate-v2";
-import { adminId } from "../../config/app/index.js";
 
 const productCollection = "product";
 const productSchema = mongoose.Schema({
@@ -9,7 +8,7 @@ const productSchema = mongoose.Schema({
   description: String,
   price: Number,
   status: Boolean,
-  thumbnails: String,
+  thumbnails: [String],
   stock: Number,
   code: {
     type: String,
@@ -19,7 +18,6 @@ const productSchema = mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
-    default: adminId,
   },
 });
 

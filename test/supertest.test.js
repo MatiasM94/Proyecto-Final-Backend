@@ -38,7 +38,6 @@ describe("Testing Ecommerce", () => {
       const { _body } = await requester
         .get("/api/products")
         .set("Cookie", [`${cookie.name}=${cookie.value}`]);
-      console.log(_body);
       expect(_body.payload).to.be.ok;
     });
 

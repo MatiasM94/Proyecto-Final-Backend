@@ -1,11 +1,23 @@
 import UserDTO from "../DTOs/User.dto.js";
 import { isValidPassword } from "../utils/cryptPassword.utils.js";
 import { createHash } from "../utils/cryptPassword.utils.js";
+import UsersInfoDTO from "../DTOs/UserInfo.dto.js";
 
 class UserRepository {
   constructor(dao) {
     this.dao = dao;
   }
+  async find() {
+    try {
+      const users = await this.dao.find();
+      const usersInfo = users.map((user) => new UsersInfoDTO(user));
+
+      return usersInfo;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async findOne(email) {
     try {
       const user = await this.dao.findOne(email);
@@ -18,10 +30,11 @@ class UserRepository {
       throw new Error(error);
     }
   }
+
   async create(newUserInfo) {
     try {
-      const { username, password, body, done } = newUserInfo;
-      const { first_name, last_name, age, premium } = body;
+      const { username, body, done } = newUserInfo;
+      const { first_name, last_name, age } = body;
 
       if (!first_name || !last_name || !age || !username) {
         return done(null, "faltan campos por completar");
@@ -32,24 +45,19 @@ class UserRepository {
       }
 
       const userInfo = new UserDTO(newUserInfo);
+
       if (username === "adminCoder@coder.com") {
         userInfo.role = "admin";
         const newUser = await this.dao.create(userInfo);
         return newUser;
       }
-      if (userInfo.googleId) {
-        userInfo.role = "google-user";
-        userInfo.premium = premium;
-        const newUser = await this.dao.create(userInfo);
-        return newUser;
-      }
-      userInfo.role = premium ? "premium" : "user";
-      userInfo.premium = premium;
+
+      userInfo.role = "user";
 
       const newUser = await this.dao.create(userInfo);
       return newUser;
     } catch (error) {
-      return { error };
+      return { error: error.message };
     }
   }
 
@@ -163,6 +171,18 @@ class UserRepository {
       return updateUser;
     } catch (error) {
       throw new Error(error);
+    }
+  }
+
+  async deleteOne(uid) {
+    try {
+      const user = await this.findOne({ _id: uid });
+      if (user.error) return user;
+
+      const deleteUser = await this.dao.deleteOne({ _id: uid });
+      return deleteUser;
+    } catch (error) {
+      return { error };
     }
   }
 }

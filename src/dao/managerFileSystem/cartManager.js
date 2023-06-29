@@ -16,7 +16,7 @@ export default class CartManager {
 
       return this.carts;
     } catch (error) {
-      console.log(error.message);
+      return error;
     }
   };
 
@@ -30,7 +30,7 @@ export default class CartManager {
 
       await fs.promises.writeFile(this.path, JSON.stringify(cartsInJson));
     } catch (error) {
-      console.log(error.message);
+      return error;
     }
   };
 
@@ -74,7 +74,7 @@ export default class CartManager {
 
       return true;
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
   getCartById = async (cid) => {
@@ -91,7 +91,7 @@ export default class CartManager {
       }
       return false;
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
 
@@ -112,7 +112,7 @@ export default class CartManager {
       }
       return false;
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
 }

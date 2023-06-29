@@ -1,17 +1,12 @@
 import nodemailer from "nodemailer";
-import {
-  emailPassword,
-  emailUser,
-  serviceMail,
-  serviceMailPort,
-} from "../config/app/index.js";
+import { nodemailerConfig } from "../config/app/index.js";
 
 const transport = nodemailer.createTransport({
-  service: serviceMail,
-  port: serviceMailPort,
+  service: nodemailerConfig.serviceMail,
+  port: nodemailerConfig.serviceMailPort,
   auth: {
-    user: emailUser,
-    pass: emailPassword,
+    user: nodemailerConfig.emailUser,
+    pass: nodemailerConfig.emailPassword,
   },
 });
 

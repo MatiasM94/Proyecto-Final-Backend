@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { cartService, ticketService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
+import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 
@@ -16,7 +17,10 @@ router.get(
 
       res.json(cartsInMongo);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -24,18 +28,24 @@ router.get(
 router.get(
   "/:cid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { cid } = req.params;
 
       const cartsInMongo = await cartService.findById(cid);
 
-      if (cartsInMongo) return res.status(200).json(cartsInMongo);
+      if (cartsInMongo.error) {
+        req.logger.warn(cartsInMongo.error);
+        return res.status(400).json(cartsInMongo);
+      }
 
-      res.status(400).json(cartsInMongo);
+      if (cartsInMongo) return res.status(200).json(cartsInMongo);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -43,21 +53,33 @@ router.get(
 router.post(
   "/",
   passportCall("current"),
-  autorization(["user", "admin", "premium"]),
+  autorization(["user", "premium"]),
   async (req, res) => {
     try {
       const { pid } = req.body;
       const { _id, role } = req.user.payload;
       const userInfo = { _id, role };
+
       const addProductInCart = await cartService.create(pid, userInfo);
 
       if (addProductInCart.error) {
+        req.logger.warn(addProductInCart.error);
         return res.status(400).json(addProductInCart);
       }
+      const token = generateToken({
+        _id: addProductInCart.cartAdded._id.toString(),
+      });
 
-      res.status(201).json(addProductInCart);
+      req.logger.info("The cart has been created successfully");
+      res
+        .cookie("cartId", token, { maxAge: 60000 * 6, httpOnly: true })
+        .status(201)
+        .json(addProductInCart);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -65,7 +87,7 @@ router.post(
 router.patch(
   "/:cid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "premium"]),
   async (req, res) => {
     try {
       const { cid } = req.params;
@@ -74,6 +96,7 @@ router.patch(
       const updateCart = await cartService.updateProductInCart(cid, pid);
 
       if (updateCart.error) {
+        req.logger.warn(updateCart.error);
         return res.status(400).json(updateCart);
       }
 
@@ -81,7 +104,10 @@ router.patch(
         message: updateCart.message,
       });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -89,7 +115,7 @@ router.patch(
 router.patch(
   "/:cid/product/:pid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "premium"]),
   async (req, res) => {
     try {
       const { cid, pid } = req.params;
@@ -101,11 +127,17 @@ router.patch(
         quantity
       );
 
-      if (updateCart.error) return res.status(400).json(updateCart);
+      if (updateCart.error) {
+        req.logger.warn(updateCart.error);
+        return res.status(400).json(updateCart);
+      }
 
       res.status(200).json(updateCart);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -113,7 +145,7 @@ router.patch(
 router.delete(
   "/:cid/product/:pid",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "premium"]),
   async (req, res) => {
     try {
       const { cid, pid } = req.params;
@@ -124,12 +156,16 @@ router.delete(
       );
 
       if (deleteProductInCart.error) {
+        req.logger.warn(deleteProductInCart.error);
         return res.status(400).json(deleteProductInCart);
       }
 
       res.json({ deleteProductInCart });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -144,11 +180,17 @@ router.delete(
 
       const deleteCart = await cartService.deleteOne(cid);
 
-      if (deleteCart.error) return res.status(400).json(deleteCart);
+      if (deleteCart.error) {
+        req.logger.warn(deleteCart.error);
+        return res.status(400).json(deleteCart);
+      }
 
       res.status(200).json(deleteCart);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );
@@ -156,10 +198,11 @@ router.delete(
 router.post(
   "/:cid/purchase",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "premium"]),
   async (req, res) => {
     const { email } = req.user.payload;
-    const { priceFinally, id } = req.body;
+    const { cid } = req.params;
+    const { priceFinally } = req.body;
 
     try {
       const ticketInfo = {
@@ -168,11 +211,13 @@ router.post(
         amount: priceFinally,
         purchaser: email,
       };
-      const ticket = await ticketService.create(ticketInfo, id);
-
-      res.json({ ticket });
+      const ticket = await ticketService.create(ticketInfo, cid);
+      res.status(201).json({ ticket });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      req.logger.error(error.message);
+      res
+        .status(500)
+        .json({ error: "An internal problem occurred on the server" });
     }
   }
 );

@@ -1,7 +1,7 @@
-import auth from "../controllers/auth.controllers.js";
-import users from "../controllers/user.controllers.js";
-import products from "../controllers/controller.products.js";
-import carts from "../controllers/controller.carts.js";
+import auth from "../controllers/auth.controller.js";
+import users from "../controllers/user.controller.js";
+import products from "../controllers/product.controller.js";
+import carts from "../controllers/cart.controller.js";
 import mail from "../controllers/mail.controller.js";
 
 export const routes = (app) => {

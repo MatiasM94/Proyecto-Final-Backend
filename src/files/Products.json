@@ -4,7 +4,10 @@
     "title": "Disco Sólido Interno Kingston Sa400s37/240g 240gb Negro",
     "category": "MLA1672",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_825890-MLA54124091906_032023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_825890-MLA54124091906_032023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_825890-MLA54124091906_032023-O.webp"
+    ],
     "price": 13349,
     "stock": 50,
     "status": true,
@@ -15,7 +18,10 @@
     "title": "Memoria Ram Fury Beast Ddr4 Gamer Color Negro  8gb 1 Kingston Kf432c16bb/8",
     "category": "MLA1694",
     "description": "MLA-RAM_MEMORY_MODULES",
-    "thumbnails": "http://http2.mlstatic.com/D_612752-MLA48636149729_122021-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_612752-MLA48636149729_122021-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_612752-MLA48636149729_122021-O.webp"
+    ],
     "price": 14999,
     "stock": 50,
     "status": true,
@@ -26,7 +32,10 @@
     "title": "Disco Sólido Interno Pny Ssd7cs900-250-rb 250gb",
     "category": "MLA1672",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_603287-MLA49435144981_032022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_603287-MLA49435144981_032022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_603287-MLA49435144981_032022-O.webp"
+    ],
     "price": 13499,
     "stock": 1,
     "status": true,
@@ -37,7 +46,10 @@
     "title": "Placa De Video Amd  Radeon Rx 500 Series Rx 580 8gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_660379-MLA54503703627_032023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_660379-MLA54503703627_032023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_660379-MLA54503703627_032023-O.webp"
+    ],
     "price": 165999,
     "stock": 1,
     "status": true,
@@ -48,7 +60,10 @@
     "title": "Placa De Video Nvidia Asus  Geforce 10 Series Gt 1030 Gt1030-2g-csm 2gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_833860-MLA54241718687_032023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_833860-MLA54241718687_032023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_833860-MLA54241718687_032023-O.webp"
+    ],
     "price": 69999,
     "stock": 1,
     "status": true,
@@ -59,7 +74,10 @@
     "title": "Disco Sólido Interno Western Digital Wd Green Sn350 Wds240g2g0c 240gb Verde",
     "category": "MLA430802",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_762683-MLA54975976082_042023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_762683-MLA54975976082_042023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_762683-MLA54975976082_042023-O.webp"
+    ],
     "price": 18999,
     "stock": 1,
     "status": true,
@@ -70,7 +88,10 @@
     "title": "Placa De Video Nvidia Gigabyte  Geforce 10 Series Gt 1030 Gv-n1030d4-2gl 2gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_745280-MLA46302409347_062021-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_745280-MLA46302409347_062021-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_745280-MLA46302409347_062021-O.webp"
+    ],
     "price": 68999,
     "stock": 1,
     "status": true,
@@ -81,7 +102,10 @@
     "title": "Placa De Video Nvidia Asus  Geforce 700 Series Gt 730 Gt730-sl-2gd5-brk 2gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_838922-MLA51739095701_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_838922-MLA51739095701_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_838922-MLA51739095701_092022-O.webp"
+    ],
     "price": 46999,
     "stock": 1,
     "status": true,
@@ -92,7 +116,10 @@
     "title": "Placa De Video Nvidia Evga  Geforce 700 Series Gt 730  2gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_895332-MLA51558738242_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_895332-MLA51558738242_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_895332-MLA51558738242_092022-O.webp"
+    ],
     "price": 54999,
     "stock": 1,
     "status": true,
@@ -103,7 +130,10 @@
     "title": "Memoria Gamer Xpg Spectrix D45g 8gb 3600mhz Rgb Intel Amd",
     "category": "MLA1694",
     "description": "MLA-RAM_MEMORY_MODULES",
-    "thumbnails": "http://http2.mlstatic.com/D_895558-MLU69516383397_052023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_895558-MLU69516383397_052023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_895558-MLU69516383397_052023-O.webp"
+    ],
     "price": 20999,
     "stock": 1,
     "status": true,
@@ -114,7 +144,10 @@
     "title": "Disco Sólido Interno Dahua C800a Series Dhi-ssd-c800as240g 240gb",
     "category": "MLA1672",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_835630-MLA52003695807_102022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_835630-MLA52003695807_102022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_835630-MLA52003695807_102022-O.webp"
+    ],
     "price": 13499,
     "stock": 1,
     "status": true,
@@ -125,7 +158,10 @@
     "title": "Proyector Viewsonic M1+ 300lm Plateado 100v/240v",
     "category": "MLA92665",
     "description": "MLA-PROJECTORS",
-    "thumbnails": "http://http2.mlstatic.com/D_976462-MLA43426337989_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_976462-MLA43426337989_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_976462-MLA43426337989_092020-O.webp"
+    ],
     "price": 204999,
     "stock": 1,
     "status": true,
@@ -136,7 +172,10 @@
     "title": "Placa De Video Nvidia Colorful  Geforce 10 Series Gt 1030 Gt1030 2g V6 2gb",
     "category": "MLA1658",
     "description": "MLA-GRAPHICS_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_780781-MLA52683789518_122022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_780781-MLA52683789518_122022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_780781-MLA52683789518_122022-O.webp"
+    ],
     "price": 69999,
     "stock": 1,
     "status": true,
@@ -147,7 +186,10 @@
     "title": "Proyector Viewsonic Px700hd 3500lm Blanco 100v/240v",
     "category": "MLA92665",
     "description": "MLA-PROJECTORS",
-    "thumbnails": "http://http2.mlstatic.com/D_977215-MLA42359825196_062020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_977215-MLA42359825196_062020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_977215-MLA42359825196_062020-O.webp"
+    ],
     "price": 399999,
     "stock": 1,
     "status": true,
@@ -158,7 +200,10 @@
     "title": "Ups Estabilizador Hunnox 650va 390w Conexion Usb Led Gtia",
     "category": "MLA1720",
     "description": "MLA-STABILIZERS_AND_UPS",
-    "thumbnails": "http://http2.mlstatic.com/D_774441-MLA31351322990_072019-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_774441-MLA31351322990_072019-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_774441-MLA31351322990_072019-O.webp"
+    ],
     "price": 26999,
     "stock": 1,
     "status": true,
@@ -169,7 +214,10 @@
     "title": "Ups Estabilizador Hunnox 1200va 720w Conexionusb Display Lcd",
     "category": "MLA1720",
     "description": "MLA-STABILIZERS_AND_UPS",
-    "thumbnails": "http://http2.mlstatic.com/D_714449-MLA31036137086_062019-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_714449-MLA31036137086_062019-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_714449-MLA31036137086_062019-O.webp"
+    ],
     "price": 59999,
     "stock": 1,
     "status": true,
@@ -180,7 +228,10 @@
     "title": "Ups Estabilizador Hunnox 850va 510w Conexion Usb Display Lcd",
     "category": "MLA1720",
     "description": "MLA-STABILIZERS_AND_UPS",
-    "thumbnails": "http://http2.mlstatic.com/D_669935-MLA31352636940_072019-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_669935-MLA31352636940_072019-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_669935-MLA31352636940_072019-O.webp"
+    ],
     "price": 38999,
     "stock": 1,
     "status": true,
@@ -191,7 +242,10 @@
     "title": "Pc Edicion Render Core I5 8gb Ssd 480gb Gt710 2gb 4k 600w 54",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_681567-MLA43532186142_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_681567-MLA43532186142_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_681567-MLA43532186142_092020-O.webp"
+    ],
     "price": 288999,
     "stock": 1,
     "status": true,
@@ -202,7 +256,10 @@
     "title": "Ups Estabilizador Hunnox 1200va 720w Conexion Usb Led Gtia",
     "category": "MLA1720",
     "description": "MLA-STABILIZERS_AND_UPS",
-    "thumbnails": "http://http2.mlstatic.com/D_681835-MLA31351327433_072019-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_681835-MLA31351327433_072019-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_681835-MLA31351327433_072019-O.webp"
+    ],
     "price": 54999,
     "stock": 1,
     "status": true,
@@ -213,7 +270,10 @@
     "title": "Gigabyte Placa Controladora Thunderbolt 4 Maple Ridge Dp 4k",
     "category": "MLA1697",
     "description": "MLA-DESKTOP_COMPUTER_EXPANSION_CARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_773874-MLA50624431214_072022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_773874-MLA50624431214_072022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_773874-MLA50624431214_072022-O.webp"
+    ],
     "price": 75999,
     "stock": 1,
     "status": true,
@@ -224,7 +284,10 @@
     "title": "Pc Edicion Render Core I5 8gb Ssd 480gb Gt710 2gb 4k 600w 54",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_667167-MLA43532184246_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_667167-MLA43532184246_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_667167-MLA43532184246_092020-O.webp"
+    ],
     "price": 440999,
     "stock": 1,
     "status": true,
@@ -235,7 +298,10 @@
     "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Gt1030 2gb 600w 48",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_695537-MLA43532086179_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_695537-MLA43532086179_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_695537-MLA43532086179_092020-O.webp"
+    ],
     "price": 611999,
     "stock": 1,
     "status": true,
@@ -246,7 +312,10 @@
     "title": "Asrock B365 Phantom Gaming 4 8° 9° Gen M2 Crossfire Rgb U3.1",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_936716-MLA48170781914_112021-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_936716-MLA48170781914_112021-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_936716-MLA48170781914_112021-O.webp"
+    ],
     "price": 54999,
     "stock": 1,
     "status": true,
@@ -257,7 +326,10 @@
     "title": "Pc Edicion Render Core I5 16gb Ssd 480gb Gt1030 2gb 600w 53",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_796401-MLA43532139906_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_796401-MLA43532139906_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_796401-MLA43532139906_092020-O.webp"
+    ],
     "price": 384999,
     "stock": 1,
     "status": true,
@@ -268,7 +340,10 @@
     "title": "Gigabyte X570s Gaming X Nvme Hdmi U3.2 Crossfire Rgb Pcie4",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_686999-MLA50864937685_072022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_686999-MLA50864937685_072022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_686999-MLA50864937685_072022-O.webp"
+    ],
     "price": 149999,
     "stock": 1,
     "status": true,
@@ -279,7 +354,10 @@
     "title": "Ups Estabilizador Hunnox 650va 390w Conexion Usb Display Lcd",
     "category": "MLA1720",
     "description": "MLA-STABILIZERS_AND_UPS",
-    "thumbnails": "http://http2.mlstatic.com/D_975887-MLA31598828948_072019-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_975887-MLA31598828948_072019-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_975887-MLA31598828948_072019-O.webp"
+    ],
     "price": 32999,
     "stock": 1,
     "status": true,
@@ -290,7 +368,10 @@
     "title": "Pc Edicion Render Core I7 8gb Ssd 480gb Gt710 2gb 4k 600w 47",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_808353-MLA43532132257_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_808353-MLA43532132257_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_808353-MLA43532132257_092020-O.webp"
+    ],
     "price": 467999,
     "stock": 1,
     "status": true,
@@ -301,7 +382,10 @@
     "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Rx550 2gb 600w 50",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_609567-MLA43532112179_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_609567-MLA43532112179_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_609567-MLA43532112179_092020-O.webp"
+    ],
     "price": 611999,
     "stock": 1,
     "status": true,
@@ -312,7 +396,10 @@
     "title": "Asrock B450 Steel Legend Dual Nvme U3.2 Hdmi Dp Pcie4 Rgb",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_728835-MLA51277642737_082022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_728835-MLA51277642737_082022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_728835-MLA51277642737_082022-O.webp"
+    ],
     "price": 99999,
     "stock": 1,
     "status": true,
@@ -323,7 +410,10 @@
     "title": "Msi B450m Pro Vdh Max Nvme U3.2 Hdmi Dvi Vga Sata3 B450",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_679404-MLA50787447910_072022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_679404-MLA50787447910_072022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_679404-MLA50787447910_072022-O.webp"
+    ],
     "price": 67999,
     "stock": 1,
     "status": true,
@@ -334,7 +424,10 @@
     "title": "Pc Edicion Render Core I7 8gb Ssd 480gb Gt710 2gb 4k 600w 47",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_728429-MLA43532128365_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_728429-MLA43532128365_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_728429-MLA43532128365_092020-O.webp"
+    ],
     "price": 391999,
     "stock": 1,
     "status": true,
@@ -345,7 +438,10 @@
     "title": "Pc Gamer Ryzen 5 4600g 16gb Radeon 500gb Nvme Rgb 500w Real",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_870890-MLA51539723860_092022-O.webp"
+    ],
     "price": 376999,
     "stock": 1,
     "status": true,
@@ -356,29 +452,24 @@
     "title": "Asrock A520 Phantom Gaming 4 Dual Nvme U3.2 Hdmi Dp Pcie4 ",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_982141-MLA51277561747_082022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_982141-MLA51277561747_082022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_982141-MLA51277561747_082022-O.webp"
+    ],
     "price": 60999,
     "stock": 1,
     "status": true,
     "code": "qu"
   },
   {
-    "id": "MLA1123502487",
-    "title": "Servicio De Actualizacion De Bios En Motherboard Comprado",
-    "category": "MLA1692",
-    "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_689435-MLA49107093903_022022-I.jpg",
-    "price": 999,
-    "stock": 50000,
-    "status": true,
-    "code": "qi"
-  },
-  {
     "id": "MLA870609822",
     "title": "Asus Tuf Gaming B550 M Plus Am4 M2 Rgb U3.2 Hdmidp Crossfire",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_972724-MLA51091700152_082022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_972724-MLA51091700152_082022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_972724-MLA51091700152_082022-O.webp"
+    ],
     "price": 115999,
     "stock": 1,
     "status": true,
@@ -389,7 +480,10 @@
     "title": "Pc Gamer Ryzen 5 4600g 16gb Radeon 500gb Nvme Rgb 500w Real",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_870890-MLA51539723860_092022-O.webp"
+    ],
     "price": 305999,
     "stock": 1,
     "status": true,
@@ -400,7 +494,10 @@
     "title": "Pc Edicion Render Core I7 16gb Ssd 480gb Gtx1650 4gb 600w 49",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_738898-MLA43372748130_092020-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_738898-MLA43372748130_092020-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_738898-MLA43372748130_092020-O.webp"
+    ],
     "price": 632999,
     "stock": 1,
     "status": true,
@@ -411,7 +508,10 @@
     "title": "Markvision Memoria Sodimm Ddr4 4gb 2400mhz ",
     "category": "MLA1694",
     "description": "MLA-RAM_MEMORY_MODULES",
-    "thumbnails": "http://http2.mlstatic.com/D_866549-MLA69498869444_052023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_866549-MLA69498869444_052023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_866549-MLA69498869444_052023-O.webp"
+    ],
     "price": 10999,
     "stock": 1,
     "status": true,
@@ -422,7 +522,10 @@
     "title": "Pc Gamer Intel Pentium Gold 8gb Uhd 250gb Nvme Rgb 500w Real",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_907286-MLA51541204029_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_907286-MLA51541204029_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_907286-MLA51541204029_092022-O.webp"
+    ],
     "price": 213999,
     "stock": 1,
     "status": true,
@@ -433,7 +536,10 @@
     "title": "Asrock Z590 Extreme Wifi 6e 10°11° Gen Oc M2 Nvme Rgb U3.2 ",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_909104-MLA48171153197_112021-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_909104-MLA48171153197_112021-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_909104-MLA48171153197_112021-O.webp"
+    ],
     "price": 117999,
     "stock": 1,
     "status": true,
@@ -444,7 +550,10 @@
     "title": "Biostar B560mx-e Pro 10/11° Gen U3.2 Nvme Hdmi Dvi Vga B560",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_680809-MLA54515353560_032023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_680809-MLA54515353560_032023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_680809-MLA54515353560_032023-O.webp"
+    ],
     "price": 63999,
     "stock": 1,
     "status": true,
@@ -455,7 +564,10 @@
     "title": "Pc Gamer Ryzen5 5600g 16gb Radeon 500gb Nvme Rgb 550w 80plus",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_870890-MLA51539723860_092022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_870890-MLA51539723860_092022-O.webp"
+    ],
     "price": 363999,
     "stock": 1,
     "status": true,
@@ -466,7 +578,10 @@
     "title": "Asus Tuf Gaming A520m Plus Wifi M2 Bt Rgb U3.2 Hdmi Vga A520",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_775029-MLA69311765440_052023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_775029-MLA69311765440_052023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_775029-MLA69311765440_052023-O.webp"
+    ],
     "price": 74999,
     "stock": 1,
     "status": true,
@@ -477,7 +592,10 @@
     "title": "Western Digital Wd Green Wds240g3g0a 240 Gb - Verde",
     "category": "MLA1672",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_817269-MLA54382937868_032023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_817269-MLA54382937868_032023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_817269-MLA54382937868_032023-O.webp"
+    ],
     "price": 16999,
     "stock": 1,
     "status": true,
@@ -488,7 +606,10 @@
     "title": "Asrock Qc6000m Amd Quad Integrado Hdmi Vga Com Usb3.2 Sata3",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_862935-MLA52483740009_112022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_862935-MLA52483740009_112022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_862935-MLA52483740009_112022-O.webp"
+    ],
     "price": 70999,
     "stock": 1,
     "status": true,
@@ -499,7 +620,10 @@
     "title": "Asrock Z590 Steel Legend 10°11° Gen Pcie4 M2 Oc Rgb U3.2 ",
     "category": "MLA1692",
     "description": "MLA-COMPUTER_MOTHERBOARDS",
-    "thumbnails": "http://http2.mlstatic.com/D_644102-MLA48171276587_112021-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_644102-MLA48171276587_112021-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_644102-MLA48171276587_112021-O.webp"
+    ],
     "price": 98999,
     "stock": 1,
     "status": true,
@@ -510,7 +634,10 @@
     "title": "Disco Nvme M2 Teamgroup Mp33 256gb Pcie Ssd Tm8fp6256g0c101",
     "category": "MLA1672",
     "description": "MLA-HARD_DRIVES_AND_SSDS",
-    "thumbnails": "http://http2.mlstatic.com/D_674273-MLA69222385830_052023-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_674273-MLA69222385830_052023-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_674273-MLA69222385830_052023-O.webp"
+    ],
     "price": 14999,
     "stock": 1,
     "status": true,
@@ -521,7 +648,10 @@
     "title": "Server Pc Intel Core I7 16gb Ssd 480gb Rack Raid Usb3.2 600w",
     "category": "MLA1649",
     "description": "MLA-DESKTOP_COMPUTERS",
-    "thumbnails": "http://http2.mlstatic.com/D_717345-MLA52181668535_102022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_717345-MLA52181668535_102022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_717345-MLA52181668535_102022-O.webp"
+    ],
     "price": 392999,
     "stock": 1,
     "status": true,
@@ -532,7 +662,10 @@
     "title": "Memoria Ddr3 Patriot Signature Psd38g16002 1x8gb Dimm Cl11",
     "category": "MLA1694",
     "description": "MLA-RAM_MEMORY_MODULES",
-    "thumbnails": "http://http2.mlstatic.com/D_688987-MLA52004671189_102022-I.jpg",
+    "thumbnails": [
+      "http://http2.mlstatic.com/D_688987-MLA52004671189_102022-I.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_688987-MLA52004671189_102022-O.webp"
+    ],
     "price": 18999,
     "stock": 1,
     "status": true,

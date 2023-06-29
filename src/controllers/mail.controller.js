@@ -1,15 +1,12 @@
 import { Router } from "express";
-import { passportCall } from "../config/passportCall.js";
-import { autorization } from "../middlewares/autorization.middleware.js";
 import transport from "../utils/email.util.js";
-import { emailUser } from "../config/app/index.js";
+import { nodemailerConfig } from "../config/app/index.js";
 import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 
 router.post("/", async (req, res) => {
   const { email } = req.body;
-  console.log(email);
   try {
     const html = `
       <html>
@@ -21,7 +18,7 @@ router.post("/", async (req, res) => {
       `;
 
     const mailOptions = {
-      from: emailUser,
+      from: nodemailerConfig.emailUser,
       to: email,
       subject: "restablecer contraseña",
       html,
@@ -33,20 +30,20 @@ router.post("/", async (req, res) => {
     const token = generateToken({
       email: email,
     });
-    console.log("desde back", token);
+
     if (result.accepted.length > 0)
       return res
         .cookie("emailToken", token, { maxAge: 60000 * 6, httpOnly: true })
         .json({ message: result.accepted, token });
-    if (result.rejected.length > 0)
+    if (result.rejected.length > 0) {
+      req.logger.warn(result.rejected);
       return res.json({ message: result.rejected });
-
-    res
-      .cookie("emailToken", token, { maxAge: 60000 * 6, httpOnly: true })
-      .json({ message: result, token: token });
+    }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    req.logger.error(error.message);
+    res
+      .status(500)
+      .json({ error: "An internal problem occurred on the server" });
   }
 });
 

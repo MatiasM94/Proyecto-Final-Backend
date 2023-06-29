@@ -8,7 +8,7 @@ const router = Router();
 router.get(
   "/products",
   passportCall("current"),
-  autorization(["user", "admin"]),
+  autorization(["user", "admin", "premium"]),
   async (req, res) => {
     try {
       const { limit, page, sort, ...rest } = req.query;

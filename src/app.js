@@ -9,16 +9,16 @@ import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import { handlebarsRoutes } from "./routes/handlebars.routes.js";
 import { routes } from "./routes/index.js";
-import { mongoPassword, port } from "./config/app/index.js";
+import { port, mongodb } from "./config/app/index.js";
 import __dirname from "./utils/util.js";
 import { connectionSocket } from "./socketio/socket.io.js";
 import initializePassport from "./config/passport.jwt.config.js";
-import errorHandler from "./middlewares/errors/handler.errors.js";
 import addLogger from "./middlewares/logger.middleware.js";
+import { swaggerOptions } from "./utils/swaggerOptions.js";
 
 const app = express();
 app.use(addLogger);
-app.use(cors({ origin: ["http://localhost:8000"] }));
+app.use(cors({ origin: "http://localhost:8000", credentials: true }));
 
 // Express
 app.use(express.json());
@@ -26,10 +26,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: `mongodb://admin:${mongoPassword}@localhost:27017/proyectoFinalCoder`,
+      mongoUrl: mongodb.mongoConnect,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
     }),
-    secret: "askjdi32423kmdsd",
+    secret: mongodb.secretMongoKey,
     resave: false,
     saveUninitialized: false,
   })
@@ -47,19 +47,6 @@ app.set("view engine", "handlebars");
 // Routes
 routes(app);
 handlebarsRoutes(app);
-app.use(errorHandler);
-
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.1",
-    info: {
-      title: "Documentación del ecommerce",
-      description:
-        "Aquí encontraras toda la informacion necesaria para trabajar con la API",
-    },
-  },
-  apis: [`${__dirname}/docs/**/*.yaml`],
-};
 
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));

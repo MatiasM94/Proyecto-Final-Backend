@@ -32,20 +32,20 @@ class CartRepository {
     const isPremium = "premium";
     try {
       const productInDb = await productService.findById(pid);
-
       if (!productInDb)
         return { error: `The product with id ${pid} does not exist` };
       const quantity = 1;
       const active = true;
       const newCart = { products: [{ product: pid, quantity, active }] };
-
       if (productInDb.stock === 0) return { error: "no hay stock disponible" };
+      const productOwner = productInDb.owner?._id.toString();
 
-      const productOwner = productInDb.owner._id.toString();
       if (isPremium === role && productOwner === _id) {
-        return { message: "no puedes agregar tus productos al carrito" };
+        return { error: "no puedes agregar tus productos al carrito" };
       }
+
       const cartAdded = await this.dao.create(newCart);
+
       productInDb.stock -= quantity;
 
       const newStock = await productService.updateOne(pid, productInDb);
@@ -57,11 +57,19 @@ class CartRepository {
         const cart = await this.findById(cartId);
         const { products } = cart;
 
+        if (products.length === 0) return;
         const productPosition = indexPosition(products, pid);
 
+        if (!products[productPosition]) return;
+
         if (products[productPosition].active) {
-          productInDb.stock += quantity;
-          const newStock = await productService.updateOne(pid, productInDb);
+          const currentProductInDb = await productService.findById(pid);
+
+          currentProductInDb.stock += quantity;
+          const newStock = await productService.updateOne(
+            pid,
+            currentProductInDb
+          );
 
           products[productPosition].quantity -= quantity;
           const updateCart = await this.dao.updateOne({ _id: cartId }, cart);
@@ -72,21 +80,22 @@ class CartRepository {
               pid
             );
           }
-          console.log(
-            `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
-          );
         }
       }, 5 * 60000);
 
       return { message: "cart created successfully", cartAdded };
     } catch (error) {
-      throw new Error(error);
+      return error;
     }
   }
 
   async update(cid, cart) {
-    const updateCart = await this.dao.update({ _id: cid }, cart);
-    return updateCart;
+    try {
+      const updateCart = await this.dao.update({ _id: cid }, cart);
+      return updateCart;
+    } catch (error) {
+      return error;
+    }
   }
 
   async updateOne(product, cid) {
@@ -109,6 +118,7 @@ class CartRepository {
       }
 
       products.push({ product: product, quantity: 1 });
+
       const updateCart = await this.dao.updateOne({ _id: cid }, cart);
 
       return {
@@ -135,36 +145,52 @@ class CartRepository {
       const productPosition = indexPosition(products, pid);
 
       if (productPosition !== -1) {
-        products[productPosition].quantity += quantity;
-        const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+        if (Number(quantity) >= 1) {
+          productInDb.stock -=
+            Number(quantity) - Number(products[productPosition].quantity);
+          products[productPosition].quantity = quantity;
 
-        productInDb.stock -= quantity;
+          const updateCart = await this.dao.updateOne({ _id: cid }, cart);
 
-        const newStock = await productService.updateOne(pid, productInDb);
+          const newStock = await productService.updateOne(pid, productInDb);
+        } else {
+          products[productPosition].quantity += quantity;
+          const updateCart = await this.dao.updateOne({ _id: cid }, cart);
+
+          productInDb.stock -= quantity;
+
+          const newStock = await productService.updateOne(pid, productInDb);
+        }
 
         setTimeout(async () => {
           const cart = await this.findById(cid);
           if (cart.error) return cart;
 
           const { products } = cart;
+          if (products.length === 0) return;
+
           const productPosition = indexPosition(products, pid);
 
-          if (products[productPosition].active) {
-            productInDb.stock += quantity;
-            const newStock = await productService.updateOne(pid, productInDb);
+          if (!products[productPosition]) return;
 
-            products[productPosition].quantity -= quantity;
+          if (products[productPosition].active) {
+            const currentProductInDb = await productService.findById(pid);
+
+            currentProductInDb.stock += Number(quantity);
+            const newStock = await productService.updateOne(
+              pid,
+              currentProductInDb
+            );
+
+            products[productPosition].quantity -= Number(quantity);
             const updateCart = await this.dao.updateOne({ _id: cid }, cart);
 
-            if (products[productPosition].quantity === 0) {
+            if (products[productPosition].quantity <= 0) {
               const deleteProductInCart = await this.deleteProductInCart(
                 cid,
                 pid
               );
             }
-            console.log(
-              `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
-            );
           }
         }, 5 * 60000);
 
@@ -185,11 +211,19 @@ class CartRepository {
         const cart = await this.findById(cid);
         if (cart.error) return cart;
         const { products } = cart;
+        if (products.length === 0) return;
 
         const productPosition = indexPosition(products, pid);
+
+        if (!products[productPosition]) return;
+
         if (products[productPosition].active) {
-          productInDb.stock += quantity;
-          const newStock = await productService.updateOne(pid, productInDb);
+          const currentProductInDb = await productService.findById(pid);
+          currentProductInDb.stock += Number(quantity);
+          const newStock = await productService.updateOne(
+            pid,
+            currentProductInDb
+          );
 
           products[productPosition].quantity -= quantity;
           const updateCart = await this.dao.updateOne({ _id: cid }, cart);
@@ -200,9 +234,6 @@ class CartRepository {
               pid
             );
           }
-          console.log(
-            `El producto con id ${pid} fue eliminado del cart por permanecer 5 minutos en el mismo`
-          );
           return;
         }
       }, 5 * 60000);
@@ -211,13 +242,13 @@ class CartRepository {
         message: `the product with id ${pid} was added successfully`,
       };
     } catch (error) {
-      throw new Error(error);
+      return error;
     }
   }
 
   async deleteProductInCart(cid, pid) {
     try {
-      const productInDb = await productService.find(pid);
+      const productInDb = await productService.findById(pid);
       if (!productInDb)
         return { error: `The product with id ${pid} does not exist` };
 
@@ -233,26 +264,40 @@ class CartRepository {
         };
       }
 
+      const [quantityDelete] = products.filter(
+        (product) => product.product._id.toString() === pid
+      );
+
       cart.products = products.filter(
         (product) => product.product._id.toString() != pid
       );
 
       const modifiedCart = await this.dao.updateOne({ _id: cid }, cart);
 
+      productInDb.stock += Number(quantityDelete.quantity);
+
+      const newStock = await productService.updateOne(pid, productInDb);
+
       return {
         message: `The product with id ${pid} was removed successfully`,
         modifiedCart,
       };
     } catch (error) {
-      throw new Error(error);
+      return error;
     }
   }
 
   async deleteOne(cid) {
-    const cart = await this.findById(cid);
-    if (cart.error) return cart;
-    const deleteCart = await this.dao.deleteOne({ _id: cid });
-    return { message: `the cart with id ${cid} was deleted` };
+    try {
+      const cart = await this.findById(cid);
+      if (cart.error) return cart;
+
+      const deleteCart = await this.dao.deleteOne({ _id: cid });
+
+      return { message: `the cart with id ${cid} was deleted` };
+    } catch (error) {
+      return error;
+    }
   }
 }
 

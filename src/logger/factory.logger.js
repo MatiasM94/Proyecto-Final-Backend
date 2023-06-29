@@ -12,4 +12,8 @@ switch (enviroment) {
     const { default: prodLogger } = await import("./prod.logger.js");
     logger = prodLogger;
     break;
+  default:
+    console.log("prodLog");
+    const { default: defaultProdLogger } = await import("./prod.logger.js");
+    logger = defaultProdLogger;
 }

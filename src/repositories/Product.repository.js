@@ -1,7 +1,6 @@
 import ProductDTO from "../DTOs/Product.dto.js";
-import CustomError from "../utils/errors/Custom.error.js";
-import EnumError from "../utils/errors/enum.error.js";
-import { generateProductErrorInfo } from "../utils/errors/info.error.js";
+import { nodemailerConfig } from "../config/app/index.js";
+import transport from "../utils/email.util.js";
 
 class ProductRepository {
   constructor(dao) {
@@ -65,21 +64,6 @@ class ProductRepository {
         if (newProduct.code === 11000) throw new Error({ code: 11000 });
         return { message: "Added product", newProduct };
       }
-      CustomError.createError({
-        name: "Product creation error",
-        cause: generateProductErrorInfo({
-          title,
-          description,
-          price,
-          status,
-          thumbnails,
-          code,
-          stock,
-          category,
-        }),
-        message: "Error trying to create an product",
-        code: EnumError.INVALID_TYPES_ERROR,
-      });
     } catch (error) {
       if (error.code === 11000) return { error: "El producto ya existe" };
       return error;
@@ -125,7 +109,7 @@ class ProductRepository {
   }
 
   async deleteOne(pid, userInfo) {
-    const { _id, role } = userInfo;
+    const { _id, role, nombre, email } = userInfo;
     const isPremium = "premium";
 
     const product = await this.findById(pid);
@@ -134,6 +118,24 @@ class ProductRepository {
     const productOwner = product.owner._id.toString();
     if ((isPremium === role && productOwner === _id) || role === "admin") {
       const deleteProduct = await this.dao.deleteOne({ _id: pid });
+
+      const html = `
+      <html>
+        <div>
+          <h1>Hola ${nombre}</h1>
+          <p>El producto ${pid} a sido eliminado</p>
+        </div>
+      </html>
+      `;
+
+      const mailOptions = {
+        from: nodemailerConfig.emailUser,
+        to: email,
+        subject: "producto eliminado",
+        html,
+        attachments: [],
+      };
+      const sendMail = await transport.sendMail(mailOptions);
       return { message: "Product successfully removed" };
     }
     return { error: "No tienes permisos para eliminar este producto" };

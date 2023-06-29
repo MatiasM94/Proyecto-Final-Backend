@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { mongoPassword, persistence } from "../config/app/index.js";
+import { mongodb, persistence } from "../config/app/index.js";
 
 export let Products;
 export let Users;
@@ -9,19 +9,13 @@ console.log(persistence);
 switch (persistence) {
   case "MONGO":
     mongoose.set("strictQuery", false);
-    mongoose.connect(
-      `mongodb://admin:${mongoPassword}@localhost:27017/proyectoFinalCoder`,
-      (error) => {
-        if (error) {
-          console.log(
-            `mongodb+srv://admin:*********@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`
-          );
-          console.log("Connection error", error);
-        } else {
-          console.log("The connection to the database has been successful");
-        }
+    mongoose.connect(mongodb.mongoConnect, (error) => {
+      if (error) {
+        console.log("Connection error", error);
+      } else {
+        console.log("The connection to the database has been successful");
       }
-    );
+    });
     const { default: ProductManager } = await import(
       "./managerMongo/product.managerMongo.js"
     );
@@ -49,19 +43,13 @@ switch (persistence) {
 
   default:
     mongoose.set("strictQuery", false);
-    mongoose.connect(
-      `mongodb+srv://admin:${mongoPassword}@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`,
-      (error) => {
-        if (error) {
-          console.log(
-            `mongodb+srv://admin:*********@proyectofinalcoder.anopmg1.mongodb.net/?retryWrites=true&w=majority`
-          );
-          console.log("Connection error", error);
-        } else {
-          console.log("The connection to the database has been successful");
-        }
+    mongoose.connect(mongodb.mongoConnect, (error) => {
+      if (error) {
+        console.log("Connection error", error);
+      } else {
+        console.log("The connection to the database has been successful");
       }
-    );
+    });
     const { default: Product } = await import(
       "./managerMongo/product.managerMongo.js"
     );

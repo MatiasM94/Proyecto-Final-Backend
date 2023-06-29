@@ -15,7 +15,7 @@ export default class ProductManager {
       }
       return this.products;
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
   addProduct = async (newProduct) => {
@@ -35,7 +35,7 @@ export default class ProductManager {
 
       return newProductToAdd;
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
 
@@ -49,7 +49,7 @@ export default class ProductManager {
         return findProduct ? findProduct : false;
       }
     } catch (error) {
-      console.log(error.message);
+      return error.message;
     }
   };
   updateProduct = async (pid, updatedProducto) => {

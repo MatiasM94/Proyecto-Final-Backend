@@ -9,7 +9,6 @@ export const createHash = (password) => {
 
 export const isValidPassword = (user, password) => {
   const response = bcryt.compareSync(password, user.password);
-  console.log(response);
 
   return response;
 };
