@@ -128,7 +128,8 @@ const initializePassport = () => {
       {
         clientID: googleAuth.clientId,
         clientSecret: googleAuth.clientSecret,
-        callbackURL: "http://localhost:3000/api/auth/google/callback",
+        callbackURL:
+          "https://ecommerce-matias.up.railway.app/api/auth/google/callback",
       },
       async (accesToken, refreshToken, profile, done) => {
         try {
