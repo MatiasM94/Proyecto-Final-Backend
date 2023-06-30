@@ -21,8 +21,8 @@ app.use(addLogger);
 app.use(
   cors({
     origin: [
-      "http://localhost:8000",
-      "https://ecommerce-matias.vercel.app/products",
+      "http://localhost:8000/",
+      "https://ecommerce-matias.vercel.app/",
     ],
     credentials: true,
   })
