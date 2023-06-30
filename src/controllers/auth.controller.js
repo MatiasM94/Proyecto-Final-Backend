@@ -88,7 +88,7 @@ router.get(
       res
         .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
         .status(200)
-        .redirect("http://localhost:8000/products");
+        .redirect("https://ecommerce-matias.vercel.app/products");
     } catch (error) {
       req.logger.error(error.message);
       res
@@ -106,7 +106,7 @@ router.get("/", passportCall("current"), async (req, res) => {
     res
       .clearCookie("authToken")
       .clearCookie("connect.sid")
-      .redirect("http://localhost:8000");
+      .redirect("https://ecommerce-matias.vercel.app/");
   } catch (error) {
     req.logger.error(error.message);
     res

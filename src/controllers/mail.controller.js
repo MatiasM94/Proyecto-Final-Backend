@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
       <html>
         <div>
           <p>Visite el siguiente link para restablecer su contraseña</p>
-          <button><a href="http://localhost:8000/forgotpassword/restorepassword">restablecer contraseña</a></button>
+          <button><a href="https://ecommerce-matias.vercel.app/forgotpassword/restorepassword">restablecer contraseña</a></button>
         </div>
       </html>
       `;
