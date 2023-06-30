@@ -85,10 +85,8 @@ router.get(
         role: role,
       });
       req.logger.info("session started");
-      res
-        .cookie("authToken", token, { maxAge: 600000, httpOnly: true })
-        .status(200)
-        .redirect("https://ecommerce-matias.vercel.app/products");
+      res.cookie("authToken", token, { maxAge: 600000, httpOnly: true });
+      res.redirect("https://ecommerce-matias.vercel.app/products");
     } catch (error) {
       req.logger.error(error.message);
       res
@@ -103,10 +101,8 @@ router.get("/", passportCall("current"), async (req, res) => {
     const { _id } = req.user.payload;
     const updateConnection = await userService.updateLastConnection(_id);
     req.logger.info(`The user with ${_id} has logged out`);
-    res
-      .clearCookie("authToken")
-      .clearCookie("connect.sid")
-      .redirect("https://ecommerce-matias.vercel.app/");
+    res.clearCookie("authToken", { httpOnly: true });
+    redirect("https://ecommerce-matias.vercel.app");
   } catch (error) {
     req.logger.error(error.message);
     res

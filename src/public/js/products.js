@@ -43,5 +43,5 @@ function goToCart() {
 }
 
 function logout() {
-  window.location.href = "http://localhost:3000/api/auth/logout";
+  window.location.href = "http://localhost:3000/api/auth";
 }
