@@ -26,6 +26,7 @@ app.use(
       "https://ecommerce-matiasm94.vercel.app",
     ],
     credentials: true,
+    métodos: "GET,HEAD,PUT,PATCH,POST,DELETE"
   })
 );
 
