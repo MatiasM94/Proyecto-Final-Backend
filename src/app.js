@@ -18,12 +18,15 @@ import { swaggerOptions } from "./utils/swaggerOptions.js";
 
 const app = express();
 app.use(addLogger);
+
 app.use(
   cors({
     origin: [
       "http://localhost:8000",
-      "https://ecommerce-matias.vercel.app/products",
+      "https://ecommerce-matias.vercel.app",
+      "https://ecommerce-matiasm94.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
