@@ -8,14 +8,13 @@ export let Tickets;
 console.log(persistence);
 switch (persistence) {
   case "MONGO":
-    mongoose.set("strictQuery", false);
-    mongoose.connect(mongodb.mongoConnect, (error) => {
-      if (error) {
-        console.log("Connection error", error);
-      } else {
-        console.log("The connection to the database has been successful");
-      }
-    });
+    mongoose
+      .connect(mongodb.mongoConnect)
+      .then(() =>
+        console.log("The connection to the database has been successful")
+      )
+      .catch((err) => console.log("Connection error", err));
+
     const { default: ProductManager } = await import(
       "./managerMongo/product.managerMongo.js"
     );
@@ -42,14 +41,13 @@ switch (persistence) {
     break;
 
   default:
-    mongoose.set("strictQuery", false);
-    mongoose.connect(mongodb.mongoConnect, (error) => {
-      if (error) {
-        console.log("Connection error", error);
-      } else {
-        console.log("The connection to the database has been successful");
-      }
-    });
+    mongoose
+      .connect(mongodb.mongoConnect)
+      .then(() =>
+        console.log("The connection to the database has been successful")
+      )
+      .catch((err) => console.log("Connection error", err));
+
     const { default: Product } = await import(
       "./managerMongo/product.managerMongo.js"
     );

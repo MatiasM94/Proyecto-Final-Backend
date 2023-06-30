@@ -212,7 +212,9 @@ router.post(
         purchaser: email,
       };
       const ticket = await ticketService.create(ticketInfo, cid);
-      res.status(201).json({ ticket });
+
+      req.logger.info(ticket);
+      res.clearCookie("cartId").status(201).json({ ticket });
     } catch (error) {
       req.logger.error(error.message);
       res

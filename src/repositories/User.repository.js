@@ -43,9 +43,7 @@ class UserRepository {
       if (verifyExistUser) {
         return { error: "No se pudo registrar su usuario" };
       }
-
       const userInfo = new UserDTO(newUserInfo);
-
       if (username === "adminCoder@coder.com") {
         userInfo.role = "admin";
         const newUser = await this.dao.create(userInfo);
