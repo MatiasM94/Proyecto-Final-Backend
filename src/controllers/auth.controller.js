@@ -106,7 +106,7 @@ router.get("/", passportCall("current"), async (req, res) => {
     res
       .clearCookie("authToken")
       .clearCookie("connect.sid")
-      .redirect("http://localhost:8000/");
+      .redirect("http://localhost:8000");
   } catch (error) {
     req.logger.error(error.message);
     res

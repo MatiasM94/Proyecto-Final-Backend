@@ -18,7 +18,7 @@ import { swaggerOptions } from "./utils/swaggerOptions.js";
 
 const app = express();
 app.use(addLogger);
-app.use(cors({ origin: "http://localhost:8000", credentials: true }));
+app.use(cors({ credentials: true }));
 
 // Express
 app.use(express.json());
