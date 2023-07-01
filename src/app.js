@@ -28,7 +28,6 @@ app.use(
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
-    métodos: "GET,HEAD,PUT,PATCH,POST,DELETE"
   })
 );
 

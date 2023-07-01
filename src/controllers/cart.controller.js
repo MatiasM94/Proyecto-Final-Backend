@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { v4 as uuidv4 } from "uuid";
+import cors from "cors";
 import { autorization } from "../middlewares/autorization.middleware.js";
 import { cartService, ticketService } from "../repositories/index.js";
 import { passportCall } from "../config/passportCall.js";
@@ -50,8 +51,18 @@ router.get(
   }
 );
 
+const corsOptions = {
+  origin: [
+    "http://localhost:8000",
+    "https://ecommerce-matias.vercel.app",
+    "https://ecommerce-matiasm94.vercel.app",
+  ],
+  credentials: true,
+};
+
 router.post(
   "/",
+  cors(corsOptions),
   passportCall("current"),
   autorization(["user", "premium"]),
   async (req, res) => {
