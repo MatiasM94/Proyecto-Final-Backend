@@ -101,8 +101,9 @@ router.get("/", passportCall("current"), async (req, res) => {
     const { _id } = req.user.payload;
     const updateConnection = await userService.updateLastConnection(_id);
     req.logger.info(`The user with ${_id} has logged out`);
-    res.clearCookie("authToken", { httpOnly: true });
-    redirect("https://ecommerce-matias.vercel.app");
+    res
+      .clearCookie("authToken", { httpOnly: true })
+      .redirect("https://ecommerce-matias.vercel.app");
   } catch (error) {
     req.logger.error(error.message);
     res
